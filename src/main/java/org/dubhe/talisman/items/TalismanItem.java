@@ -3,6 +3,7 @@ package org.dubhe.talisman.items;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.entities.TalismanEntity;
 
