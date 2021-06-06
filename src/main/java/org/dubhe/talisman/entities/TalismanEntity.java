@@ -4,8 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -13,9 +11,9 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import org.dubhe.talisman.TalismanUtils;
 import org.dubhe.talisman.registry.EntityTypeRegistry;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
@@ -43,7 +41,7 @@ public class TalismanEntity extends Entity {
 
     @Override
     public CompoundNBT writeWithoutTypeId(CompoundNBT compound) {
-        compound.put("executes", this.toListNBT());
+        compound.put("executes", TalismanUtils.toListNBT(this.execute));
         if (this.owner != null) compound.putUniqueId("owner", this.owner);
         return super.writeWithoutTypeId(compound);
     }
@@ -51,26 +49,9 @@ public class TalismanEntity extends Entity {
     @Override
     public void read(CompoundNBT compound) {
         if (compound.contains("execute")) this.owner = compound.getUniqueId("owner");
-        this.toCollection(compound.getList("executes", 8));
+        this.execute = TalismanUtils.toCollection(compound.getList("executes", 8));
         super.read(compound);
     }
-
-    private ListNBT toListNBT() {
-        ListNBT list = new ListNBT();
-        for (String s : this.execute) {
-            list.add(StringNBT.valueOf(s));
-        }
-        return list;
-    }
-
-    private void toCollection(ListNBT list) {
-        Collection<String> collection = new ArrayList<>(Collections.emptyList());
-        for (int i = 0; i < list.size(); i++) {
-            collection.add(list.getString(i));
-        }
-        this.execute = collection;
-    }
-
 
     @Override
     protected void registerData() {
