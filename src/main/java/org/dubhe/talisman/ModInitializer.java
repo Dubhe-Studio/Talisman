@@ -2,6 +2,7 @@ package org.dubhe.talisman;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,16 +16,25 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dubhe.talisman.registry.ItemRegistry;
 
 import java.util.stream.Collectors;
 
+import static org.dubhe.talisman.ModInitializer.MODID;
+
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("talisman")
+@Mod(MODID)
 public class ModInitializer {
+
+    public static final String MODID = "talisman";
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public static final ItemGroup TalismanItemGroup = new TalismanItemGroup();
+
     public ModInitializer() {
+
+        ItemRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the enqueueIMC method for modloading
