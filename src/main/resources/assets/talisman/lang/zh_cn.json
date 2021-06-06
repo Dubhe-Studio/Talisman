@@ -1,5 +1,7 @@
 {
     "itemGroup.talisman_group": "符·道",
 
-    "item.talisman.talisman": "符"
+    "item.talisman.talisman": "符",
+
+    "entity.talisman.talisman": "符"
 }

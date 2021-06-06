@@ -11,9 +11,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import org.dubhe.talisman.ModInitializer;
 
+@SuppressWarnings("NullableProblems")
 public class TalismanRender extends EntityRenderer<TalismanEntity> {
 
-    private EntityModel<TalismanEntity> talismanModel;
+    private final EntityModel<TalismanEntity> talismanModel;
 
     public TalismanRender(EntityRendererManager renderManager) {
         super(renderManager);
