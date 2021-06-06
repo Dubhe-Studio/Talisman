@@ -16,6 +16,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dubhe.talisman.registry.EntityTypeRegistry;
 import org.dubhe.talisman.registry.ItemRegistry;
 
 import java.util.stream.Collectors;
@@ -35,6 +36,7 @@ public class ModInitializer {
     public ModInitializer() {
 
         ItemRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
+        EntityTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the enqueueIMC method for modloading
