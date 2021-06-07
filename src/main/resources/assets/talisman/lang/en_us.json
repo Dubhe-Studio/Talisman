@@ -1,6 +1,6 @@
 {
-    "block.talisman.divine_stone_ore": "Divine Stone Block",
-    "block.talisman.cinnabar_ore": "",
+    "block.talisman.divine_stone_ore": "Divine Ore Block",
+    "block.talisman.cinnabar_ore": "Cinnabar Ore Block",
 
     "entity.talisman.talisman": "Talisman",
 
@@ -9,8 +9,8 @@
     "item.talisman.guide_devil_bottle": "Guide Devil Bottle",
     "item.talisman.talisman": "Talisman",
     "item.talisman.talisman_paper": "Talisman Paper",
-    "item.talisman.cinnabar": "",
-    "item.talisman.cinnabar_ore": "",
+    "item.talisman.cinnabar": "Cinnabar",
+    "item.talisman.cinnabar_ore": "Cinnabar Ore Block",
 
     "itemGroup.talisman_group": "Talisman",
 
