@@ -1,5 +1,6 @@
 {
     "block.talisman.divine_stone_ore": "灵石矿石",
+    "block.talisman.cinnabar_ore": "朱砂矿石",
 
     "entity.talisman.talisman": "符",
 
@@ -8,6 +9,8 @@
     "item.talisman.guide_devil_bottle": "导魔瓶",
     "item.talisman.talisman": "符",
     "item.talisman.talisman_paper": "符纸",
+    "item.talisman.cinnabar": "朱砂",
+    "item.talisman.cinnabar_ore": "朱砂矿石",
 
     "itemGroup.talisman_group": "符·道",
 
