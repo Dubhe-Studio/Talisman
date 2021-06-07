@@ -17,30 +17,19 @@ import java.util.Collections;
 @SuppressWarnings("NullableProblems")
 public class TalismanItem extends Item implements WithDefaultNbt {
 
-    private boolean throwable;
-    private int needExperiences;
-    private final Collection<String> execute;
-
-    public TalismanItem() {
-        this(true, 0, null);
+    public TalismanItem(Properties properties) {
+        super(properties);
     }
 
-    public TalismanItem(boolean throwable, int needExperiences, @Nullable Collection<String> execute) {
-        super(new Properties().group(ModInitializer.TalismanItemGroup));
-        this.throwable = throwable;
-        this.needExperiences = needExperiences;
-        this.execute = execute == null ? Collections.emptyList() : execute;
-    }
-
-    public TalismanEntity createEntity(World world, PlayerEntity player) {
-        return new TalismanEntity(world, player.getPositionVec(), player, this.execute);
+    public TalismanEntity createEntity(World world, PlayerEntity player, ItemStack stack) {
+        return new TalismanEntity(world, player.getPositionVec(), player, TalismanUtils.toCollection(stack.getOrCreateTag().getList("executes", 8)));
     }
 
     @Override
     public CompoundNBT defaultNbt(CompoundNBT nbt) {
-        nbt.putBoolean("throwable", this.throwable);
-        nbt.putInt("needExperiences", this.needExperiences);
-        nbt.put("executes", TalismanUtils.toListNBT(this.execute));
+        nbt.putBoolean("throwable", true);
+        nbt.putInt("needExperiences", 0);
+        nbt.put("executes", new CompoundNBT());
         return nbt;
     }
 
@@ -48,7 +37,7 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     public void onUse(World world, LivingEntity entity, ItemStack stack, int count) {
         boolean throwable = stack.getOrCreateTag().getBoolean("throwable");
         int needExperiences = stack.getOrCreateTag().getInt("needExperiences");
-        Collection<String> executes = stack.getOrCreateTag().contains("executes") ? TalismanUtils.toCollection(stack.getOrCreateTag().getList("executes", 8)) : Collections.emptyList();
+        Collection<String> executes = TalismanUtils.toCollection(stack.getOrCreateTag().getList("executes", 8));
 
         // 未完待续。。。困了。。。
 

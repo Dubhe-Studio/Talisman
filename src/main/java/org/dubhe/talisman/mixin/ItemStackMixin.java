@@ -17,6 +17,7 @@ public abstract class ItemStackMixin {
     @Shadow
     public abstract CompoundNBT getOrCreateTag();
 
+    @SuppressWarnings("ConstantConditions")
     @Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/util/IItemProvider;ILnet/minecraft/nbt/CompoundNBT;)V")
     private void init(IItemProvider item, int count, @Nullable CompoundNBT capNbt, CallbackInfo info) {
         if (item != null && item.asItem() instanceof WithDefaultNbt) {

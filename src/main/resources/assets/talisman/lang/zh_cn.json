@@ -1,7 +1,13 @@
 {
-    "itemGroup.talisman_group": "符·道",
+    "block.talisman.divine_stone_ore": "灵石矿石",
 
+    "entity.talisman.talisman": "符",
+
+    "item.talisman.divine_stone": "灵石",
+    "item.talisman.divine_stone_ore": "灵石矿石",
+    "item.talisman.guide_devil_bottle": "导魔瓶",
     "item.talisman.talisman": "符",
+    "item.talisman.talisman_paper": "符纸",
 
-    "entity.talisman.talisman": "符"
+    "itemGroup.talisman_group": "符·道"
 }
