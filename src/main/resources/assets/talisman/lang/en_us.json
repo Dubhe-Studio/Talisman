@@ -9,5 +9,15 @@
     "item.talisman.talisman": "",
     "item.talisman.talisman_paper": "",
 
-    "itemGroup.talisman_group": ""
+    "itemGroup.talisman_group": "",
+
+    "tooltip.talisman.throwable": "",
+    "tooltip.talisman.throwable.no": "",
+    "tooltip.talisman.needExperiences": "",
+    "tooltip.talisman.execute": "",
+    "tooltip.talisman.execute.no": "",
+    "tooltip.talisman.execute.value": "",
+
+    "text.all": ""
+
 }

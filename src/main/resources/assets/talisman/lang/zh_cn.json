@@ -9,5 +9,15 @@
     "item.talisman.talisman": "符",
     "item.talisman.talisman_paper": "符纸",
 
-    "itemGroup.talisman_group": "符·道"
+    "itemGroup.talisman_group": "符·道",
+
+    "tooltip.talisman.throwable": "可抛出",
+    "tooltip.talisman.throwable.no": "不可抛出",
+    "tooltip.talisman.needExperiences": "需要经验: %s",
+    "tooltip.talisman.execute": "落地触发:",
+    "tooltip.talisman.execute.no": " - 无",
+    "tooltip.talisman.execute.value": " - %s",
+
+    "text.all": "%s"
+
 }
