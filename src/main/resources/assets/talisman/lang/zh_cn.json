@@ -1,5 +1,23 @@
 {
+    "block.talisman.divine_stone_ore": "灵石矿石",
+
+    "entity.talisman.talisman": "符",
+
+    "item.talisman.divine_stone": "灵石",
+    "item.talisman.divine_stone_ore": "灵石矿石",
+    "item.talisman.guide_devil_bottle": "导魔瓶",
+    "item.talisman.talisman": "符",
+    "item.talisman.talisman_paper": "符纸",
+
     "itemGroup.talisman_group": "符·道",
 
-    "item.talisman.talisman": "符"
+    "tooltip.talisman.throwable": "可抛出",
+    "tooltip.talisman.throwable.no": "不可抛出",
+    "tooltip.talisman.needExperiences": "需要经验: %s",
+    "tooltip.talisman.execute": "落地触发:",
+    "tooltip.talisman.execute.no": " - 无",
+    "tooltip.talisman.execute.value": " - %s",
+
+    "text.all": "%s"
+
 }

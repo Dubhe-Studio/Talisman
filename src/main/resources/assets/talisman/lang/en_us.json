@@ -1,0 +1,23 @@
+{
+    "block.talisman.divine_stone_ore": "",
+
+    "entity.talisman.talisman": "",
+
+    "item.talisman.divine_stone": "",
+    "item.talisman.divine_stone_ore": "",
+    "item.talisman.guide_devil_bottle": "",
+    "item.talisman.talisman": "",
+    "item.talisman.talisman_paper": "",
+
+    "itemGroup.talisman_group": "",
+
+    "tooltip.talisman.throwable": "",
+    "tooltip.talisman.throwable.no": "",
+    "tooltip.talisman.needExperiences": "",
+    "tooltip.talisman.execute": "",
+    "tooltip.talisman.execute.no": "",
+    "tooltip.talisman.execute.value": "",
+
+    "text.all": ""
+
+}

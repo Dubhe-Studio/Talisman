@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
+@SuppressWarnings("NullableProblems")
 public class TalismanModel extends EntityModel<TalismanEntity> {
     private final ModelRenderer body;
 
