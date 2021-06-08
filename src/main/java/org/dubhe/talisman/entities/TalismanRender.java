@@ -28,10 +28,10 @@ public class TalismanRender extends EntityRenderer<TalismanEntity> {
     @Override
     public void render(TalismanEntity entity, float entityYaw, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int packedLight) {
         matrix.push();
-        // 朝向
+        // face
         matrix.rotate(Vector3f.YP.rotationDegrees(270.0F - entityYaw));
         matrix.rotate(Vector3f.ZP.rotationDegrees(-entity.rotationPitch));
-        // 大小
+        // size
         matrix.scale(0.525F, 0.525F, 0.525F);
         matrix.translate(0, 0.8D, 0);
 
@@ -40,12 +40,12 @@ public class TalismanRender extends EntityRenderer<TalismanEntity> {
         Matrix4f matrix4f = matrixStack$entry.getMatrix();
         Matrix3f matrix3f = matrixStack$entry.getNormal();
 
-        // 正面
+        // front
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, 0, -1, -1, 0.0F, 1.0F, -1, 0, 0, packedLight);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, 0, -1, 1, 1.0F, 1.0F, -1, 0, 0, packedLight);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, 0, 1, 1, 1.0F, 0.0F, -1, 0, 0, packedLight);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, 0, 1, -1, 0.0F, 0.0F, -1, 0, 0, packedLight);
-        // 反面
+        // back
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, 0, 1, -1, 0.0F, 0.0F, 1, 0, 0, packedLight);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, 0, 1, 1, 1.0F, 0.0F, 1, 0, 0, packedLight);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, 0, -1, 1, 1.0F, 1.0F, 1, 0, 0, packedLight);

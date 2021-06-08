@@ -86,7 +86,7 @@ public class TalismanEntity extends Entity {
             return;
         }
 
-        double speed = 0.175D;   // 位移速度 (speed * 20) blocks/s
+        double speed = 0.175D;   // speed (speed * 20) blocks/s
         double yaw = this.getYaw(1.0F);
         double pitch = this.getPitch(1.0F);
         double y = -Math.sin(pitch * Math.PI / 180D) * speed;
