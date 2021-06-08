@@ -16,11 +16,11 @@ import org.dubhe.talisman.items.TalismanPaperItem;
 public final class ItemRegistry {
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModInitializer.MODID);
 
+    public static final RegistryObject<Item> TALISMAN = ITEMS.register("talisman", () -> new TalismanItem(initProperties()));
+    public static final RegistryObject<Item> TALISMAN_PAPER = ITEMS.register("talisman_paper", () -> new TalismanPaperItem(initProperties()));
+    public static final RegistryObject<Item> GUIDE_DEVIL_BOTTLE = ITEMS.register("guide_devil_bottle", () -> new GuideDevilBottleItem(initProperties()));
     public static final RegistryObject<Item> DIVINE_STONE = ITEMS.register("divine_stone", () -> new DivineStoneItem(initProperties()));
     public static final RegistryObject<Item> CINNABAR = ITEMS.register("cinnabar", () -> new CinnabarItem(initProperties()));
-    public static final RegistryObject<Item> TALISMAN_PAPER = ITEMS.register("talisman_paper", () -> new TalismanPaperItem(initProperties()));
-    public static final RegistryObject<Item> TALISMAN = ITEMS.register("talisman", () -> new TalismanItem(initProperties()));
-    public static final RegistryObject<Item> GUIDE_DEVIL_BOTTLE = ITEMS.register("guide_devil_bottle", () -> new GuideDevilBottleItem(initProperties()));
 
 
     // block item
