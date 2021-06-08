@@ -57,7 +57,10 @@ public class TalismanItem extends Item implements WithDefaultNbt {
         if (player.isCreative() || player.experienceTotal >= needExperiences) {
             TalismanEntity talisman = this.createEntity(world, player, item, throwable);
             world.addEntity(talisman);
-            if (!player.isCreative()) item.shrink(1);
+            if (!player.isCreative()) {
+                item.shrink(1);
+                player.giveExperiencePoints(-needExperiences);
+            }
             player.addStat(Stats.ITEM_USED.get(this));
             return ActionResult.resultSuccess(item);
         }
@@ -65,7 +68,7 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     }
 
     public TalismanEntity createEntity(World world, PlayerEntity player, ItemStack stack, boolean throwable) {
-        return new TalismanEntity(world, player.getPositionVec(), player, stack.getOrCreateTag().getList("executes", 8), throwable);
+        return new TalismanEntity(world, player.getEyePosition(1.0F).add(0, -0.525D, 0), player, stack.getOrCreateTag().getList("executes", 8), throwable);
     }
 
 }
