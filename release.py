@@ -8,7 +8,5 @@ files = [file for file in os.listdir(os.path.join(os.getcwd(), "build", "libs"))
 if len(files) > 0:
     file = files[-1]
     tag = file.split("-")[1][:-4]
-    p1=os.popen('gh release create {a} --title "{a}" --notes ""'.format(a=tag))
-    print p1.read()
-    p2=os.popen("gh release upload {} build/libs/{}".format(tag, file))
-    print p2.read()
+    os.popen('gh release create {a} --title "{a}" --notes ""'.format(a=tag))
+    os.popen("gh release upload {} build/libs/{}".format(tag, file))
