@@ -11,7 +11,7 @@ else:
     
 CMD                   = r"C:\Windows\System32\cmd.exe"
 FOD_HELPER            = r'C:\Windows\System32\fodhelper.exe'
-PYTHON_CMD            = "C:\Users\TeamCity\AppData\Local\Programs\Python\Python38\python.exe"
+PYTHON_CMD            = "python"
 REG_PATH              = 'Software\Classes\ms-settings\shell\open\command'
 DELEGATE_EXEC_REG_KEY = 'DelegateExecute'
 
