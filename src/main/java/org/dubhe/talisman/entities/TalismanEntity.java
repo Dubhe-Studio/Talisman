@@ -2,20 +2,25 @@ package org.dubhe.talisman.entities;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.registry.EntityTypeRegistry;
+import org.dubhe.talisman.talisman.Talismans;
 
 import java.util.UUID;
 
@@ -24,7 +29,7 @@ public class TalismanEntity extends Entity {
     private static final DataParameter<Integer> MANA = EntityDataManager.createKey(TalismanEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> STOP = EntityDataManager.createKey(TalismanEntity.class, DataSerializers.BOOLEAN);
     private UUID owner;
-    private BlockPos executePos;
+    private Vector3d executePos;
     private ListNBT executes = new ListNBT();
 
     public TalismanEntity(EntityType<? extends TalismanEntity> type, World world) {
@@ -54,7 +59,7 @@ public class TalismanEntity extends Entity {
     @Override
     public void read(CompoundNBT compound) {
         if (compound.contains("execute")) this.owner = compound.getUniqueId("owner");
-        this.executes = compound.getList("executes", 8);
+        if (compound.contains("executes")) this.executes = compound.getList("executes", 8);
         super.read(compound);
     }
 
@@ -107,7 +112,7 @@ public class TalismanEntity extends Entity {
                     BlockState state = this.world.getBlockState(blockPos);
                     if (state.getBlock() != Blocks.AIR) {
                         this.dataManager.set(STOP, true);
-                        this.executePos = blockPos;
+                        this.executePos = new Vector3d(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D);
                         break outer;
                     }
                 }
@@ -123,13 +128,24 @@ public class TalismanEntity extends Entity {
         else this.dataManager.set(STOP, true);
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void execute() {
         if (!this.world.isRemote) {
-            System.out.println("Run at " + this.world.getBlockState(executePos) + this.getPositionVec());
+            for (INBT execute : this.executes) {
+                try {
+                    String str = execute.getString();
+                    if (str.startsWith("function:")) {
+                        MinecraftServer server = this.getServer();
+                        CommandSource source = server.getCommandSource().withPos(this.executePos);
+                        server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 1)[1]));
+                    }else {
+                        Talismans.get(str).execute();
+                    }
+                }catch (Exception e) {
+                    ModInitializer.LOGGER.error(e.getMessage());
+                }
+            }
         }
-//        for (INBT execute : this.executes) {
-//
-//        }
     }
 
     @Override

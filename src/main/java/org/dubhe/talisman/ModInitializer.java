@@ -17,7 +17,7 @@ public class ModInitializer {
 
     public static final String MODID = "talisman";
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public static final ItemGroup TalismanItemGroup = new TalismanItemGroup();
 
