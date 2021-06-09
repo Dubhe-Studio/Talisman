@@ -8,5 +8,5 @@ files = [file for file in os.listdir(os.path.join(os.getcwd(), "build", "libs"))
 if len(files) > 0:
     file = files[-1]
     tag = file.split("-")[1][:-4]
-    os.system('gh release create {a} --title "{a}" --notes ""'.format(a=tag))
-    os.system("gh release upload {} build/libs/{}".format(tag, file))
+    print os.system('gh release create {a} --title "{a}" --notes ""'.format(a=tag))
+    print os.system("gh release upload {} build/libs/{}".format(tag, file))
