@@ -6,5 +6,5 @@ files = [file for file in os.listdir(os.path.join(os.getcwd(), "build", "libs"))
 if len(files) > 0:
     file = files[-1]
     tag = file.split("-")[1][:-4]
-    os.popen(u'C:\Users\TeamCity\AppData\Local\Programs\Python\Python38\python.exe release create {a} --title "{a}" --notes "" -R Dubhe-Studio/Talisman'.format(a=tag))
-    os.popen(u"C:\Users\TeamCity\AppData\Local\Programs\Python\Python38\python.exe release upload {} build/libs/{} -R Dubhe-Studio/Talisman".format(tag, file))
+    os.popen('C:\Program Files (x86)\GitHub CLI\gh.exe release create {a} --title "{a}" --notes "" -R Dubhe-Studio/Talisman'.format(a=tag))
+    os.popen("C:\Program Files (x86)\GitHub CLI\gh.exe release upload {} build/libs/{} -R Dubhe-Studio/Talisman".format(tag, file))
