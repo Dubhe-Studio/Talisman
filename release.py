@@ -1,3 +1,4 @@
+# -*- coding: Unicode -*-
 import os
 import re
 files = [file for file in os.listdir(os.path.join(os.getcwd(), "build", "libs")) if re.match('[\s\S]+-[0-9]+\.[0-9]+\.[0-9]+.jar', file)]
