@@ -132,13 +132,13 @@ public class TalismanEntity extends Entity {
     private void execute() {
         if (!this.world.isRemote) {
             for (INBT execute : this.executes) {
+                String str = execute.getString();
                 try {
-                    String str = execute.getString();
                     if (str.startsWith("function:")) {
                         MinecraftServer server = this.getServer();
                         CommandSource source = server.getCommandSource().withPos(this.executePos);
-                        server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 1)[1]));
-                    }else {
+                        server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
+                    } else {
                         Talismans.get(str).execute();
                     }
                 }catch (Exception e) {

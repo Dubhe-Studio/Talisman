@@ -24,7 +24,6 @@ import org.dubhe.talisman.talisman.Talismans;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanItem extends Item implements WithDefaultNbt {
@@ -37,8 +36,16 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     public CompoundNBT defaultNbt(CompoundNBT nbt) {
         nbt.putBoolean("throwable", true);
         nbt.putInt("needExperiences", 0);
-        nbt.put("executes", new CompoundNBT());
+        nbt.put("executes", new ListNBT());
         return nbt;
+    }
+
+    @Override
+    public String getTranslationKey(ItemStack stack) {
+        ListNBT list = stack.getOrCreateTag().getList("executes", 8);
+        if (list.size() == 1 && !list.getString(0).startsWith("function:"))
+            return String.format("item.talisman.%s_talisman", list.getString(0));
+        return super.getTranslationKey(stack);
     }
 
     @Override

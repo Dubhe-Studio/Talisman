@@ -23,6 +23,8 @@ public class Talismans {
 //    public static final AbstractTalisman /*NAME*/ = register(/*instance*/);
 
 
+    public static void init() {}
+
     private static <T extends AbstractTalisman> T register(T talisman) {
         TALISMANS.put(talisman.getName(), talisman);
         return talisman;

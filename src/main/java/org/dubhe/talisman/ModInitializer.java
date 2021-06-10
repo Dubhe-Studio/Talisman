@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.dubhe.talisman.registry.BlockRegistry;
 import org.dubhe.talisman.registry.EntityTypeRegistry;
 import org.dubhe.talisman.registry.ItemRegistry;
+import org.dubhe.talisman.talisman.Talismans;
 
 import static org.dubhe.talisman.ModInitializer.MODID;
 
@@ -26,7 +27,7 @@ public class ModInitializer {
         ItemRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         BlockRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         EntityTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
-
+        Talismans.init();
 
         MinecraftForge.EVENT_BUS.register(this);
     }
