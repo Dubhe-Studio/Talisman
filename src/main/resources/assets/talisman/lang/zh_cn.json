@@ -21,6 +21,21 @@
     "tooltip.talisman.execute.no": " - 无",
     "tooltip.talisman.execute.value": " - %s",
 
-    "text.all": "%s"
+    "text.all": "%s",
+    "text.talisman.function": "函数",
+    "text.talisman.explode": "敕",
+    "text.talisman.transfer": "传送",
+    "text.talisman.fireball": "火",
+    "text.talisman.immobility": "锁",
+    "text.talisman.treatment": "回春",
+    "text.talisman.puppet": "尸",
+    "text.talisman.separation": "替身",
+    "text.talisman.thunder": "雷霄",
+    "text.talisman.mute": "静音",
+    "text.talisman.carry": "搬山",
+    "text.talisman.water_ball": "御水",
+    "text.talisman.doom": "灭",
+    "text.talisman.huge_explosion": "天爆",
+    "text.talisman.change_clothing": "换装"
 
 }

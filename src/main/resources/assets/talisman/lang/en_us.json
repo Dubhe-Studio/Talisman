@@ -21,6 +21,21 @@
     "tooltip.talisman.execute.no": " - Not",
     "tooltip.talisman.execute.value": " - %s",
 
-    "text.all": "%s"
+    "text.all": "%s",
+    "text.talisman.function": "",
+    "text.talisman.explode": "",
+    "text.talisman.transfer": "",
+    "text.talisman.fireball": "",
+    "text.talisman.immobility": "",
+    "text.talisman.treatment": "",
+    "text.talisman.puppet": "",
+    "text.talisman.separation": "",
+    "text.talisman.thunder": "",
+    "text.talisman.mute": "",
+    "text.talisman.carry": "",
+    "text.talisman.water_ball": "",
+    "text.talisman.doom": "",
+    "text.talisman.huge_explosion": "",
+    "text.talisman.change_clothing": ""
 
 }
