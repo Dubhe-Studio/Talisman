@@ -9,5 +9,5 @@ if len(files) > 0:
     file = files[-1]
     tag = file.split("-")[1][:-4]
     print(os.listdir("C:\Program Files"))
-    os.system('""C:\Program Files\GitHub CLI\gh" release create {a} --title "{a}" --notes ""'.format(a=tag))
-    os.system('""C:\Program Files\GitHub CLI\gh" release upload {} build/libs/{}'.format(tag, file))
+    os.system('""C:\Program Files (x86)\GitHub CLI\gh" release create {a} --title "{a}" --notes ""'.format(a=tag))
+    os.system('""C:\Program Files (x86)\GitHub CLI\gh" release upload {} build/libs/{}'.format(tag, file))
