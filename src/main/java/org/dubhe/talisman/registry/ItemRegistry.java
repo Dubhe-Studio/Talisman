@@ -10,6 +10,8 @@ import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.items.CinnabarItem;
 import org.dubhe.talisman.items.DivineStoneItem;
 import org.dubhe.talisman.items.GuideDevilBottleItem;
+import org.dubhe.talisman.items.InkItem;
+import org.dubhe.talisman.items.PenItem;
 import org.dubhe.talisman.items.TalismanItem;
 import org.dubhe.talisman.items.TalismanPaperItem;
 
@@ -21,6 +23,8 @@ public final class ItemRegistry {
     public static final RegistryObject<Item> GUIDE_DEVIL_BOTTLE = ITEMS.register("guide_devil_bottle", () -> new GuideDevilBottleItem(initProperties()));
     public static final RegistryObject<Item> DIVINE_STONE = ITEMS.register("divine_stone", () -> new DivineStoneItem(initProperties()));
     public static final RegistryObject<Item> CINNABAR = ITEMS.register("cinnabar", () -> new CinnabarItem(initProperties()));
+    public static final RegistryObject<Item> PEN = ITEMS.register("pen", () -> new PenItem(initProperties()));
+    public static final RegistryObject<Item> INK = ITEMS.register("ink", () -> new InkItem(initProperties()));
 
 
     // block item
