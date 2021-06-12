@@ -1,12 +1,15 @@
 package org.dubhe.talisman.talisman;
 
+import net.minecraft.util.math.vector.Vector3d;
+import org.dubhe.talisman.entities.TalismanEntity;
+
 public class SeparationTalisman extends AbstractTalisman {
     protected SeparationTalisman(String name) {
         super(name);
     }
 
     @Override
-    public void execute() {
+    public void execute(TalismanEntity entity, Vector3d pos) {
 
     }
 }

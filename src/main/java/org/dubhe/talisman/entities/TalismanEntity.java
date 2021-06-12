@@ -139,7 +139,7 @@ public class TalismanEntity extends Entity {
                         CommandSource source = server.getCommandSource().withPos(this.executePos);
                         server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
                     } else {
-                        Talismans.get(str).execute();
+                        Talismans.get(str).execute(this, executePos);
                     }
                 }catch (Exception e) {
                     ModInitializer.LOGGER.error(e.getMessage());
