@@ -29,7 +29,6 @@ public class TalismanEntity extends Entity {
     private static final DataParameter<Integer> MANA = EntityDataManager.createKey(TalismanEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> STOP = EntityDataManager.createKey(TalismanEntity.class, DataSerializers.BOOLEAN);
     private UUID owner;
-    private Vector3d executePos;
     private ListNBT executes = new ListNBT();
 
     public TalismanEntity(EntityType<? extends TalismanEntity> type, World world) {
@@ -112,7 +111,6 @@ public class TalismanEntity extends Entity {
                     BlockState state = this.world.getBlockState(blockPos);
                     if (state.getBlock() != Blocks.AIR) {
                         this.dataManager.set(STOP, true);
-                        this.executePos = new Vector3d(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D);
                         break outer;
                     }
                 }
@@ -136,10 +134,10 @@ public class TalismanEntity extends Entity {
                 try {
                     if (str.startsWith("function:")) {
                         MinecraftServer server = this.getServer();
-                        CommandSource source = server.getCommandSource().withPos(this.executePos);
+                        CommandSource source = server.getCommandSource().withPos(this.getPositionVec());
                         server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
                     } else {
-                        Talismans.get(str).execute(this, executePos);
+                        Talismans.get(str).execute(this, this.getPositionVec());
                     }
                 }catch (Exception e) {
                     ModInitializer.LOGGER.error(e.getMessage());
