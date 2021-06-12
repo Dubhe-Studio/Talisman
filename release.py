@@ -16,7 +16,7 @@ if __name__ == '__main__':
     files = [file for file in os.listdir(os.path.join(os.getcwd(), 'build', 'libs')) if re.match('[\s\S]+-[0-9]+\.[0-9]+\.[0-9]+.jar', file)]
 
     if len(files) > 0:
-        xml = requests.get('http://tcdev.elyimg.pro/guestAuth/app/rest/builds').content
+        xml = requests.get('http://ab.elyimg.pro/guestAuth/app/rest/builds').content
         number = etree.XML(xml).xpath('//builds/build/@number')[0]
         file = rename(files[-1], number)
         tag = re.split('[-+]', file)[-2]
