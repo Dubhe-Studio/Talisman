@@ -23,3 +23,4 @@ if __name__ == '__main__':
         os.system('"C:\Program Files (x86)\GitHub CLI\gh" auth login --with-token < githubtoken.txt')
         os.system('""C:\Program Files (x86)\GitHub CLI\gh" release create {a} --title "{a}" --notes ""'.format(a=tag))
         os.system('"C:\Program Files (x86)\GitHub CLI\gh" release upload {} {}/build/libs/{}'.format(tag, os.getcwd().replace("\\", "/"), file))
+    else: print('没有可发布的release')
