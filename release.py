@@ -20,6 +20,6 @@ if __name__ == '__main__':
         number = etree.XML(xml).xpath('//builds/build/@number')[0]
         file = rename(files[-1], number)
         tag = re.split('[-+]', file)[-2]
-        os.system('gh auth login --with-token < githubtoken.txt')
-        os.system('"gh release create {a} --title "{a}" --notes ""'.format(a=tag))
-        os.system('gh release upload {} {}/build/libs/{}'.format(tag, os.getcwd().replace("\\", "/"), file))
+        os.system('"C:\Program Files (x86)\GitHub CLI\gh" auth login --with-token < githubtoken.txt')
+        os.system('""C:\Program Files (x86)\GitHub CLI\gh" release create {a} --title "{a}" --notes ""'.format(a=tag))
+        os.system('"C:\Program Files (x86)\GitHub CLI\gh" release upload {} {}/build/libs/{}'.format(tag, os.getcwd().replace("\\", "/"), file))
