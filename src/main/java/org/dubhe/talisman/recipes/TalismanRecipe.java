@@ -18,24 +18,14 @@ import javax.annotation.Nullable;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanRecipe implements IRecipe<IInventory> {
-    static int MAX_WIDTH = 3;
-    static int MAX_HEIGHT = 3;
-
-    public static void setCraftingSize(int width, int height) {
-        if (MAX_WIDTH < width) MAX_WIDTH = width;
-        if (MAX_HEIGHT < height) MAX_HEIGHT = height;
-    }
-
     private final int recipeWidth;
     private final int recipeHeight;
     private final NonNullList<Ingredient> recipeItems;
     private final ItemStack recipeOutput;
     private final ResourceLocation id;
-    private final String group;
 
-    public TalismanRecipe(ResourceLocation id, String group, int recipeWidth, int recipeHeight, NonNullList<Ingredient> recipeItems, ItemStack recipeOutput) {
+    public TalismanRecipe(ResourceLocation id, int recipeWidth, int recipeHeight, NonNullList<Ingredient> recipeItems, ItemStack recipeOutput) {
         this.id = id;
-        this.group = group;
         this.recipeWidth = recipeWidth;
         this.recipeHeight = recipeHeight;
         this.recipeItems = recipeItems;
@@ -59,7 +49,7 @@ public class TalismanRecipe implements IRecipe<IInventory> {
 
     @Override
     public ItemStack getCraftingResult(IInventory inv) {
-        return null;
+        return this.getRecipeOutput().copy();
     }
 
     @Override
