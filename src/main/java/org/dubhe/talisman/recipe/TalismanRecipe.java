@@ -1,4 +1,4 @@
-package org.dubhe.talisman.recipes;
+package org.dubhe.talisman.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.IInventory;

@@ -1,4 +1,4 @@
-package org.dubhe.talisman.entities;
+package org.dubhe.talisman.entity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

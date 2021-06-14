@@ -6,9 +6,9 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.dubhe.talisman.ModInitializer;
-import org.dubhe.talisman.blocks.CinnabarOreBlock;
-import org.dubhe.talisman.blocks.DivineStoneOreBlock;
-import org.dubhe.talisman.blocks.TalismanCraftingTableBlock;
+import org.dubhe.talisman.block.CinnabarOreBlock;
+import org.dubhe.talisman.block.DivineStoneOreBlock;
+import org.dubhe.talisman.block.TalismanCraftingTableBlock;
 
 public class BlockRegistry {
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ModInitializer.MODID);

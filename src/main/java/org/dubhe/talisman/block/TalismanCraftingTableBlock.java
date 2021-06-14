@@ -1,4 +1,4 @@
-package org.dubhe.talisman.blocks;
+package org.dubhe.talisman.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+@SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableBlock extends HorizontalBlock {
     public static final EnumProperty<TalismanCraftingTablePart> PART = EnumProperty.create("part", TalismanCraftingTablePart.class);
 
@@ -33,7 +34,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
 
     @Override
     public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
-        if (facing == getDirectionToOther(state.get(PART), state.get(HORIZONTAL_FACING))) {
+        if (facing == getDirectionToOther(state.get(PART), this.getDirection(state.get(HORIZONTAL_FACING)))) {
             return facingState.matchesBlock(this) && facingState.get(PART) != state.get(PART) ? state : Blocks.AIR.getDefaultState();
         } else {
             return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
@@ -45,7 +46,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         if (!worldIn.isRemote && player.isCreative()) {
             TalismanCraftingTablePart part = state.get(PART);
             if (part == TalismanCraftingTablePart.LEFT) {
-                BlockPos blockpos = pos.offset(getDirectionToOther(part, state.get(HORIZONTAL_FACING)));
+                BlockPos blockpos = pos.offset(getDirectionToOther(part, this.getDirection(state.get(HORIZONTAL_FACING))));
                 BlockState blockstate = worldIn.getBlockState(blockpos);
                 if (blockstate.getBlock() == this && blockstate.get(PART) == TalismanCraftingTablePart.RIGHT) {
                     worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 35);
@@ -57,16 +58,16 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         super.onBlockHarvested(worldIn, pos, state, player);
     }
 
+    private static Direction getDirectionToOther(TalismanCraftingTablePart part, Direction direction) {
+        return part == TalismanCraftingTablePart.LEFT ? direction : direction.getOpposite();
+    }
+
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         Direction direction = context.getPlacementHorizontalFacing();
-        BlockPos blockpos = context.getPos().offset(direction);
+        BlockPos blockpos = context.getPos().offset(this.getDirection(direction));
         return context.getWorld().getBlockState(blockpos).isReplaceable(context) ? this.getDefaultState().with(HORIZONTAL_FACING, direction) : null;
-    }
-
-    private static Direction getDirectionToOther(TalismanCraftingTablePart part, Direction direction) {
-        return part == TalismanCraftingTablePart.LEFT ? direction : direction.getOpposite();
     }
 
     @Override
@@ -83,10 +84,24 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
         if (!world.isRemote) {
-            BlockPos blockpos = pos.offset(state.get(HORIZONTAL_FACING));
+            BlockPos blockpos = pos.offset(this.getDirection(state.get(HORIZONTAL_FACING)));
             world.setBlockState(blockpos, state.with(PART, TalismanCraftingTablePart.RIGHT), 3);
             world.updateBlock(pos, Blocks.AIR);
             state.updateNeighbours(world, pos, 3);
+        }
+    }
+
+    private Direction getDirection(Direction direction) {
+        switch (direction) {
+            case EAST:
+                return Direction.SOUTH;
+            case SOUTH:
+                return Direction.WEST;
+            case WEST:
+                return Direction.NORTH;
+            case NORTH:
+            default:
+                return Direction.EAST;
         }
     }
 

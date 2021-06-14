@@ -1,7 +1,7 @@
 package org.dubhe.talisman.talisman;
 
 import net.minecraft.util.math.vector.Vector3d;
-import org.dubhe.talisman.entities.TalismanEntity;
+import org.dubhe.talisman.entity.TalismanEntity;
 
 public class SeparationTalisman extends AbstractTalisman {
     protected SeparationTalisman(String name) {

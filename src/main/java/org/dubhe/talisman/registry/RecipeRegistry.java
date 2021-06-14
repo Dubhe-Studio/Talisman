@@ -6,7 +6,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.dubhe.talisman.ModInitializer;
-import org.dubhe.talisman.recipes.TalismanRecipe;
+import org.dubhe.talisman.recipe.TalismanRecipe;
 
 public class RecipeRegistry {
     private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, ModInitializer.MODID);

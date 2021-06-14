@@ -1,4 +1,4 @@
-package org.dubhe.talisman.items;
+package org.dubhe.talisman.item;
 
 import net.minecraft.nbt.CompoundNBT;
 

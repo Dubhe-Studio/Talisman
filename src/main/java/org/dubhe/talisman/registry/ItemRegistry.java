@@ -7,13 +7,13 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.dubhe.talisman.ModInitializer;
-import org.dubhe.talisman.items.CinnabarItem;
-import org.dubhe.talisman.items.DivineStoneItem;
-import org.dubhe.talisman.items.GuideDevilBottleItem;
-import org.dubhe.talisman.items.InkItem;
-import org.dubhe.talisman.items.PenItem;
-import org.dubhe.talisman.items.TalismanItem;
-import org.dubhe.talisman.items.TalismanPaperItem;
+import org.dubhe.talisman.item.CinnabarItem;
+import org.dubhe.talisman.item.DivineStoneItem;
+import org.dubhe.talisman.item.GuideDevilBottleItem;
+import org.dubhe.talisman.item.InkItem;
+import org.dubhe.talisman.item.PenItem;
+import org.dubhe.talisman.item.TalismanItem;
+import org.dubhe.talisman.item.TalismanPaperItem;
 
 public final class ItemRegistry {
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModInitializer.MODID);

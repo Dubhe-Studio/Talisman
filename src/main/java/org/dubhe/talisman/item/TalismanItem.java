@@ -1,4 +1,4 @@
-package org.dubhe.talisman.items;
+package org.dubhe.talisman.item;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +18,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import org.dubhe.talisman.entities.TalismanEntity;
+import org.dubhe.talisman.entity.TalismanEntity;
 import org.dubhe.talisman.talisman.AbstractTalisman;
 import org.dubhe.talisman.talisman.Talismans;
 

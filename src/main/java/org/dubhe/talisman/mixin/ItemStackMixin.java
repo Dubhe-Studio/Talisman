@@ -3,7 +3,7 @@ package org.dubhe.talisman.mixin;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.IItemProvider;
-import org.dubhe.talisman.items.WithDefaultNbt;
+import org.dubhe.talisman.item.WithDefaultNbt;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
