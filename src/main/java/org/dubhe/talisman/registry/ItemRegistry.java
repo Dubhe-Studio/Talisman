@@ -30,6 +30,7 @@ public final class ItemRegistry {
     // block item
     public static RegistryObject<Item> DIVINE_STONE_ORE = ITEMS.register("divine_stone_ore", () -> new BlockItem(BlockRegistry.DIVINE_STONE_ORE.get(), new Item.Properties().group(ModInitializer.TalismanItemGroup)));
     public static RegistryObject<Item> CINNABAR_ORE = ITEMS.register("cinnabar_ore", () -> new BlockItem(BlockRegistry.CINNABAR_ORE.get(), new Item.Properties().group(ModInitializer.TalismanItemGroup)));
+    public static RegistryObject<Item> TALISMAN_CRAFTING_TABLE = ITEMS.register("talisman_crafting_table", () -> new BlockItem(BlockRegistry.TALISMAN_CRAFTING_TABLE.get(), new Item.Properties().group(ModInitializer.TalismanItemGroup)));
 
 
     private static Item.Properties initProperties() {

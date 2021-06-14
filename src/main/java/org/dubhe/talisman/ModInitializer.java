@@ -28,7 +28,7 @@ public class ModInitializer {
         BlockRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         ItemRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         EntityTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
-        RecipeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
+//        RecipeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         Talismans.init();
 
         MinecraftForge.EVENT_BUS.register(this);
