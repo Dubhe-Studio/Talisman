@@ -123,13 +123,13 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
 
     @Override
     public boolean hasTileEntity(BlockState state) {
-        return false;
+        return true;
     }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return super.createTileEntity(state, world);
+        return new TalismanCraftingTableTileEntity();
     }
 
     enum TalismanCraftingTablePart implements IStringSerializable {
