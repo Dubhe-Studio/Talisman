@@ -1,4 +1,4 @@
-package org.dubhe.talisman.block.container;
+package org.dubhe.talisman.screen.container;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

@@ -4,7 +4,7 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import org.dubhe.talisman.block.screen.TalismanCraftingTableScreen;
+import org.dubhe.talisman.screen.TalismanCraftingTableScreen;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ServerEventsRegistry {

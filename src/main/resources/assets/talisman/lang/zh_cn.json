@@ -1,6 +1,9 @@
 {
     "block.talisman.divine_stone_ore": "灵石矿石",
     "block.talisman.cinnabar_ore": "朱砂矿石",
+    "block.talisman.talisman_crafting_table": "制符台",
+
+    "container.talisman_crafting_table": "制符台",
 
     "entity.talisman.talisman": "符",
 

@@ -1,4 +1,4 @@
-package org.dubhe.talisman.block.screen;
+package org.dubhe.talisman.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -7,18 +7,18 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import org.dubhe.talisman.ModInitializer;
-import org.dubhe.talisman.block.container.TalismanCraftingTableContainer;
+import org.dubhe.talisman.screen.container.TalismanCraftingTableContainer;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftingTableContainer> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(ModInitializer.MODID, "textures/gui/container/talisman_crafting_table.png");
-    int width = 176;
-    int height = 166;
+    int texWidth = 176;
+    int texHeight = 166;
 
     public TalismanCraftingTableScreen(TalismanCraftingTableContainer container, PlayerInventory inv, ITextComponent title) {
         super(container, inv, title);
-        this.xSize = this.width;
-        this.ySize = this.height;
+        this.xSize = this.texWidth;
+        this.ySize = this.texHeight;
     }
 
     @Override
@@ -35,6 +35,6 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
         this.minecraft.getTextureManager().bindTexture(TEXTURE);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
-        blit(matrix , i, j, 0, 0, xSize, ySize, this.width, this.height);
+        this.blit(matrix , i, j, 0, 0, this.xSize, this.ySize);
     }
 }

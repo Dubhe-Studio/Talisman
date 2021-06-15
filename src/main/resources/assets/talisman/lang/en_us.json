@@ -1,6 +1,9 @@
 {
     "block.talisman.divine_stone_ore": "Divine Ore Block",
     "block.talisman.cinnabar_ore": "Cinnabar Ore Block",
+    "block.talisman.talisman_crafting_table": "",
+
+    "container.talisman_crafting_table": "",
 
     "entity.talisman.talisman": "Talisman",
 

@@ -7,8 +7,8 @@ import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import org.dubhe.talisman.block.container.TalismanCraftingTableContainer;
 import org.dubhe.talisman.registry.TileEntityTypeRegistry;
+import org.dubhe.talisman.screen.container.TalismanCraftingTableContainer;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableTileEntity extends LockableLootTileEntity {
@@ -31,7 +31,7 @@ public class TalismanCraftingTableTileEntity extends LockableLootTileEntity {
 
     @Override
     protected ITextComponent getDefaultName() {
-        return new TranslationTextComponent("container.talisman.crafting_table");
+        return new TranslationTextComponent("container.talisman_crafting_table");
     }
 
     @Override
