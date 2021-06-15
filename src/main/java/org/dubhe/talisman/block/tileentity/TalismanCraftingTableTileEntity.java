@@ -10,6 +10,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import org.dubhe.talisman.block.container.TalismanCraftingTableContainer;
 import org.dubhe.talisman.registry.TileEntityTypeRegistry;
 
+@SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableTileEntity extends LockableLootTileEntity {
 
     private NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
