@@ -9,17 +9,24 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
+import org.dubhe.talisman.block.tileentity.TalismanCraftingTableTileEntity;
 
 import javax.annotation.Nullable;
 
@@ -60,6 +67,15 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
 
     private static Direction getDirectionToOther(TalismanCraftingTablePart part, Direction direction) {
         return part == TalismanCraftingTablePart.LEFT ? direction : direction.getOpposite();
+    }
+
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (!world.isRemote && hand == Hand.MAIN_HAND) {
+            TalismanCraftingTableTileEntity tileEntity = (TalismanCraftingTableTileEntity) world.getTileEntity(pos);
+            NetworkHooks.openGui((ServerPlayerEntity) player, tileEntity, (PacketBuffer packerBuffer) -> packerBuffer.writeBlockPos(tileEntity.getPos()));
+        }
+        return ActionResultType.SUCCESS;
     }
 
     @Nullable

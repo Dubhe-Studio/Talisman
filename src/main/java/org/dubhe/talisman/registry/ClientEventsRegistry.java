@@ -8,7 +8,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.dubhe.talisman.entity.TalismanRender;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class EventsRegistry {
+public class ClientEventsRegistry {
     @SubscribeEvent
     public static void onClientSetUpEvent(FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(EntityTypeRegistry.TALISMAN.get(), TalismanRender::new);
