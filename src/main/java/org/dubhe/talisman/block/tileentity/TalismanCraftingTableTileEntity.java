@@ -8,7 +8,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.dubhe.talisman.registry.TileEntityTypeRegistry;
-import org.dubhe.talisman.screen.container.TalismanCraftingTableContainer;
+import org.dubhe.talisman.container.TalismanCraftingTableContainer;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableTileEntity extends LockableLootTileEntity {
@@ -36,7 +36,7 @@ public class TalismanCraftingTableTileEntity extends LockableLootTileEntity {
 
     @Override
     protected Container createMenu(int id, PlayerInventory inventory) {
-        return new TalismanCraftingTableContainer(id, inventory, this.pos, this.world);
+        return new TalismanCraftingTableContainer(id, inventory, this);
     }
 
     @Override

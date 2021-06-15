@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import org.dubhe.talisman.ModInitializer;
-import org.dubhe.talisman.screen.container.TalismanCraftingTableContainer;
+import org.dubhe.talisman.container.TalismanCraftingTableContainer;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftingTableContainer> {
@@ -17,6 +17,7 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
 
     public TalismanCraftingTableScreen(TalismanCraftingTableContainer container, PlayerInventory inv, ITextComponent title) {
         super(container, inv, title);
+        this.passEvents = false;
         this.xSize = this.texWidth;
         this.ySize = this.texHeight;
     }
@@ -30,7 +31,6 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
 
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrix, float partialTicks, int x, int y) {
-        this.renderBackground(matrix);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(TEXTURE);
         int i = (this.width - this.xSize) / 2;
