@@ -32,6 +32,7 @@ public class ModInitializer {
         TileEntityTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         ContainerTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         EntityTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
+        RecipeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
 //        RecipeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         Talismans.init();
 

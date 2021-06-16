@@ -57,7 +57,7 @@ public class TalismanEntity extends Entity {
 
     @Override
     public void read(CompoundNBT compound) {
-        if (compound.contains("execute")) this.owner = compound.getUniqueId("owner");
+        if (compound.contains("owner")) this.owner = compound.getUniqueId("owner");
         if (compound.contains("executes")) this.executes = compound.getList("executes", 8);
         super.read(compound);
     }

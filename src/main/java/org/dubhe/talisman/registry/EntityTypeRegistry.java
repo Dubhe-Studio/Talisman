@@ -10,11 +10,11 @@ import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.entity.TalismanEntity;
 
 public final class EntityTypeRegistry {
-    private static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, ModInitializer.MODID);
-    public static RegistryObject<EntityType<TalismanEntity>> TALISMAN = ENTITY_TYPES.register("talisman", () -> EntityType.Builder.create((EntityType.IFactory<TalismanEntity>) TalismanEntity::new, EntityClassification.MISC).size(0.6F, 0.6F).build("talisman"));
+    private static final DeferredRegister<EntityType<?>> ENTITY_TYPE = DeferredRegister.create(ForgeRegistries.ENTITIES, ModInitializer.MODID);
+    public static RegistryObject<EntityType<TalismanEntity>> TALISMAN = ENTITY_TYPE.register("talisman", () -> EntityType.Builder.create((EntityType.IFactory<TalismanEntity>) TalismanEntity::new, EntityClassification.MISC).size(0.6F, 0.6F).build("talisman"));
 
     public static void completeRegistry(IEventBus bus) {
-        ENTITY_TYPES.register(bus);
+        ENTITY_TYPE.register(bus);
     }
 
 }
