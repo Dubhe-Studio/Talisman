@@ -17,7 +17,7 @@
         "item": "talisman:talisman",
         "count": 5,
         "experience": 30,
-        "execute": [
+        "executes": [
             "explode"
         ]
     }

@@ -2,11 +2,17 @@ package org.dubhe.talisman.container;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.CraftResultInventory;
+import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.play.server.SSetSlotPacket;
+import net.minecraft.util.IWorldPosCallable;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableTileEntity;
 import org.dubhe.talisman.registry.ContainerTypeRegistry;
 import org.dubhe.talisman.slot.ResultSlot;
@@ -16,15 +22,15 @@ import org.dubhe.talisman.slot.SpecifySlot;
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableContainer extends Container {
     private final TalismanCraftingTableTileEntity tileEntity;
+    private final CraftResultInventory craftResult = new CraftResultInventory();
+    private final PlayerEntity player;
 
     public TalismanCraftingTableContainer(int id, PlayerInventory playerInventory, TalismanCraftingTableTileEntity tileEntity) {
         super(ContainerTypeRegistry.TALISMAN_CRAFTING_TABLE.get(), id);
         this.tileEntity = tileEntity;
-        tileEntity.openInventory(playerInventory.player);
-
-        this.addSlot(new SpecifySlot(tileEntity, 10, 15, 18));
-        this.addSlot(new SpecifySlot(tileEntity, 11, 15, 36));
-        this.addSlot(new SpecifySlot(tileEntity, 12, 15, 54));
+        this.player = playerInventory.player;
+        tileEntity.setContainer(this);
+        tileEntity.openInventory(this.player);
 
         for (int row = 0; row < 3; ++row) {
             for (int column = 0; column < 3; ++column) {
@@ -32,7 +38,12 @@ public class TalismanCraftingTableContainer extends Container {
             }
         }
 
-        this.addSlot(new ResultSlot(tileEntity, 9, 139, 35));
+        this.addSlot(new ResultSlot(this.player, tileEntity.getCraftingInventory(), this.craftResult, 0, 139, 35));
+
+        this.addSlot(new SpecifySlot(tileEntity, 9, 15, 18));
+        this.addSlot(new SpecifySlot(tileEntity, 10, 15, 36));
+        this.addSlot(new SpecifySlot(tileEntity, 11, 15, 54));
+
 
         // player inventory 3x9
         for(int row = 0; row < 3; ++row) {
@@ -44,6 +55,7 @@ public class TalismanCraftingTableContainer extends Container {
         for(int column = 0; column < 9; ++column) {
             this.addSlot(new Slot(playerInventory, column, 8 + column * 18, 142));
         }
+        updateResultUI();
     }
 
     @Override
@@ -52,17 +64,67 @@ public class TalismanCraftingTableContainer extends Container {
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
+
+        ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemStack = slot.getStack();
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
             if (index < 13) {
-                this.mergeItemStack(itemStack, 13, 49, true);
+                if (index == 9) itemstack1.getItem().onCreated(itemstack1, player.world, player);
+                if (!this.mergeItemStack(itemstack1, 13, 49, true)) {
+                    return ItemStack.EMPTY;
+                }
+                slot.onSlotChange(itemstack1, itemstack);
+            } else if (index < 49) {
+                if (!this.mergeItemStack(itemstack1, 0, 12, false)) {
+                    if (index < 40) {
+                        if (!this.mergeItemStack(itemstack1, 40, 49, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    } else if (!this.mergeItemStack(itemstack1, 13, 40, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+            }
+
+            if (itemstack1.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
             } else {
-                this.mergeItemStack(itemStack, 0, 12, false);
+                slot.onSlotChanged();
+            }
+
+            if (itemstack1.getCount() == itemstack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            ItemStack itemstack2 = slot.onTake(player, itemstack1);
+            if (index == 0) {
+                player.dropItem(itemstack2, false);
             }
         }
-        return ItemStack.EMPTY;
+
+        return itemstack;
 
     }
+
+    @Override
+    public void onContainerClosed(PlayerEntity player) {
+        super.onContainerClosed(player);
+        this.tileEntity.closeInventory(player);
+    }
+
+    @Override
+    public void onCraftMatrixChanged(IInventory inventory) {
+        this.updateResultUI();
+    }
+
+    private void updateResultUI() {
+        if (this.player instanceof ServerPlayerEntity) {
+            craftResult.setInventorySlotContents(0, tileEntity.getResult());
+            ((ServerPlayerEntity) player).connection.sendPacket(new SSetSlotPacket(windowId, 9, craftResult.getStackInSlot(0)));
+        }
+    }
+
 }
