@@ -12,26 +12,21 @@ import org.dubhe.talisman.registry.TileEntityTypeRegistry;
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableRightTileEntity extends TileEntity implements ITickableTileEntity {
 
-    private TalismanCraftingTableLeftTileEntity leftTileEntity;
+    private final TalismanCraftingTableLeftTileEntity leftTileEntity;
 
-    public TalismanCraftingTableRightTileEntity() {
+    public TalismanCraftingTableRightTileEntity(TalismanCraftingTableLeftTileEntity leftTileEntity) {
         super(TileEntityTypeRegistry.TALISMAN_CRAFTING_TABLE.get());
+        this.leftTileEntity = leftTileEntity;
     }
-
 
     @Override
     public void read(BlockState state, CompoundNBT nbt) {
-        super.read(state, nbt);
-        NonNullList<ItemStack> inv = NonNullList.withSize(12, ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(nbt, inv);
-        leftTileEntity.setItems(inv);
+        leftTileEntity.read(state, nbt);
     }
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
-        ItemStackHelper.saveAllItems(compound, leftTileEntity.getItems());
-        return compound;
+        return leftTileEntity.write(compound);
     }
 
     @Override

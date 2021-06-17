@@ -27,6 +27,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
+import org.dubhe.talisman.block.tileentity.TalismanCraftingTableRightTileEntity;
 
 import javax.annotation.Nullable;
 
@@ -148,7 +149,8 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new TalismanCraftingTableLeftTileEntity();
+        if (state.get(PART) == TalismanCraftingTablePart.LEFT) return new TalismanCraftingTableLeftTileEntity();
+        else return new TalismanCraftingTableRightTileEntity(world.getTileEntity(this.pos));
     }
 
     enum TalismanCraftingTablePart implements IStringSerializable {
