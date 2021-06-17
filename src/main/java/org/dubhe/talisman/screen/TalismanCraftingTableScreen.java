@@ -30,6 +30,7 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
     }
 
     @Override
+    @SuppressWarnings({"ConstantConditions", "deprecation"})
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrix, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(TEXTURE);

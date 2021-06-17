@@ -1,6 +1,7 @@
 package org.dubhe.talisman;
 
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -23,7 +24,12 @@ public class ModInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final ItemGroup TalismanItemGroup = new TalismanItemGroup();
+    public static final ItemGroup TalismanItemGroup = new ItemGroup("talisman_group") {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(ItemRegistry.TALISMAN.get());
+        }
+    };
 
     public ModInitializer() {
 
@@ -33,7 +39,6 @@ public class ModInitializer {
         ContainerTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         EntityTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         RecipeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
-//        RecipeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
         Talismans.init();
 
         MinecraftForge.EVENT_BUS.register(this);

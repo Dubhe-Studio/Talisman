@@ -4,16 +4,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.CraftResultInventory;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.play.server.SSetSlotPacket;
-import net.minecraft.util.IWorldPosCallable;
-import org.dubhe.talisman.block.tileentity.TalismanCraftingTableTileEntity;
+import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
 import org.dubhe.talisman.registry.ContainerTypeRegistry;
 import org.dubhe.talisman.slot.ResultSlot;
 import org.dubhe.talisman.slot.SpecifySlot;
@@ -21,11 +17,11 @@ import org.dubhe.talisman.slot.SpecifySlot;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableContainer extends Container {
-    private final TalismanCraftingTableTileEntity tileEntity;
+    private final TalismanCraftingTableLeftTileEntity tileEntity;
     private final CraftResultInventory craftResult = new CraftResultInventory();
     private final PlayerEntity player;
 
-    public TalismanCraftingTableContainer(int id, PlayerInventory playerInventory, TalismanCraftingTableTileEntity tileEntity) {
+    public TalismanCraftingTableContainer(int id, PlayerInventory playerInventory, TalismanCraftingTableLeftTileEntity tileEntity) {
         super(ContainerTypeRegistry.TALISMAN_CRAFTING_TABLE.get(), id);
         this.tileEntity = tileEntity;
         this.player = playerInventory.player;

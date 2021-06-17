@@ -20,12 +20,12 @@ import org.dubhe.talisman.container.TalismanCraftingTableContainer;
 import java.util.Optional;
 
 @SuppressWarnings("NullableProblems")
-public class TalismanCraftingTableTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
+public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
 
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private final TalismanCraftingInventory craftingInventory = new TalismanCraftingInventory();
 
-    public TalismanCraftingTableTileEntity() {
+    public TalismanCraftingTableLeftTileEntity() {
         super(TileEntityTypeRegistry.TALISMAN_CRAFTING_TABLE.get());
     }
 
@@ -122,6 +122,7 @@ public class TalismanCraftingTableTileEntity extends LockableLootTileEntity impl
         return compound;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public ItemStack getResult() {
         ItemStack itemStack = ItemStack.EMPTY;
         if (!this.world.isRemote) {
