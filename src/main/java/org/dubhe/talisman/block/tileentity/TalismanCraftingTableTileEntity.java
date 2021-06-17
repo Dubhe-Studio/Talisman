@@ -6,6 +6,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
@@ -14,7 +15,7 @@ import org.dubhe.talisman.registry.TileEntityTypeRegistry;
 import org.dubhe.talisman.container.TalismanCraftingTableContainer;
 
 @SuppressWarnings("NullableProblems")
-public class TalismanCraftingTableTileEntity extends LockableLootTileEntity {
+public class TalismanCraftingTableTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
 
     private NonNullList<ItemStack> inventory = NonNullList.withSize(13, ItemStack.EMPTY);
 
@@ -58,5 +59,12 @@ public class TalismanCraftingTableTileEntity extends LockableLootTileEntity {
         super.write(compound);
         ItemStackHelper.saveAllItems(compound, this.inventory);
         return compound;
+    }
+
+    @Override
+    public void tick() {
+        if (!this.world.isRemote) {
+
+        }
     }
 }
