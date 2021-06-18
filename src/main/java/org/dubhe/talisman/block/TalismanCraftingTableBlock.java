@@ -112,7 +112,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         }
     }
 
-    private static Direction getRightDirection(Direction direction) {
+    public static Direction getRightDirection(Direction direction) {
         switch (direction) {
             case EAST:
                 return Direction.SOUTH;
@@ -126,7 +126,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         }
     }
 
-    private static Direction getLeftDirection(Direction direction) {
+    public static Direction getLeftDirection(Direction direction) {
         switch (direction) {
             case EAST:
                 return Direction.NORTH;
@@ -150,7 +150,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         if (state.get(PART) == TalismanCraftingTablePart.LEFT) return new TalismanCraftingTableLeftTileEntity();
-        else return new TalismanCraftingTableRightTileEntity(world.getTileEntity(this.pos));
+        else return new TalismanCraftingTableRightTileEntity();
     }
 
     enum TalismanCraftingTablePart implements IStringSerializable {
