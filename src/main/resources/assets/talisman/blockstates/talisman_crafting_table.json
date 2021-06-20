@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "part=left": {
+            "model": "talisman:block/talisman_crafting_table_left"
+        },
+        "part=right": {
+            "model": "talisman:block/talisman_crafting_table_right"
+        }
+    }
+}

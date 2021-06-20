@@ -22,6 +22,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -34,9 +36,20 @@ import javax.annotation.Nullable;
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableBlock extends HorizontalBlock {
     public static final EnumProperty<TalismanCraftingTablePart> PART = EnumProperty.create("part", TalismanCraftingTablePart.class);
+    private final static VoxelShape leftShape;
+    private final static VoxelShape rightShape;
 
+    static {
+        VoxelShape base = Block.makeCuboidShape(0, 0, 0, 16, 1, 16);
+        VoxelShape column1 = Block.makeCuboidShape(0, 1, 0, 1, 15, 1);
+        VoxelShape column2 = Block.makeCuboidShape(15, 1, 0, 16, 15, 1);
+        VoxelShape column3 = Block.makeCuboidShape(0, 1, 15, 1, 15, 16);
+        VoxelShape column4 = Block.makeCuboidShape(15, 1, 15, 16, 15, 16);
+        VoxelShape top = Block.makeCuboidShape(0, 15, 0, 16, 16, 16);
+        leftShape = VoxelShapes.or(base, column1, column2, column3, column4, top);
+    }
     public TalismanCraftingTableBlock() {
-        super(Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD));
+        super(Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD).notSolid());
         this.setDefaultState(this.stateContainer.getBaseState().with(PART, TalismanCraftingTablePart.LEFT));
     }
 
