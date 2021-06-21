@@ -5,11 +5,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import org.apache.logging.log4j.LogManager;
 import org.dubhe.talisman.block.TalismanCraftingTableBlock;
 import org.dubhe.talisman.registry.TileEntityTypeRegistry;
 
-@SuppressWarnings("NullableProblems")
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class TalismanCraftingTableRightTileEntity extends TileEntity implements ITickableTileEntity {
 
     public TalismanCraftingTableRightTileEntity() {

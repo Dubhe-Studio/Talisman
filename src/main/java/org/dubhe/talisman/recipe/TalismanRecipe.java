@@ -28,7 +28,6 @@ import org.dubhe.talisman.registry.RecipeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.Map;
-import java.util.Set;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanRecipe implements IRecipe<CraftingInventory> {
@@ -119,6 +118,7 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
         return this.recipeItems;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static ItemStack deserializeItem(JsonObject json) throws CommandSyntaxException {
         String id = JSONUtils.getString(json, "item");
         Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(id));
@@ -159,7 +159,7 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
             int width = patterns[0].length();
             int height = patterns.length;
             NonNullList<Ingredient> ingredientList = ShapedRecipe.deserializeIngredients(patterns, keys, width, height);
-            ItemStack itemstack = null;
+            ItemStack itemstack;
             try {
                 itemstack = TalismanRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
             } catch (CommandSyntaxException e) {

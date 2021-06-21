@@ -1,7 +1,6 @@
 package org.dubhe.talisman.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
@@ -75,23 +74,6 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         }
     }
 
-    @Override
-    public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (!worldIn.isRemote && player.isCreative()) {
-            TalismanCraftingTablePart part = state.get(PART);
-            if (part == TalismanCraftingTablePart.LEFT) {
-                BlockPos blockpos = pos.offset(getDirectionToOther(part, getRightDirection(state.get(HORIZONTAL_FACING))));
-                BlockState blockstate = worldIn.getBlockState(blockpos);
-                if (blockstate.getBlock() == this && blockstate.get(PART) == TalismanCraftingTablePart.RIGHT) {
-                    worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 35);
-                    worldIn.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
-                }
-            }
-        }
-
-        super.onBlockHarvested(worldIn, pos, state, player);
-    }
-
     private static Direction getDirectionToOther(TalismanCraftingTablePart part, Direction direction) {
         return part == TalismanCraftingTablePart.LEFT ? direction : direction.getOpposite();
     }
@@ -113,12 +95,6 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         Direction direction = context.getPlacementHorizontalFacing();
         BlockPos blockpos = context.getPos().offset(getRightDirection(direction));
         return context.getWorld().getBlockState(blockpos).isReplaceable(context) ? this.getDefaultState().with(HORIZONTAL_FACING, direction) : null;
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
