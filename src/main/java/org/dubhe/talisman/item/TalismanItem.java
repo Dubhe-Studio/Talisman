@@ -35,7 +35,7 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     @Override
     public CompoundNBT defaultNbt(CompoundNBT nbt) {
         nbt.putBoolean("throwable", true);
-        nbt.putInt("needExperiences", 0);
+        nbt.putInt("experience", 0);
         nbt.put("executes", new ListNBT());
         return nbt;
     }
@@ -52,7 +52,7 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         CompoundNBT nbt = stack.getOrCreateTag();
         tooltip.add(new TranslationTextComponent("tooltip.talisman.throwable"+ (nbt.getBoolean("throwable") ? "" : ".no")));
-        tooltip.add(new TranslationTextComponent("tooltip.talisman.needExperiences", new TranslationTextComponent("text.all", nbt.getInt("needExperiences")).mergeStyle(TextFormatting.GREEN)));
+        tooltip.add(new TranslationTextComponent("tooltip.talisman.experience", new TranslationTextComponent("text.all", nbt.getInt("experience")).mergeStyle(TextFormatting.GREEN)));
         tooltip.add(new TranslationTextComponent("tooltip.talisman.execute"));
         ListNBT list = nbt.getList("executes", 8);
         if (!list.isEmpty()) {
@@ -70,13 +70,13 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack item = player.getHeldItem(hand);
         boolean throwable = item.getOrCreateTag().getBoolean("throwable");
-        int needExperiences = item.getOrCreateTag().getInt("needExperiences");
-        if (player.isCreative() || player.experienceTotal >= needExperiences) {
+        int experience = item.getOrCreateTag().getInt("experience");
+        if (player.isCreative() || player.experienceTotal >= experience) {
             TalismanEntity talisman = this.createEntity(world, player, item, throwable);
             world.addEntity(talisman);
             if (!player.isCreative()) {
                 item.shrink(1);
-                player.giveExperiencePoints(-needExperiences);
+                player.giveExperiencePoints(-experience);
             }
             player.addStat(Stats.ITEM_USED.get(this));
             return ActionResult.resultSuccess(item);
@@ -109,10 +109,10 @@ public class TalismanItem extends Item implements WithDefaultNbt {
         }
     }
 
-    private static ItemStack groupItem(Item item, boolean throwable, int needExperience, AbstractTalisman execute) {
+    private static ItemStack groupItem(Item item, boolean throwable, int experience, AbstractTalisman execute) {
         ItemStack stack = new ItemStack(item);
         stack.getOrCreateTag().putBoolean("throwable", throwable);
-        stack.getOrCreateTag().putInt("needExperiences", needExperience);
+        stack.getOrCreateTag().putInt("experience", experience);
         ListNBT list = new ListNBT();
         list.add(StringNBT.valueOf(execute.getName()));
         stack.getOrCreateTag().put("executes", list);

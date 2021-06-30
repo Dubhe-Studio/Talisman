@@ -34,7 +34,7 @@
 
     "tooltip.talisman.throwable": "Throwable",
     "tooltip.talisman.throwable.no": "Don't Throwable",
-    "tooltip.talisman.needExperiences": "Experiences: %s",
+    "tooltip.talisman.experience": "Experiences: %s",
     "tooltip.talisman.execute": "Touch Floor Execute",
     "tooltip.talisman.execute.no": " - Not",
     "tooltip.talisman.execute.value": " - %s",
