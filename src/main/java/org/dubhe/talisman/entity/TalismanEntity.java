@@ -3,6 +3,7 @@ package org.dubhe.talisman.entity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.command.CommandSource;
+import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,8 +16,10 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.registry.EntityTypeRegistry;
@@ -134,7 +137,8 @@ public class TalismanEntity extends Entity {
                 try {
                     if (str.startsWith("function:")) {
                         MinecraftServer server = this.getServer();
-                        CommandSource source = server.getCommandSource().withPos(this.getPositionVec()).withEntity(this);
+                        CommandSource source = server.getCommandSource().withPos(this.getPositionVec()).withEntity(this).withPermissionLevel(2).withFeedbackDisabled();
+//                        CommandSource source = new CommandSource(ICommandSource.DUMMY, this.getPositionVec(), Vector2f.ZERO, (ServerWorld) this.world, 2, this.getName().getString(), this.getName(), server, this);
                         server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
                     } else {
                         Talismans.get(str).execute(this, this.getPositionVec());

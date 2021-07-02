@@ -34,15 +34,15 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
     private final int recipeWidth;
     private final int recipeHeight;
     private final NonNullList<Ingredient> recipeItems;
-    private final ItemStack recipeOutput;
+    private final OutputAndDemand outputAndDemand;
     private final ResourceLocation id;
 
-    public TalismanRecipe(ResourceLocation id, int recipeWidth, int recipeHeight, NonNullList<Ingredient> recipeItems, ItemStack recipeOutput) {
+    public TalismanRecipe(ResourceLocation id, int recipeWidth, int recipeHeight, NonNullList<Ingredient> recipeItems, OutputAndDemand outputAndDemand) {
         this.id = id;
         this.recipeWidth = recipeWidth;
         this.recipeHeight = recipeHeight;
         this.recipeItems = recipeItems;
-        this.recipeOutput = recipeOutput;
+        this.outputAndDemand = outputAndDemand;
     }
 
     @Override
@@ -83,7 +83,15 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
         return true;
     }
 
+    public OutputAndDemand getOutput() {
+        return this.outputAndDemand.copy();
+    }
+
+    /**
+     * please use {@link TalismanRecipe#getOutput }
+     */
     @Override
+    @Deprecated
     public ItemStack getCraftingResult(CraftingInventory inv) {
         return this.getRecipeOutput().copy();
     }
@@ -93,9 +101,13 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
         return width >= this.recipeWidth && height >= this.recipeHeight;
     }
 
+    /**
+     * please use {@link TalismanRecipe#getOutput }
+     */
     @Override
+    @Deprecated
     public ItemStack getRecipeOutput() {
-        return this.recipeOutput;
+        return this.outputAndDemand.getItemStack();
     }
 
     @Override
@@ -119,7 +131,7 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static ItemStack deserializeItem(JsonObject json) throws CommandSyntaxException {
+    private static OutputAndDemand deserializeItem(JsonObject json) throws CommandSyntaxException {
         String id = JSONUtils.getString(json, "item");
         Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(id));
         if (item == null) throw new JsonSyntaxException("Unknown item '" + id + "'");
@@ -135,7 +147,6 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
 
             ItemStack stack = new ItemStack(item, count);
             stack.getOrCreateTag().putBoolean("throwable", throwable);
-            stack.getOrCreateTag().putInt("experience", experience);
             if (cmd != -1) stack.getOrCreateTag().putInt("custom_model_data", cmd);
             ListNBT listNBT = new ListNBT();
             for (JsonElement jsonElement : array) {
@@ -146,7 +157,7 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
                 stack.getOrCreateTag().put("display", JsonToNBT.getTagFromJson(display));
             }
 
-            return stack;
+            return new OutputAndDemand(stack, experience);
         }
     }
 
@@ -159,13 +170,13 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
             int width = patterns[0].length();
             int height = patterns.length;
             NonNullList<Ingredient> ingredientList = ShapedRecipe.deserializeIngredients(patterns, keys, width, height);
-            ItemStack itemstack;
+            OutputAndDemand output;
             try {
-                itemstack = TalismanRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+                output = TalismanRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
             } catch (CommandSyntaxException e) {
                 throw new RuntimeException(e.getMessage(), e.getCause());
             }
-            return new TalismanRecipe(recipeId, width, height, ingredientList, itemstack);
+            return new TalismanRecipe(recipeId, width, height, ingredientList, output);
         }
 
         @Nullable
@@ -180,7 +191,9 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
             }
 
             ItemStack itemstack = buffer.readItemStack();
-            return new TalismanRecipe(recipeId, width, height, ingredientList, itemstack);
+            int experience = buffer.readVarInt();
+            OutputAndDemand output = new OutputAndDemand(itemstack, experience);
+            return new TalismanRecipe(recipeId, width, height, ingredientList, output);
         }
 
         @Override
@@ -192,7 +205,8 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
                 ingredient.write(buffer);
             }
 
-            buffer.writeItemStack(recipe.recipeOutput);
+            buffer.writeItemStack(recipe.outputAndDemand.getItemStack());
+            buffer.writeVarInt(recipe.outputAndDemand.getExperience());
         }
     }
 

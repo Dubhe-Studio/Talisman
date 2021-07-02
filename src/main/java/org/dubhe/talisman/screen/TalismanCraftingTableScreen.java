@@ -36,6 +36,7 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
         this.minecraft.getTextureManager().bindTexture(TEXTURE);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
-        this.blit(matrix , i, j, 0, 0, this.xSize, this.ySize);
+        this.blit(matrix, i, j, 0, 0, this.xSize, this.ySize);
+        this.blit(matrix, i + 116, j + 66, 0, 166, (int) (40 * this.container.getExpProgress()), 5);
     }
 }

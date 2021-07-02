@@ -5,13 +5,16 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.dubhe.talisman.inventory.TalismanCraftingInventory;
+import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.recipe.TalismanRecipe;
 import org.dubhe.talisman.registry.RecipeRegistry;
 import org.dubhe.talisman.registry.TileEntityTypeRegistry;
@@ -24,6 +27,24 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
 
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private final TalismanCraftingInventory craftingInventory = new TalismanCraftingInventory();
+    private int experience = 0;
+    public final IIntArray data = new IIntArray() {
+        @Override
+        public int get(int index) {
+            if (index == 0) return experience;
+            return -1;
+        }
+
+        @Override
+        public void set(int index, int value) {
+            if (index == 0) experience = value;
+        }
+
+        @Override
+        public int size() {
+            return 1;
+        }
+    };
 
     public TalismanCraftingTableLeftTileEntity() {
         super(TileEntityTypeRegistry.TALISMAN_CRAFTING_TABLE.get());
@@ -79,7 +100,7 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
     @Override
     public ItemStack removeStackFromSlot(int index) {
         if (index < 9) return this.craftingInventory.removeStackFromSlot(index);
-        else return this.inventory.remove(index - 9);
+        else return this.inventory.set(index - 9, ItemStack.EMPTY);
     }
 
     @Override
@@ -87,8 +108,11 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
         if (index < 9) return this.craftingInventory.decrStackSize(index, count);
         else {
             ItemStack itemStack = this.inventory.get(index - 9);
-            itemStack.setCount(itemStack.getCount() - count);
-            return itemStack;
+            int i = Math.min(count, itemStack.getCount());
+            ItemStack stack = itemStack.copy();
+            stack.setCount(i);
+            itemStack.shrink(i);
+            return stack;
         }
     }
 
@@ -113,30 +137,43 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
         NonNullList<ItemStack> inv = NonNullList.withSize(12, ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(nbt, inv);
         this.setItems(inv);
+        this.experience = nbt.getInt("experience");
     }
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
         ItemStackHelper.saveAllItems(compound, this.getItems());
+        compound.putInt("experience", this.experience);
         return compound;
     }
 
     @SuppressWarnings("ConstantConditions")
-    public ItemStack getResult() {
-        ItemStack itemStack = ItemStack.EMPTY;
+    public OutputAndDemand getResult() {
         if (!this.world.isRemote) {
             Optional<TalismanRecipe> optional = getWorld().getServer().getRecipeManager().getRecipe(RecipeRegistry.TALISMAN_CRAFTING_TYPE, this.craftingInventory, this.world);
             if (optional.isPresent()) {
-                TalismanRecipe craftingRecipe = optional.get();
-                itemStack = craftingRecipe.getCraftingResult(this.craftingInventory).copy();
+                OutputAndDemand output = optional.get().getOutput();
+                if (output.getExperience() <= this.experience) return output;
             }
         }
-        return itemStack;
+        return OutputAndDemand.EMPTY;
     }
 
     @Override
     public void tick() {
-
+        if (this.inventory.get(1).getItem() == Items.EXPERIENCE_BOTTLE && this.experience <= 320 - 5) {
+            this.inventory.get(1).shrink(1);
+            this.addExperience(5);
+        }
     }
+
+    public void addExperience(int count) {
+        this.experience += count;
+    }
+
+    public void shrinkExperience(int count) {
+        this.addExperience(-count);
+    }
+
 }

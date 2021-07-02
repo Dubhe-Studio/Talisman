@@ -1,4 +1,4 @@
-package org.dubhe.talisman.entity;
+package org.dubhe.talisman.entity.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -12,6 +12,7 @@ import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import org.dubhe.talisman.ModInitializer;
+import org.dubhe.talisman.entity.TalismanEntity;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanRender extends EntityRenderer<TalismanEntity> {

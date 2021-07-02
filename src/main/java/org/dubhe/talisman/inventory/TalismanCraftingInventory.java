@@ -6,7 +6,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 
 public class TalismanCraftingInventory extends CraftingInventory {
-    private Container handler = new Container(null, -1) {
+    private Container container = new Container(null, -1) {
         @Override
         public boolean canInteractWith(PlayerEntity playerIn) {
             return true;
@@ -22,15 +22,15 @@ public class TalismanCraftingInventory extends CraftingInventory {
         }, 3, 3);
     }
 
-    public void setHandler(Container handler) {
-        this.handler = handler;
+    public void setHandler(Container container) {
+        this.container = container;
     }
 
     @Override
     public ItemStack decrStackSize(int index, int count) {
         ItemStack itemstack = super.decrStackSize(index, count);
         if (!itemstack.isEmpty()) {
-            this.handler.onCraftMatrixChanged(this);
+            this.container.onCraftMatrixChanged(this);
         }
         return itemstack;
     }
@@ -38,7 +38,7 @@ public class TalismanCraftingInventory extends CraftingInventory {
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         super.setInventorySlotContents(index, stack);
-        this.handler.onCraftMatrixChanged(this);
+        this.container.onCraftMatrixChanged(this);
     }
 
 }

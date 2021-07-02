@@ -6,7 +6,9 @@ import net.minecraft.inventory.IRecipeHolder;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
 import org.dubhe.talisman.inventory.TalismanCraftingInventory;
+import org.dubhe.talisman.inventory.TalismanResultInventory;
 import org.dubhe.talisman.registry.RecipeRegistry;
 
 /**
@@ -14,14 +16,16 @@ import org.dubhe.talisman.registry.RecipeRegistry;
  */
 @SuppressWarnings("NullableProblems")
 public class ResultSlot extends Slot {
+    private final TalismanCraftingTableLeftTileEntity tileEntity;
     private final PlayerEntity player;
     private final TalismanCraftingInventory craftMatrix;
     private int amountCrafted;
 
-    public ResultSlot(PlayerEntity player, TalismanCraftingInventory craftMatrix, IInventory inventory, int index, int xPosition, int yPosition) {
+    public ResultSlot(PlayerEntity player, TalismanCraftingTableLeftTileEntity tileEntity, IInventory inventory, int index, int xPosition, int yPosition) {
         super(inventory, index, xPosition, yPosition);
         this.player = player;
-        this.craftMatrix = craftMatrix;
+        this.craftMatrix = tileEntity.getCraftingInventory();
+        this.tileEntity = tileEntity;
     }
 
     @Override
@@ -64,6 +68,10 @@ public class ResultSlot extends Slot {
 
     @Override
     public ItemStack onTake(PlayerEntity player, ItemStack stack) {
+        if (!player.world.isRemote) {
+            System.out.println("shrink " + ((TalismanResultInventory)this.inventory).getExperience());
+            this.tileEntity.shrinkExperience(((TalismanResultInventory)this.inventory).getExperience());
+        }
         this.onCrafting(stack);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
         NonNullList<ItemStack> nonnulllist = player.world.getRecipeManager().getRecipeNonNull(RecipeRegistry.TALISMAN_CRAFTING_TYPE, this.craftMatrix, player.world);

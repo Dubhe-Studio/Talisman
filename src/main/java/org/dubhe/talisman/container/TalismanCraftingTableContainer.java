@@ -3,28 +3,35 @@ package org.dubhe.talisman.container;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.CraftResultInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.play.server.SSetSlotPacket;
+import net.minecraft.util.IIntArray;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
-import org.dubhe.talisman.registry.ContainerTypeRegistry;
+import org.dubhe.talisman.inventory.TalismanResultInventory;
+import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.slot.ResultSlot;
+import org.dubhe.talisman.registry.ContainerTypeRegistry;
 import org.dubhe.talisman.slot.SpecifySlot;
 
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableContainer extends Container {
     private final TalismanCraftingTableLeftTileEntity tileEntity;
-    private final CraftResultInventory craftResult = new CraftResultInventory();
+    private final TalismanResultInventory craftResult = new TalismanResultInventory();
+    private final IIntArray data;
     private final PlayerEntity player;
 
     public TalismanCraftingTableContainer(int id, PlayerInventory playerInventory, TalismanCraftingTableLeftTileEntity tileEntity) {
         super(ContainerTypeRegistry.TALISMAN_CRAFTING_TABLE.get(), id);
         this.tileEntity = tileEntity;
         this.player = playerInventory.player;
+        this.data = tileEntity.data;
         tileEntity.setContainer(this);
         tileEntity.openInventory(this.player);
 
@@ -34,12 +41,11 @@ public class TalismanCraftingTableContainer extends Container {
             }
         }
 
-        this.addSlot(new ResultSlot(this.player, tileEntity.getCraftingInventory(), this.craftResult, 0, 139, 35));
+        this.addSlot(new ResultSlot(this.player, tileEntity, this.craftResult, 0, 139, 35));
 
         this.addSlot(new SpecifySlot(tileEntity, 9, 15, 18));
-        this.addSlot(new SpecifySlot(tileEntity, 10, 15, 36));
+        this.addSlot(new SpecifySlot(tileEntity, 10, 15, 36, Items.EXPERIENCE_BOTTLE));
         this.addSlot(new SpecifySlot(tileEntity, 11, 15, 54));
-
 
         // player inventory 3x9
         for(int row = 0; row < 3; ++row) {
@@ -47,11 +53,14 @@ public class TalismanCraftingTableContainer extends Container {
                 this.addSlot(new Slot(playerInventory, column + row * 9 + 9, 8 + column * 18, 84 + row * 18));
             }
         }
-        // player inventory 1x9
+        // item bar 1x9
         for(int column = 0; column < 9; ++column) {
             this.addSlot(new Slot(playerInventory, column, 8 + column * 18, 142));
         }
-        updateResultUI();
+
+        this.trackIntArray(this.data);
+
+        updateResult();
     }
 
     @Override
@@ -61,7 +70,6 @@ public class TalismanCraftingTableContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity player, int index) {
-
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
@@ -74,7 +82,9 @@ public class TalismanCraftingTableContainer extends Container {
                 }
                 slot.onSlotChange(itemstack1, itemstack);
             } else if (index < 49) {
-                if (!this.mergeItemStack(itemstack1, 0, 12, false)) {
+                if (itemstack1.getItem() == Items.EXPERIENCE_BOTTLE)
+                    this.mergeItemStack(itemstack1, 11, 12, false);
+                if (!this.mergeItemStack(itemstack1, 0, 13, false)) {
                     if (index < 40) {
                         if (!this.mergeItemStack(itemstack1, 40, 49, false)) {
                             return ItemStack.EMPTY;
@@ -113,14 +123,20 @@ public class TalismanCraftingTableContainer extends Container {
 
     @Override
     public void onCraftMatrixChanged(IInventory inventory) {
-        this.updateResultUI();
+        this.updateResult();
     }
 
-    private void updateResultUI() {
+    private void updateResult() {
         if (this.player instanceof ServerPlayerEntity) {
-            craftResult.setInventorySlotContents(0, tileEntity.getResult());
+            OutputAndDemand result = tileEntity.getResult();
+            this.craftResult.setInventorySlotContents(0, result.getItemStack());
+            this.craftResult.setExperience(result.getExperience());
             ((ServerPlayerEntity) player).connection.sendPacket(new SSetSlotPacket(windowId, 9, craftResult.getStackInSlot(0)));
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public double getExpProgress() {
+        return (double) this.data.get(0) / 320;
+    }
 }
