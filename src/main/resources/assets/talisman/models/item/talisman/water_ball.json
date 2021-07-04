@@ -1,6 +1,6 @@
 {
     "parent": "talisman:item/talisman",
     "textures": {
-        "layer1": "talisman:item/talisman_overlay"
+        "layer1": "talisman:item/talisman_water_ball"
     }
 }

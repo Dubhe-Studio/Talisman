@@ -1,6 +1,6 @@
 {
     "parent": "talisman:item/talisman",
     "textures": {
-        "layer1": "talisman:item/cinnabar"
+        "layer1": "talisman:item/talisman_explode"
     }
 }

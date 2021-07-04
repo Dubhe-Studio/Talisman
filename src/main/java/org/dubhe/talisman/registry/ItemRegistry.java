@@ -18,9 +18,9 @@ import org.dubhe.talisman.item.TalismanPaperItem;
 public final class ItemRegistry {
     private static final DeferredRegister<Item> ITEM = DeferredRegister.create(ForgeRegistries.ITEMS, ModInitializer.MODID);
 
-    public static final RegistryObject<Item> TALISMAN = ITEM.register("talisman", () -> new TalismanItem(itemProperties()));
+    public static final RegistryObject<Item> TALISMAN = ITEM.register("talisman", () -> new TalismanItem(itemProperties().maxStackSize(16)));
     public static final RegistryObject<Item> TALISMAN_PAPER = ITEM.register("talisman_paper", () -> new TalismanPaperItem(itemProperties()));
-    public static final RegistryObject<Item> GUIDE_DEVIL_BOTTLE = ITEM.register("guide_devil_bottle", () -> new GuideDevilBottleItem(itemProperties()));
+    public static final RegistryObject<Item> GUIDE_DEVIL_BOTTLE = ITEM.register("guide_devil_bottle", () -> new GuideDevilBottleItem(itemProperties().maxStackSize(16)));
     public static final RegistryObject<Item> DIVINE_STONE = ITEM.register("divine_stone", () -> new DivineStoneItem(itemProperties()));
     public static final RegistryObject<Item> CINNABAR = ITEM.register("cinnabar", () -> new CinnabarItem(itemProperties()));
     public static final RegistryObject<Item> PEN = ITEM.register("pen", () -> new PenItem(itemProperties()));
