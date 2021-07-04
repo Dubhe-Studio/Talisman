@@ -3,7 +3,6 @@ package org.dubhe.talisman.entity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.command.CommandSource;
-import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,13 +15,11 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.dubhe.talisman.ModInitializer;
-import org.dubhe.talisman.registry.EntityTypeRegistry;
+import org.dubhe.talisman.registry.TEntityTypes;
 import org.dubhe.talisman.talisman.Talismans;
 
 import java.util.UUID;
@@ -44,7 +41,7 @@ public class TalismanEntity extends Entity {
     }
 
     public TalismanEntity(World world, double x, double y, double z, PlayerEntity owner, ListNBT execute, boolean throwable) {
-        super(EntityTypeRegistry.TALISMAN.get(), world);
+        super(TEntityTypes.TALISMAN.get(), world);
         this.setLocationAndAngles(x, y, z, owner.rotationYaw, owner.rotationPitch);
         this.owner = owner.getUniqueID();
         this.executes.addAll(execute);

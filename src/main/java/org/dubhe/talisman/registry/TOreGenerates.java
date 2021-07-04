@@ -18,7 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class OreGenerateRegistry {
+public class TOreGenerates {
     private static final List<String> DIVINE_STONE_ORE = Lists.newArrayList(
             Biomes.JUNGLE.getRegistryName().toString(),
             Biomes.JUNGLE_EDGE.getRegistryName().toString(),

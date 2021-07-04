@@ -9,12 +9,12 @@ import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
 
 @SuppressWarnings("ConstantConditions")
-public class TileEntityTypeRegistry {
+public class TTileEntityTypes {
     private static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPE = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ModInitializer.MODID);
-    public static RegistryObject<TileEntityType<TalismanCraftingTableLeftTileEntity>> TALISMAN_CRAFTING_TABLE = TILE_ENTITY_TYPE.register("talisman_crafting_table", () -> TileEntityType.Builder.create(TalismanCraftingTableLeftTileEntity::new, BlockRegistry.TALISMAN_CRAFTING_TABLE.get()).build(null));
+    public static RegistryObject<TileEntityType<TalismanCraftingTableLeftTileEntity>> TALISMAN_CRAFTING_TABLE = TILE_ENTITY_TYPE.register("talisman_crafting_table", () -> TileEntityType.Builder.create(TalismanCraftingTableLeftTileEntity::new, TBlocks.TALISMAN_CRAFTING_TABLE.get()).build(null));
 
 
-    public static void completeRegistry(IEventBus bus) {
+    public static void register(IEventBus bus) {
         TILE_ENTITY_TYPE.register(bus);
     }
 

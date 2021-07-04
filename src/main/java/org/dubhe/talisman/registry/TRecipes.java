@@ -9,14 +9,14 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.recipe.TalismanRecipe;
 
-public class RecipeRegistry {
+public class TRecipes {
     private static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, ModInitializer.MODID);
 
     public static final RegistryObject<TalismanRecipe.Serializer> TALISMAN_CRAFTING_SERIALIZER = RECIPE_SERIALIZER.register("talisman_crafting", TalismanRecipe.Serializer::new);
     public static final IRecipeType<TalismanRecipe> TALISMAN_CRAFTING_TYPE =IRecipeType.register(ModInitializer.MODID+":talisman_crafting");
 
 
-    public static void completeRegistry(IEventBus bus) {
+    public static void register(IEventBus bus) {
         RECIPE_SERIALIZER.register(bus);
     }
 

@@ -7,9 +7,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.dubhe.talisman.screen.TalismanCraftingTableScreen;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ServerEventsRegistry {
+public class TServerEvents {
     @SubscribeEvent
     public static void onClientSetUpEvent(FMLClientSetupEvent event) {
-        ScreenManager.registerFactory(ContainerTypeRegistry.TALISMAN_CRAFTING_TABLE.get(), TalismanCraftingTableScreen::new);
+        ScreenManager.registerFactory(TContainerTypes.TALISMAN_CRAFTING_TABLE.get(), TalismanCraftingTableScreen::new);
     }
 }

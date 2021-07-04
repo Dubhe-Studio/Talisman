@@ -7,12 +7,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dubhe.talisman.registry.BlockRegistry;
-import org.dubhe.talisman.registry.ContainerTypeRegistry;
-import org.dubhe.talisman.registry.EntityTypeRegistry;
-import org.dubhe.talisman.registry.ItemRegistry;
-import org.dubhe.talisman.registry.RecipeRegistry;
-import org.dubhe.talisman.registry.TileEntityTypeRegistry;
+import org.dubhe.talisman.registry.TBlocks;
+import org.dubhe.talisman.registry.TContainerTypes;
+import org.dubhe.talisman.registry.TEntityTypes;
+import org.dubhe.talisman.registry.TItems;
+import org.dubhe.talisman.registry.TRecipes;
+import org.dubhe.talisman.registry.TTileEntityTypes;
 import org.dubhe.talisman.talisman.Talismans;
 
 import static org.dubhe.talisman.ModInitializer.MODID;
@@ -26,19 +26,20 @@ public class ModInitializer {
 
     public static final ItemGroup TalismanItemGroup = new ItemGroup("talisman_group") {
         @Override
+        @SuppressWarnings("NullableProblems")
         public ItemStack createIcon() {
-            return new ItemStack(ItemRegistry.TALISMAN.get());
+            return new ItemStack(TItems.TALISMAN.get());
         }
     };
 
     public ModInitializer() {
 
-        BlockRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
-        ItemRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
-        TileEntityTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
-        ContainerTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
-        EntityTypeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
-        RecipeRegistry.completeRegistry(FMLJavaModLoadingContext.get().getModEventBus());
+        TBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TItems.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TTileEntityTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TContainerTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TEntityTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TRecipes.register(FMLJavaModLoadingContext.get().getModEventBus());
         Talismans.init();
 
         MinecraftForge.EVENT_BUS.register(this);

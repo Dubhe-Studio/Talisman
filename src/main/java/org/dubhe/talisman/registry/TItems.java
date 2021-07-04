@@ -15,7 +15,7 @@ import org.dubhe.talisman.item.PenItem;
 import org.dubhe.talisman.item.TalismanItem;
 import org.dubhe.talisman.item.TalismanPaperItem;
 
-public final class ItemRegistry {
+public final class TItems {
     private static final DeferredRegister<Item> ITEM = DeferredRegister.create(ForgeRegistries.ITEMS, ModInitializer.MODID);
 
     public static final RegistryObject<Item> TALISMAN = ITEM.register("talisman", () -> new TalismanItem(itemProperties().maxStackSize(16)));
@@ -28,16 +28,16 @@ public final class ItemRegistry {
 
 
     // block item
-    public static RegistryObject<Item> DIVINE_STONE_ORE = ITEM.register("divine_stone_ore", () -> new BlockItem(BlockRegistry.DIVINE_STONE_ORE.get(), itemProperties()));
-    public static RegistryObject<Item> CINNABAR_ORE = ITEM.register("cinnabar_ore", () -> new BlockItem(BlockRegistry.CINNABAR_ORE.get(), itemProperties()));
-    public static RegistryObject<Item> TALISMAN_CRAFTING_TABLE = ITEM.register("talisman_crafting_table", () -> new BlockItem(BlockRegistry.TALISMAN_CRAFTING_TABLE.get(), itemProperties().maxStackSize(1)));
+    public static RegistryObject<Item> DIVINE_STONE_ORE = ITEM.register("divine_stone_ore", () -> new BlockItem(TBlocks.DIVINE_STONE_ORE.get(), itemProperties()));
+    public static RegistryObject<Item> CINNABAR_ORE = ITEM.register("cinnabar_ore", () -> new BlockItem(TBlocks.CINNABAR_ORE.get(), itemProperties()));
+    public static RegistryObject<Item> TALISMAN_CRAFTING_TABLE = ITEM.register("talisman_crafting_table", () -> new BlockItem(TBlocks.TALISMAN_CRAFTING_TABLE.get(), itemProperties().maxStackSize(1)));
 
 
     private static Item.Properties itemProperties() {
         return new Item.Properties().group(ModInitializer.TalismanItemGroup);
     }
 
-    public static void completeRegistry(IEventBus bus) {
+    public static void register(IEventBus bus) {
         ITEM.register(bus);
     }
 }

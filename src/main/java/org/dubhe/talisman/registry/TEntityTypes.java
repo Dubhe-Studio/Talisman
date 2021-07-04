@@ -9,11 +9,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.entity.TalismanEntity;
 
-public final class EntityTypeRegistry {
+public final class TEntityTypes {
     private static final DeferredRegister<EntityType<?>> ENTITY_TYPE = DeferredRegister.create(ForgeRegistries.ENTITIES, ModInitializer.MODID);
     public static RegistryObject<EntityType<TalismanEntity>> TALISMAN = ENTITY_TYPE.register("talisman", () -> EntityType.Builder.create((EntityType.IFactory<TalismanEntity>) TalismanEntity::new, EntityClassification.MISC).size(0.6F, 0.6F).build("talisman"));
 
-    public static void completeRegistry(IEventBus bus) {
+    public static void register(IEventBus bus) {
         ENTITY_TYPE.register(bus);
     }
 

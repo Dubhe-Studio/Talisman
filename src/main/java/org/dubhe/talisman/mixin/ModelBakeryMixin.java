@@ -3,7 +3,7 @@ package org.dubhe.talisman.mixin;
 import net.minecraft.client.renderer.model.ModelBakery;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.profiler.IProfiler;
-import org.dubhe.talisman.registry.ModelRegistry;
+import org.dubhe.talisman.registry.TModels;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,7 +18,7 @@ public abstract class ModelBakeryMixin {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/IProfiler;endStartSection(Ljava/lang/String;)V", args = "true", ordinal = 3), method = "processLoading")
     private void processLoading(IProfiler profilerIn, int maxMipmapLevel, CallbackInfo info) {
-        for (ModelRegistry model : ModelRegistry.values()) {
+        for (TModels model : TModels.values()) {
             this.loadTopModel(new ModelResourceLocation(model.getNamespace(), "inventory"));
         }
     }

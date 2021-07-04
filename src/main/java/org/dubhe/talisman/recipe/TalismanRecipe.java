@@ -24,7 +24,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.dubhe.talisman.registry.RecipeRegistry;
+import org.dubhe.talisman.registry.TRecipes;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -117,12 +117,12 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return RecipeRegistry.TALISMAN_CRAFTING_SERIALIZER.get();
+        return TRecipes.TALISMAN_CRAFTING_SERIALIZER.get();
     }
 
     @Override
     public IRecipeType<?> getType() {
-        return RecipeRegistry.TALISMAN_CRAFTING_TYPE;
+        return TRecipes.TALISMAN_CRAFTING_TYPE;
     }
 
     @Override

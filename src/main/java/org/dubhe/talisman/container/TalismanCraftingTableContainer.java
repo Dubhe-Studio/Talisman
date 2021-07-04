@@ -16,7 +16,7 @@ import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
 import org.dubhe.talisman.inventory.TalismanResultInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.slot.ResultSlot;
-import org.dubhe.talisman.registry.ContainerTypeRegistry;
+import org.dubhe.talisman.registry.TContainerTypes;
 import org.dubhe.talisman.slot.SpecifySlot;
 
 
@@ -28,7 +28,7 @@ public class TalismanCraftingTableContainer extends Container {
     private final PlayerEntity player;
 
     public TalismanCraftingTableContainer(int id, PlayerInventory playerInventory, TalismanCraftingTableLeftTileEntity tileEntity) {
-        super(ContainerTypeRegistry.TALISMAN_CRAFTING_TABLE.get(), id);
+        super(TContainerTypes.TALISMAN_CRAFTING_TABLE.get(), id);
         this.tileEntity = tileEntity;
         this.player = playerInventory.player;
         this.data = tileEntity.data;

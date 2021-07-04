@@ -6,13 +6,13 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import org.dubhe.talisman.block.TalismanCraftingTableBlock;
-import org.dubhe.talisman.registry.TileEntityTypeRegistry;
+import org.dubhe.talisman.registry.TTileEntityTypes;
 
 @SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class TalismanCraftingTableRightTileEntity extends TileEntity implements ITickableTileEntity {
 
     public TalismanCraftingTableRightTileEntity() {
-        super(TileEntityTypeRegistry.TALISMAN_CRAFTING_TABLE.get());
+        super(TTileEntityTypes.TALISMAN_CRAFTING_TABLE.get());
     }
 
     @Override

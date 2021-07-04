@@ -4,7 +4,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public enum ModelRegistry {
+public enum TModels {
     EXPLODE("talisman/explode"),
     TRANSFER("talisman/transfer"),
     FIREBALL("talisman/fireball"),
@@ -22,7 +22,7 @@ public enum ModelRegistry {
 
     private final String namespace;
 
-    ModelRegistry(String namespace) {
+    TModels(String namespace) {
         this.namespace = namespace;
     }
 

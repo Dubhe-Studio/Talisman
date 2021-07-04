@@ -9,7 +9,7 @@ import net.minecraft.util.NonNullList;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
 import org.dubhe.talisman.inventory.TalismanCraftingInventory;
 import org.dubhe.talisman.inventory.TalismanResultInventory;
-import org.dubhe.talisman.registry.RecipeRegistry;
+import org.dubhe.talisman.registry.TRecipes;
 
 /**
  * can't input items
@@ -71,7 +71,7 @@ public class ResultSlot extends Slot {
         if (!player.world.isRemote) this.tileEntity.shrinkExperience(((TalismanResultInventory)this.inventory).getExperience());
         this.onCrafting(stack);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
-        NonNullList<ItemStack> nonnulllist = player.world.getRecipeManager().getRecipeNonNull(RecipeRegistry.TALISMAN_CRAFTING_TYPE, this.craftMatrix, player.world);
+        NonNullList<ItemStack> nonnulllist = player.world.getRecipeManager().getRecipeNonNull(TRecipes.TALISMAN_CRAFTING_TYPE, this.craftMatrix, player.world);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);
         for(int i = 0; i < nonnulllist.size(); ++i) {
             ItemStack itemstack = this.craftMatrix.getStackInSlot(i);

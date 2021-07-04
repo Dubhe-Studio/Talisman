@@ -16,8 +16,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import org.dubhe.talisman.inventory.TalismanCraftingInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.recipe.TalismanRecipe;
-import org.dubhe.talisman.registry.RecipeRegistry;
-import org.dubhe.talisman.registry.TileEntityTypeRegistry;
+import org.dubhe.talisman.registry.TRecipes;
+import org.dubhe.talisman.registry.TTileEntityTypes;
 import org.dubhe.talisman.container.TalismanCraftingTableContainer;
 
 import java.util.Optional;
@@ -47,7 +47,7 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
     };
 
     public TalismanCraftingTableLeftTileEntity() {
-        super(TileEntityTypeRegistry.TALISMAN_CRAFTING_TABLE.get());
+        super(TTileEntityTypes.TALISMAN_CRAFTING_TABLE.get());
     }
 
     public void setContainer(Container container) {
@@ -151,7 +151,7 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
     @SuppressWarnings("ConstantConditions")
     public OutputAndDemand getResult() {
         if (!this.world.isRemote) {
-            Optional<TalismanRecipe> optional = getWorld().getServer().getRecipeManager().getRecipe(RecipeRegistry.TALISMAN_CRAFTING_TYPE, this.craftingInventory, this.world);
+            Optional<TalismanRecipe> optional = getWorld().getServer().getRecipeManager().getRecipe(TRecipes.TALISMAN_CRAFTING_TYPE, this.craftingInventory, this.world);
             if (optional.isPresent()) {
                 OutputAndDemand output = optional.get().getOutput();
                 if (output.getExperience() <= this.experience) return output;
