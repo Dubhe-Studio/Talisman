@@ -5,10 +5,11 @@
     "compatibilityLevel": "JAVA_8",
     "refmap": "mixins.refmap.json",
     "mixins": [
-        "ItemModelMesherMixin",
         "ItemStackMixin"
     ],
     "client": [
+        "ItemModelMesherMixin",
+        "ModelBakeryMixin"
     ],
     "injectors": {
         "defaultRequire": 1
