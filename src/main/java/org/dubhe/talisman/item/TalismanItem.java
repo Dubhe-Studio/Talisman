@@ -116,7 +116,9 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
         ListNBT executes = stack.getOrCreateTag().getList("executes", 8);
         if (executes.size() > 0 && !executes.getString(0).startsWith("function:")) {
             String type = executes.getString(0);
-            return manager.getModel(new ModelResourceLocation("talisman:talisman/" + type, "inventory"));
+            IBakedModel model = manager.getModel(new ModelResourceLocation("talisman:talisman/" + type, "inventory"));
+            System.out.println("talisman:talisman/" + type);
+            return model;
         }
         return null;
     }

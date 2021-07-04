@@ -2,7 +2,7 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public'}
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public' }
         mavenCentral()
     }
     dependencies {
@@ -117,10 +117,23 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+repositories {
+    maven { url = 'https://jitpack.io' }
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:' + forge_version
 
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
+
+    compile 'com.github.XeKr:xkdeco:0.1.0'
+
+    // compile Only
+    // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // These dependencies get remapped to your current MCP mappings
+    // deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+//    deobf 'com.github.XeKr:xkdeco:0.1.0'
 }
 
 jar {

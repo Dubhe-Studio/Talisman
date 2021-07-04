@@ -1,0 +1,6 @@
+{
+    "parent": "talisman:item/talisman",
+    "textures": {
+        "layer1": "talisman:item/talisman_overlay"
+    }
+}
