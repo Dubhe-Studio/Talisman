@@ -165,6 +165,7 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
         if (this.inventory.get(1).getItem() == Items.EXPERIENCE_BOTTLE && this.experience <= 320 - 5) {
             this.inventory.get(1).shrink(1);
             this.addExperience(5);
+            this.craftingInventory.onCraftMatrixChanged();
         }
     }
 

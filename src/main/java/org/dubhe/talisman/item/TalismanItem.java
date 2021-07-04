@@ -15,7 +15,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import org.dubhe.talisman.entity.TalismanEntity;
@@ -35,7 +34,6 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     @Override
     public CompoundNBT defaultNbt(CompoundNBT nbt) {
         nbt.putBoolean("throwable", true);
-        nbt.putInt("experience", 0);
         nbt.put("executes", new ListNBT());
         return nbt;
     }
@@ -52,7 +50,6 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         CompoundNBT nbt = stack.getOrCreateTag();
         tooltip.add(new TranslationTextComponent("tooltip.talisman.throwable"+ (nbt.getBoolean("throwable") ? "" : ".no")));
-        tooltip.add(new TranslationTextComponent("tooltip.talisman.experience", new TranslationTextComponent("text.all", nbt.getInt("experience")).mergeStyle(TextFormatting.GREEN)));
         tooltip.add(new TranslationTextComponent("tooltip.talisman.execute"));
         ListNBT list = nbt.getList("executes", 8);
         if (!list.isEmpty()) {
@@ -70,18 +67,11 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack item = player.getHeldItem(hand);
         boolean throwable = item.getOrCreateTag().getBoolean("throwable");
-        int experience = item.getOrCreateTag().getInt("experience");
-        if (player.isCreative() || player.experienceTotal >= experience) {
-            TalismanEntity talisman = this.createEntity(world, player, item, throwable);
-            world.addEntity(talisman);
-            if (!player.isCreative()) {
-                item.shrink(1);
-                player.giveExperiencePoints(-experience);
-            }
-            player.addStat(Stats.ITEM_USED.get(this));
-            return ActionResult.resultSuccess(item);
-        }
-        return ActionResult.resultFail(item);
+        TalismanEntity talisman = this.createEntity(world, player, item, throwable);
+        world.addEntity(talisman);
+        if (!player.isCreative()) item.shrink(1);
+        player.addStat(Stats.ITEM_USED.get(this));
+        return ActionResult.resultSuccess(item);
     }
 
     public TalismanEntity createEntity(World world, PlayerEntity player, ItemStack stack, boolean throwable) {
@@ -92,27 +82,26 @@ public class TalismanItem extends Item implements WithDefaultNbt {
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
             items.add(new ItemStack(this));
-            items.add(groupItem(this, true, 30, Talismans.EXPLODE));
-            items.add(groupItem(this, true, 40, Talismans.TRANSFER));
-            items.add(groupItem(this, true, 5, Talismans.FIREBALL));
-            items.add(groupItem(this, true, 6, Talismans.IMMOBILITY));
-            items.add(groupItem(this, true, 6, Talismans.TREATMENT));
-            items.add(groupItem(this, true, 6, Talismans.PUPPET));
-            items.add(groupItem(this, true, 6, Talismans.SEPARATION));
-            items.add(groupItem(this, true, 6, Talismans.THUNDER));
-            items.add(groupItem(this, true, 6, Talismans.MUTE));
-            items.add(groupItem(this, true, 6, Talismans.CARRY));
-            items.add(groupItem(this, true, 6, Talismans.WATER_BALL));
-            items.add(groupItem(this, true, 50, Talismans.DOOM));
-            items.add(groupItem(this, true, 30, Talismans.HUGE_EXPLOSION));
-            items.add(groupItem(this, false, 6, Talismans.CHANGE_CLOTHING));
+            items.add(groupItem(this, true, Talismans.EXPLODE));
+            items.add(groupItem(this, true, Talismans.TRANSFER));
+            items.add(groupItem(this, true, Talismans.FIREBALL));
+            items.add(groupItem(this, true, Talismans.IMMOBILITY));
+            items.add(groupItem(this, true, Talismans.TREATMENT));
+            items.add(groupItem(this, true, Talismans.PUPPET));
+            items.add(groupItem(this, true, Talismans.SEPARATION));
+            items.add(groupItem(this, true, Talismans.THUNDER));
+            items.add(groupItem(this, true, Talismans.MUTE));
+            items.add(groupItem(this, true, Talismans.CARRY));
+            items.add(groupItem(this, true, Talismans.WATER_BALL));
+            items.add(groupItem(this, true, Talismans.DOOM));
+            items.add(groupItem(this, true, Talismans.HUGE_EXPLOSION));
+            items.add(groupItem(this, false, Talismans.CHANGE_CLOTHING));
         }
     }
 
-    private static ItemStack groupItem(Item item, boolean throwable, int experience, AbstractTalisman execute) {
+    private static ItemStack groupItem(Item item, boolean throwable, AbstractTalisman execute) {
         ItemStack stack = new ItemStack(item);
         stack.getOrCreateTag().putBoolean("throwable", throwable);
-        stack.getOrCreateTag().putInt("experience", experience);
         ListNBT list = new ListNBT();
         list.add(StringNBT.valueOf(execute.getName()));
         stack.getOrCreateTag().put("executes", list);

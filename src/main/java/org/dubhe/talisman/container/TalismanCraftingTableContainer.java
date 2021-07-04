@@ -139,4 +139,6 @@ public class TalismanCraftingTableContainer extends Container {
     public double getExpProgress() {
         return (double) this.data.get(0) / 320;
     }
+
+
 }

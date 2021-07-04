@@ -17,7 +17,6 @@ public class TalismanResultInventory extends CraftResultInventory {
 
     @Override
     public ItemStack decrStackSize(int index, int count) {
-        this.experience = 0;
         return super.decrStackSize(index, count);
     }
 

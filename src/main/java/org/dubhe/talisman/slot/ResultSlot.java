@@ -68,10 +68,7 @@ public class ResultSlot extends Slot {
 
     @Override
     public ItemStack onTake(PlayerEntity player, ItemStack stack) {
-        if (!player.world.isRemote) {
-            System.out.println("shrink " + ((TalismanResultInventory)this.inventory).getExperience());
-            this.tileEntity.shrinkExperience(((TalismanResultInventory)this.inventory).getExperience());
-        }
+        if (!player.world.isRemote) this.tileEntity.shrinkExperience(((TalismanResultInventory)this.inventory).getExperience());
         this.onCrafting(stack);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
         NonNullList<ItemStack> nonnulllist = player.world.getRecipeManager().getRecipeNonNull(RecipeRegistry.TALISMAN_CRAFTING_TYPE, this.craftMatrix, player.world);

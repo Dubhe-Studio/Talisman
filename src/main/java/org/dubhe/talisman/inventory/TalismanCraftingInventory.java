@@ -41,4 +41,8 @@ public class TalismanCraftingInventory extends CraftingInventory {
         this.container.onCraftMatrixChanged(this);
     }
 
+    public void onCraftMatrixChanged() {
+        this.container.onCraftMatrixChanged(this);
+    }
+
 }
