@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
 import org.dubhe.talisman.inventory.TalismanResultInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
+import org.dubhe.talisman.registry.TItems;
 import org.dubhe.talisman.slot.ResultSlot;
 import org.dubhe.talisman.registry.TContainerTypes;
 import org.dubhe.talisman.slot.SpecifySlot;
@@ -43,9 +44,9 @@ public class TalismanCraftingTableContainer extends Container {
 
         this.addSlot(new ResultSlot(this.player, tileEntity, this.craftResult, 0, 139, 35));
 
-        this.addSlot(new SpecifySlot(tileEntity, 9, 15, 18));
+        this.addSlot(new SpecifySlot(tileEntity, 9, 15, 18, Items.FEATHER, TItems.PEN_PRIMARY.get()));
         this.addSlot(new SpecifySlot(tileEntity, 10, 15, 36, Items.EXPERIENCE_BOTTLE));
-        this.addSlot(new SpecifySlot(tileEntity, 11, 15, 54));
+        this.addSlot(new SpecifySlot(tileEntity, 11, 15, 54, Items.INK_SAC, TItems.INK_PRIMARY.get()));
 
         // player inventory 3x9
         for(int row = 0; row < 3; ++row) {

@@ -154,7 +154,8 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
             Optional<TalismanRecipe> optional = getWorld().getServer().getRecipeManager().getRecipe(TRecipes.TALISMAN_CRAFTING_TYPE, this.craftingInventory, this.world);
             if (optional.isPresent()) {
                 OutputAndDemand output = optional.get().getOutput();
-                if (output.getExperience() <= this.experience) return output;
+                if (output.getExperience() <= this.experience && !this.inventory.get(0).isEmpty() && !this.inventory.get(2).isEmpty())
+                    return output;
             }
         }
         return OutputAndDemand.EMPTY;
