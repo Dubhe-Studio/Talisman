@@ -1,5 +1,8 @@
 package org.dubhe.talisman.item;
 
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ModelManager;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -25,7 +28,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @SuppressWarnings("NullableProblems")
-public class TalismanItem extends Item implements WithDefaultNbt {
+public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomModel {
 
     public TalismanItem(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON));
@@ -106,5 +109,15 @@ public class TalismanItem extends Item implements WithDefaultNbt {
         list.add(StringNBT.valueOf(execute.getName()));
         stack.getOrCreateTag().put("executes", list);
         return stack;
+    }
+
+    @Override
+    public IBakedModel getModel(ItemStack stack, ModelManager manager) {
+        ListNBT executes = stack.getOrCreateTag().getList("executes", 8);
+        if (executes.size() > 0 && !executes.getString(0).startsWith("function:")) {
+            String type = executes.getString(0);
+            return manager.getModel(new ModelResourceLocation("talisman:talisman/" + type, "inventory"));
+        }
+        return null;
     }
 }

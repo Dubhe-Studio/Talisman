@@ -2,7 +2,7 @@ package org.dubhe.talisman.item;
 
 import net.minecraft.nbt.CompoundNBT;
 
-public interface WithDefaultNbt {
+public interface IWithDefaultNbt {
     /**
      * default NBT
      * @param nbt added tag

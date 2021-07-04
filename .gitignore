@@ -4,3 +4,4 @@
 /.idea/
 ~$*.xlsx
 *test*
+*.log
