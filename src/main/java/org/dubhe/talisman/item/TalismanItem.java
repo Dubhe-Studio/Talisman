@@ -94,7 +94,6 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
     @SuppressWarnings("ConstantConditions")
     public static void execute(World world, @Nullable Entity entity, ListNBT executes, @Nullable Entity target) {
         if (!world.isRemote && executes.size() != 0) {
-            System.out.println(entity);
             Vector3d position = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
             MinecraftServer server = world.getServer();
             try {

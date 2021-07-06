@@ -103,8 +103,8 @@ public class TalismanEntity extends Entity {
         pos = pos.add(0, 0.3, 0);
         if (this.owner != null) {
             AxisAlignedBB box = new AxisAlignedBB(pos.x - 0.3, pos.y - 0.3, pos.z - 0.3, pos.x + 0.3, pos.y + 0.3, pos.z + 0.3);
-            List<Entity> entities = this.world.getEntitiesWithinAABB(Entity.class, box, (entity) -> entity != null && entity.isAlive());
-            if (!entities.isEmpty() && !entities.get(0).equals(this.world.getPlayerByUuid(this.owner))) {
+            List<Entity> entities = this.world.getEntitiesWithinAABB(Entity.class, box, (entity) -> entity != null && entity.isAlive() && !entity.equals(this) && !entity.equals(this.world.getPlayerByUuid(this.owner)));
+            if (!entities.isEmpty()) {
                 this.dataManager.set(STOP, true);
                 this.entity = entities.get(0);
             }
