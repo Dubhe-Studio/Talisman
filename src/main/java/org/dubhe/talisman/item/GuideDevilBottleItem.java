@@ -22,7 +22,7 @@ public class GuideDevilBottleItem extends Item {
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack item = player.getHeldItem(hand);
         if (!world.isRemote) {
-            if (player.experienceLevel > 1 || player.experience >= 5) {
+            if (player.isCreative() || player.experienceLevel >= 1 || player.experience >= 0.7F) {
                 ItemStack bottle = new ItemStack(Items.EXPERIENCE_BOTTLE, 1);
                 if (player.inventory.addItemStackToInventory(bottle)) {
                     bottle.setCount(1);
@@ -37,9 +37,12 @@ public class GuideDevilBottleItem extends Item {
                         itementity.setOwnerId(player.getUniqueID());
                     }
                 }
-                item.shrink(1);
+                if (!player.isCreative()) {
+                    item.shrink(1);
+                    player.giveExperiencePoints(-5);
+                }
                 player.addStat(Stats.ITEM_USED.get(this));
-                return ActionResult.resultSuccess(item);
+                return ActionResult.resultPass(item);
             }
         }
         return ActionResult.resultConsume(item);
