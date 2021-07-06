@@ -1,7 +1,7 @@
 package org.dubhe.talisman.talisman;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.vector.Vector3d;
-import org.dubhe.talisman.entity.TalismanEntity;
 
 public abstract class AbstractTalisman {
 
@@ -11,7 +11,7 @@ public abstract class AbstractTalisman {
         this.name = name;
     }
 
-    public abstract void execute(TalismanEntity entity, Vector3d pos);
+    public abstract void execute(Entity entity, Vector3d pos);
 
     public String getName() {
         return this.name;

@@ -1,9 +1,13 @@
 package org.dubhe.talisman.item;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelManager;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.arguments.EntityAnchorArgument;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -13,10 +17,12 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -70,15 +76,40 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack item = player.getHeldItem(hand);
         boolean throwable = item.getOrCreateTag().getBoolean("throwable");
-        TalismanEntity talisman = this.createEntity(world, player, item, throwable);
-        world.addEntity(talisman);
+        if (throwable) {
+            TalismanEntity talisman = this.createEntity(world, player, item);
+            world.addEntity(talisman);
+        }else {
+            execute(world, player, item.getOrCreateTag().getList("executes", 8));
+        }
         if (!player.isCreative()) item.shrink(1);
         player.addStat(Stats.ITEM_USED.get(this));
         return ActionResult.resultSuccess(item);
     }
 
-    public TalismanEntity createEntity(World world, PlayerEntity player, ItemStack stack, boolean throwable) {
-        return new TalismanEntity(world, player.getEyePosition(1.0F).add(0, -0.525D, 0), player, stack.getOrCreateTag().getList("executes", 8), throwable);
+    public TalismanEntity createEntity(World world, PlayerEntity player, ItemStack stack) {
+        return new TalismanEntity(world, player.getEyePosition(1.0F).add(0, -0.525D, 0), player, stack.getOrCreateTag().getList("executes", 8));
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public static void execute(World world, @Nullable Entity entity, ListNBT executes) {
+        if (!world.isRemote && executes.size() != 0) {
+            System.out.println(entity);
+            Vector3d position = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
+            MinecraftServer server = world.getServer();
+            try {
+                CommandSource source = server.getFunctionManager().getCommandSource().withPos(position).withRotation(entity, EntityAnchorArgument.Type.EYES).withEntity(entity);
+                for (INBT execute : executes) {
+                    String str = execute.getString();
+                    if (str.startsWith("function:"))
+                        server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
+                    else Talismans.get(str).execute(entity, position);
+                }
+            } catch (CommandSyntaxException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @Override

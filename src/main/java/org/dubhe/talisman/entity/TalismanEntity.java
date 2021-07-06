@@ -2,25 +2,21 @@ package org.dubhe.talisman.entity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import org.dubhe.talisman.ModInitializer;
+import org.dubhe.talisman.item.TalismanItem;
 import org.dubhe.talisman.registry.TEntityTypes;
-import org.dubhe.talisman.talisman.Talismans;
 
 import java.util.UUID;
 
@@ -36,16 +32,15 @@ public class TalismanEntity extends Entity {
         this.owner = null;
     }
 
-    public TalismanEntity(World world, Vector3d pos, PlayerEntity owner, ListNBT execute, boolean throwable) {
-        this(world, pos.x, pos.y, pos.z, owner, execute, throwable);
+    public TalismanEntity(World world, Vector3d pos, PlayerEntity owner, ListNBT execute) {
+        this(world, pos.x, pos.y, pos.z, owner, execute);
     }
 
-    public TalismanEntity(World world, double x, double y, double z, PlayerEntity owner, ListNBT execute, boolean throwable) {
+    public TalismanEntity(World world, double x, double y, double z, PlayerEntity owner, ListNBT execute) {
         super(TEntityTypes.TALISMAN.get(), world);
         this.setLocationAndAngles(x, y, z, owner.rotationYaw, owner.rotationPitch);
         this.owner = owner.getUniqueID();
         this.executes.addAll(execute);
-        this.dataManager.set(STOP, !throwable);
     }
 
     @Override
@@ -85,7 +80,7 @@ public class TalismanEntity extends Entity {
         super.tick();
 
         if (this.dataManager.get(STOP)) {
-            this.execute();
+            TalismanItem.execute(this.world, this, this.executes);
             this.setDead();
             return;
         }
@@ -124,27 +119,6 @@ public class TalismanEntity extends Entity {
     public void decreaseMana(int value) {
         if (this.dataManager.get(MANA) > 0) this.dataManager.set(MANA, this.dataManager.get(MANA) - value);
         else this.dataManager.set(STOP, true);
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    private void execute() {
-        if (!this.world.isRemote) {
-            for (INBT execute : this.executes) {
-                String str = execute.getString();
-                try {
-                    if (str.startsWith("function:")) {
-                        MinecraftServer server = this.getServer();
-                        CommandSource source = server.getFunctionManager().getCommandSource().withPos(this.getPositionVec()).withEntity(this);
-//                        CommandSource source = new CommandSource(ICommandSource.DUMMY, this.getPositionVec(), Vector2f.ZERO, (ServerWorld) this.world, 2, this.getName().getString(), this.getName(), server, this);
-                        server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
-                    } else {
-                        Talismans.get(str).execute(this, this.getPositionVec());
-                    }
-                }catch (Exception e) {
-                    ModInitializer.LOGGER.error(e.getMessage());
-                }
-            }
-        }
     }
 
     @Override
