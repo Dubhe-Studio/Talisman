@@ -19,23 +19,19 @@ import org.dubhe.talisman.item.TalismanPaperItem;
 public final class TItems {
     private static final DeferredRegister<Item> ITEM = DeferredRegister.create(ForgeRegistries.ITEMS, ModInitializer.MODID);
 
-    public static final RegistryObject<Item> TALISMAN = register("talisman", new TalismanItem(itemProperties().maxStackSize(16)));
-    public static final RegistryObject<Item> TALISMAN_PAPER = register("talisman_paper", new TalismanPaperItem(itemProperties()));
-    public static final RegistryObject<Item> GUIDE_DEVIL_BOTTLE = register("guide_devil_bottle", new GuideDevilBottleItem(itemProperties().maxStackSize(16)));
-    public static final RegistryObject<Item> DIVINE_STONE = register("divine_stone", new DivineStoneItem(itemProperties()));
-    public static final RegistryObject<Item> CINNABAR = register("cinnabar", new CinnabarItem(itemProperties()));
-    public static final RegistryObject<Item> PEN_PRIMARY = register("pen_primary", new PenItem(itemProperties().maxDamage(10)));
-    public static final RegistryObject<Item> INK_PRIMARY = register("ink_primary", new InkItem(itemProperties().maxDamage(10)));
+    public static final RegistryObject<Item> TALISMAN = ITEM.register("talisman", () -> new TalismanItem(itemProperties().maxStackSize(16)));
+    public static final RegistryObject<Item> TALISMAN_PAPER = ITEM.register("talisman_paper", () -> new TalismanPaperItem(itemProperties()));
+    public static final RegistryObject<Item> GUIDE_DEVIL_BOTTLE = ITEM.register("guide_devil_bottle", () -> new GuideDevilBottleItem(itemProperties().maxStackSize(16)));
+    public static final RegistryObject<Item> DIVINE_STONE = ITEM.register("divine_stone", () -> new DivineStoneItem(itemProperties()));
+    public static final RegistryObject<Item> CINNABAR = ITEM.register("cinnabar", () -> new CinnabarItem(itemProperties()));
+    public static final RegistryObject<Item> PEN_PRIMARY = ITEM.register("pen_primary", () -> new PenItem(itemProperties().maxDamage(10)));
+    public static final RegistryObject<Item> INK_PRIMARY = ITEM.register("ink_primary", () -> new InkItem(itemProperties().maxDamage(10)));
 
     // block item
-    public static RegistryObject<Item> DIVINE_STONE_ORE = register("divine_stone_ore", new BlockItem(TBlocks.DIVINE_STONE_ORE.get(), itemProperties()));
-    public static RegistryObject<Item> CINNABAR_ORE = register("cinnabar_ore", new BlockItem(TBlocks.CINNABAR_ORE.get(), itemProperties()));
-    public static RegistryObject<Item> TALISMAN_CRAFTING_TABLE = register("talisman_crafting_table", new BlockItem(TBlocks.TALISMAN_CRAFTING_TABLE.get(), itemProperties().maxStackSize(1)));
+    public static RegistryObject<Item> DIVINE_STONE_ORE = ITEM.register("divine_stone_ore", () -> new BlockItem(TBlocks.DIVINE_STONE_ORE.get(), itemProperties()));
+    public static RegistryObject<Item> CINNABAR_ORE = ITEM.register("cinnabar_ore", () -> new BlockItem(TBlocks.CINNABAR_ORE.get(), itemProperties()));
+    public static RegistryObject<Item> TALISMAN_CRAFTING_TABLE = ITEM.register("talisman_crafting_table", () -> new BlockItem(TBlocks.TALISMAN_CRAFTING_TABLE.get(), itemProperties().maxStackSize(1)));
 
-
-    private static <T extends Item> RegistryObject<Item> register(String id, T item) {
-        return ITEM.register(id, () -> item);
-    }
 
     private static Item.Properties itemProperties() {
         return new Item.Properties().group(ModInitializer.TalismanItemGroup);

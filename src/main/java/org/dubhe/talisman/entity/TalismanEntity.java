@@ -134,7 +134,7 @@ public class TalismanEntity extends Entity {
                 try {
                     if (str.startsWith("function:")) {
                         MinecraftServer server = this.getServer();
-                        CommandSource source = server.getCommandSource().withPos(this.getPositionVec()).withEntity(this).withPermissionLevel(2).withFeedbackDisabled();
+                        CommandSource source = server.getFunctionManager().getCommandSource().withPos(this.getPositionVec()).withEntity(this);
 //                        CommandSource source = new CommandSource(ICommandSource.DUMMY, this.getPositionVec(), Vector2f.ZERO, (ServerWorld) this.world, 2, this.getName().getString(), this.getName(), server, this);
                         server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
                     } else {
