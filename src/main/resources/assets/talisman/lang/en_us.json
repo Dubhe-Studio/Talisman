@@ -7,6 +7,8 @@
 
     "entity.talisman.talisman": "Talisman",
 
+    "item.talisman.pen_primary": "",
+    "item.talisman.ink_primary": "",
     "item.talisman.divine_stone": "Divine Stone",
     "item.talisman.divine_stone_ore": "Divine Stone Block",
     "item.talisman.guide_devil_bottle": "Guide Devil Bottle",
