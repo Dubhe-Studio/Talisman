@@ -11,6 +11,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -18,6 +19,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import org.dubhe.talisman.item.TalismanItem;
 import org.dubhe.talisman.registry.TEntityTypes;
 
+import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("NullableProblems")
@@ -25,6 +27,7 @@ public class TalismanEntity extends Entity {
     private static final DataParameter<Integer> MANA = EntityDataManager.createKey(TalismanEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> STOP = EntityDataManager.createKey(TalismanEntity.class, DataSerializers.BOOLEAN);
     private UUID owner;
+    private Entity entity = null;
     private ListNBT executes = new ListNBT();
 
     public TalismanEntity(EntityType<? extends TalismanEntity> type, World world) {
@@ -80,7 +83,7 @@ public class TalismanEntity extends Entity {
         super.tick();
 
         if (this.dataManager.get(STOP)) {
-            TalismanItem.execute(this.world, this, this.executes);
+            TalismanItem.execute(this.world, this, this.executes, this.entity);
             this.setDead();
             return;
         }
@@ -98,6 +101,14 @@ public class TalismanEntity extends Entity {
         Vector3d pos = this.getPositionVec();
         this.setPosition(pos.x + x, pos.y + y, pos.z + z);
         pos = pos.add(0, 0.3, 0);
+        if (this.owner != null) {
+            AxisAlignedBB box = new AxisAlignedBB(pos.x - 0.3, pos.y - 0.3, pos.z - 0.3, pos.x + 0.3, pos.y + 0.3, pos.z + 0.3);
+            List<Entity> entities = this.world.getEntitiesWithinAABB(Entity.class, box, (entity) -> entity != null && entity.isAlive());
+            if (!entities.isEmpty() && !entities.get(0).equals(this.world.getPlayerByUuid(this.owner))) {
+                this.dataManager.set(STOP, true);
+                this.entity = entities.get(0);
+            }
+        }
 
         outer: for (double detectX = -0.3; detectX != 0.3; detectX +=0.3) {
             for (double detectY = -0.3; detectY != 0.3; detectY +=0.3) {

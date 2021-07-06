@@ -80,7 +80,7 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
             TalismanEntity talisman = this.createEntity(world, player, item);
             world.addEntity(talisman);
         }else {
-            execute(world, player, item.getOrCreateTag().getList("executes", 8));
+            execute(world, player, item.getOrCreateTag().getList("executes", 8), null);
         }
         if (!player.isCreative()) item.shrink(1);
         player.addStat(Stats.ITEM_USED.get(this));
@@ -92,7 +92,7 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static void execute(World world, @Nullable Entity entity, ListNBT executes) {
+    public static void execute(World world, @Nullable Entity entity, ListNBT executes, @Nullable Entity target) {
         if (!world.isRemote && executes.size() != 0) {
             System.out.println(entity);
             Vector3d position = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
@@ -103,7 +103,7 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
                     String str = execute.getString();
                     if (str.startsWith("function:"))
                         server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
-                    else Talismans.get(str).execute(entity, position);
+                    else Talismans.get(str).execute(entity, position, target);
                 }
             } catch (CommandSyntaxException e) {
                 e.printStackTrace();
