@@ -1,11 +1,13 @@
 package org.dubhe.talisman.container;
 
+import com.google.common.collect.Lists;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.play.server.SSetSlotPacket;
@@ -20,9 +22,14 @@ import org.dubhe.talisman.slot.ResultSlot;
 import org.dubhe.talisman.registry.TContainerTypes;
 import org.dubhe.talisman.slot.SpecifySlot;
 
+import java.util.List;
+
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableContainer extends Container {
+    private static final List<Item> PEN = Lists.newArrayList(Items.FEATHER, TItems.PEN_PRIMARY.get());
+    private static final List<Item> INK = Lists.newArrayList(Items.INK_SAC, TItems.INK_PRIMARY.get());
+
     private final TalismanCraftingTableLeftTileEntity tileEntity;
     private final TalismanResultInventory craftResult = new TalismanResultInventory();
     private final IIntArray data;
@@ -83,8 +90,19 @@ public class TalismanCraftingTableContainer extends Container {
                 }
                 slot.onSlotChange(itemstack1, itemstack);
             } else if (index < 49) {
-                if (itemstack1.getItem() == Items.EXPERIENCE_BOTTLE)
+                Item item = itemstack1.getItem();
+                if (item == Items.EXPERIENCE_BOTTLE)
                     this.mergeItemStack(itemstack1, 11, 12, false);
+                else if (PEN.contains(item))
+                {
+                    System.out.println(1);
+                    this.mergeItemStack(itemstack1, 10, 11, false);
+                }
+                else if (INK.contains(item))
+                {
+                    System.out.println(2);
+                    this.mergeItemStack(itemstack1, 12, 13, false);
+                }
                 if (!this.mergeItemStack(itemstack1, 0, 13, false)) {
                     if (index < 40) {
                         if (!this.mergeItemStack(itemstack1, 40, 49, false)) {
