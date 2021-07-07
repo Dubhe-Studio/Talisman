@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dubhe.talisman.registry.TBaseValue;
 import org.dubhe.talisman.registry.TBlocks;
 import org.dubhe.talisman.registry.TContainerTypes;
 import org.dubhe.talisman.registry.TEntityTypes;

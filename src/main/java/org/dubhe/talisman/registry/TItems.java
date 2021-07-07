@@ -7,13 +7,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.dubhe.talisman.ModInitializer;
-import org.dubhe.talisman.item.CinnabarItem;
-import org.dubhe.talisman.item.DivineStoneItem;
-import org.dubhe.talisman.item.GuideDevilBottleItem;
-import org.dubhe.talisman.item.InkItem;
-import org.dubhe.talisman.item.PenItem;
-import org.dubhe.talisman.item.TalismanItem;
-import org.dubhe.talisman.item.TalismanPaperItem;
+import org.dubhe.talisman.item.*;
 
 @SuppressWarnings("unused")
 public final class TItems {

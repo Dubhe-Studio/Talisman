@@ -1,6 +1,5 @@
 package org.dubhe.talisman.container;
 
-import com.google.common.collect.Lists;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -14,6 +13,7 @@ import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.IIntArray;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.dubhe.talisman.registry.TBaseValue;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
 import org.dubhe.talisman.inventory.TalismanResultInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
@@ -22,14 +22,9 @@ import org.dubhe.talisman.slot.ResultSlot;
 import org.dubhe.talisman.registry.TContainerTypes;
 import org.dubhe.talisman.slot.SpecifySlot;
 
-import java.util.List;
-
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableContainer extends Container {
-    private static final List<Item> PEN = Lists.newArrayList(Items.FEATHER, TItems.PEN_PRIMARY.get());
-    private static final List<Item> INK = Lists.newArrayList(Items.INK_SAC, TItems.INK_PRIMARY.get());
-
     private final TalismanCraftingTableLeftTileEntity tileEntity;
     private final TalismanResultInventory craftResult = new TalismanResultInventory();
     private final IIntArray data;
@@ -93,16 +88,10 @@ public class TalismanCraftingTableContainer extends Container {
                 Item item = itemstack1.getItem();
                 if (item == Items.EXPERIENCE_BOTTLE)
                     this.mergeItemStack(itemstack1, 11, 12, false);
-                else if (PEN.contains(item))
-                {
-                    System.out.println(1);
+                else if (TBaseValue.PEN.contains(item))
                     this.mergeItemStack(itemstack1, 10, 11, false);
-                }
-                else if (INK.contains(item))
-                {
-                    System.out.println(2);
+                else if (TBaseValue.INK.contains(item))
                     this.mergeItemStack(itemstack1, 12, 13, false);
-                }
                 if (!this.mergeItemStack(itemstack1, 0, 13, false)) {
                     if (index < 40) {
                         if (!this.mergeItemStack(itemstack1, 40, 49, false)) {
@@ -147,16 +136,21 @@ public class TalismanCraftingTableContainer extends Container {
 
     private void updateResult() {
         if (this.player instanceof ServerPlayerEntity) {
-            OutputAndDemand result = tileEntity.getResult();
-            this.craftResult.setInventorySlotContents(0, result.getItemStack());
-            this.craftResult.setExperience(result.getExperience());
+            if (TBaseValue.PEN.contains(this.tileEntity.getStackInSlot(9).getItem()) && TBaseValue.INK.contains(this.tileEntity.getStackInSlot(11).getItem())) {
+                OutputAndDemand result = tileEntity.getResult();
+                this.craftResult.setInventorySlotContents(0, result.getItemStack());
+                this.craftResult.setExperience(result.getExperience());
+            }else {
+                this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
+                this.craftResult.setExperience(0);
+            }
             ((ServerPlayerEntity) player).connection.sendPacket(new SSetSlotPacket(windowId, 9, craftResult.getStackInSlot(0)));
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     public double getExpProgress() {
-        return (double) this.data.get(0) / 320;
+        return (double) this.data.get(0) / TBaseValue.MAX_EXP;
     }
 
 

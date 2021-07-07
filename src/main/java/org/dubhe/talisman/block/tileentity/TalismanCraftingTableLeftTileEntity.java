@@ -13,6 +13,7 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import org.dubhe.talisman.registry.TBaseValue;
 import org.dubhe.talisman.inventory.TalismanCraftingInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.recipe.TalismanRecipe;
@@ -24,7 +25,6 @@ import java.util.Optional;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
-
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private final TalismanCraftingInventory craftingInventory = new TalismanCraftingInventory();
     private int experience = 0;
@@ -163,11 +163,14 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
 
     @Override
     public void tick() {
-        if (this.inventory.get(1).getItem() == Items.EXPERIENCE_BOTTLE && this.experience <= 320 - 5) {
+//        TalismanCraftingTableBlock.PEN.contains(this.inventory.get(0).getItem()) &&
+//                TalismanCraftingTableBlock.INK.contains(this.inventory.get(2).getItem()) &&
+
+        if (this.inventory.get(1).getItem() == Items.EXPERIENCE_BOTTLE && this.experience <= TBaseValue.MAX_EXP - 5) {
             this.inventory.get(1).shrink(1);
             this.addExperience(5);
-            this.craftingInventory.onCraftMatrixChanged();
         }
+        this.craftingInventory.onCraftMatrixChanged();
     }
 
     public void addExperience(int count) {
