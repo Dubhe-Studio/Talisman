@@ -1,4 +1,15 @@
-# Talisman
- Chinese Talisman
- 
- ![TeamCity build status](http://ab.elyimg.pro/app/rest/builds/buildType:id:DubheTalisman_BuildTalisman/statusIcon.svg)
+# 符·道
+## Talisman
+![TeamCity build status](http://ab.elyimg.pro/app/rest/builds/buildType:id:DubheTalisman_BuildTalisman/statusIcon.svg)
+
+本Mod由天枢开发组改造开发自中国动漫《王牌御史》中部分元素——灵符和符阵。由于《王牌御史》是一部与中国古代传说有关的动漫，所以Mod的中式味儿比较重。 
+
+Mod中“符箓”原型为《王牌御史》中散仙所独有的灵符，是散仙战斗时的主要道具。对其进行了创新拓展结合Minecraft元素后，开发成了Mod中的“符箓”。Mod中符箓的类型众多，包括攻击类的“火符”，回复类的“回春符”，破坏类的“灭字符”，辅助类的“换装符”等等。
+
+玩家需要在生存模式下采集特定的矿物以及合适的材料，通过消耗经验值（即Minecraft自带经验条内记录的经验值）才可以合成符箓（此点参照了《王牌御史》中散仙制作灵符后需要与自己的精神联结）。
+
+而部分符箓也可以通过特定方式的一次性大量使用，构成威力巨大的“符阵”。符箓和符阵的使用方法有所不同，符箓右键抛出即可，而符阵则需要通过“施法”（即生存模式下玩家在聊天框中输入特定指令，并消耗大量的对应符箓和经验值），以施法玩家为中心，向四周施加威力翻倍的符箓所带效果。 
+
+本Mod为更多玩法类Mod，仍处于开发中状态，将来我们会开发出更多种类的符箓。敬请期待！
+
+——来自天枢开发组
