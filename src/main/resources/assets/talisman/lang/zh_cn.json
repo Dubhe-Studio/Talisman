@@ -4,6 +4,8 @@
     "block.talisman.talisman_crafting_table": "制符台",
 
     "container.talisman_crafting_table": "制符台",
+    "container.talisman.xp.requirement": "经验需求: %s",
+    "container.talisman.xp": "储存经验: %s/%s",
 
     "entity.talisman.talisman": "符",
 

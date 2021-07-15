@@ -1,34 +1,79 @@
 {
   "variants": {
-    "facing=east,part=left": {
-      "model": "talisman:block/talisman_crafting_table_left",
-      "y": 270
-    },
-    "facing=east,part=right": {
-      "model": "talisman:block/talisman_crafting_table_right",
-      "y": 270
-    },
-    "facing=north,part=left": {
-      "model": "talisman:block/talisman_crafting_table_left",
-      "y": 180
-    },
-    "facing=north,part=right": {
-      "model": "talisman:block/talisman_crafting_table_right",
-      "y": 180
-    },
     "facing=south,part=left": {
       "model": "talisman:block/talisman_crafting_table_left"
     },
-    "facing=south,part=right": {
+    "facing=south,part=right,pen=false,ink=false": {
       "model": "talisman:block/talisman_crafting_table_right"
+    },
+    "facing=south,part=right,pen=true,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right_pen"
+    },
+    "facing=south,part=right,pen=false,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_ink"
+    },
+    "facing=south,part=right,pen=true,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_all"
     },
     "facing=west,part=left": {
       "model": "talisman:block/talisman_crafting_table_left",
       "y": 90
     },
-    "facing=west,part=right": {
+    "facing=west,part=right,pen=false,ink=false": {
       "model": "talisman:block/talisman_crafting_table_right",
       "y": 90
+    },
+    "facing=west,part=right,pen=true,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right_pen",
+      "y": 90
+    },
+    "facing=west,part=right,pen=false,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_ink",
+      "y": 90
+    },
+    "facing=west,part=right,pen=true,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_all",
+      "y": 90
+    },
+    "facing=north,part=left": {
+      "model": "talisman:block/talisman_crafting_table_left",
+      "y": 180
+    },
+    "facing=north,part=right,pen=false,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right",
+      "y": 180
+    },
+    "facing=north,part=right,pen=true,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right_pen",
+      "y": 180
+    },
+    "facing=north,part=right,pen=false,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_ink",
+      "y": 180
+    },
+    "facing=north,part=right,pen=true,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_all",
+      "y": 180
+    },
+    "facing=east,part=left": {
+      "model": "talisman:block/talisman_crafting_table_left",
+      "y": 270
+    },
+    "facing=east,part=right,pen=false,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right",
+      "y": 270
+    },
+    "facing=east,part=right,pen=true,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right_pen",
+      "y": 270
+    },
+    "facing=east,part=right,pen=false,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_ink",
+      "y": 270
+    },
+    "facing=east,part=right,pen=true,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_all",
+      "y": 270
     }
   }
 }

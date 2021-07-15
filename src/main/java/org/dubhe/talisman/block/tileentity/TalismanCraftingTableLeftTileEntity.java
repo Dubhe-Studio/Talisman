@@ -9,10 +9,11 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import org.dubhe.talisman.block.TalismanCraftingTableBlock;
 import org.dubhe.talisman.registry.TBaseValue;
 import org.dubhe.talisman.inventory.TalismanCraftingInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
@@ -28,23 +29,6 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private final TalismanCraftingInventory craftingInventory = new TalismanCraftingInventory();
     private int experience = 0;
-    public final IIntArray data = new IIntArray() {
-        @Override
-        public int get(int index) {
-            if (index == 0) return experience;
-            return -1;
-        }
-
-        @Override
-        public void set(int index, int value) {
-            if (index == 0) experience = value;
-        }
-
-        @Override
-        public int size() {
-            return 1;
-        }
-    };
 
     public TalismanCraftingTableLeftTileEntity() {
         super(TTileEntityTypes.TALISMAN_CRAFTING_TABLE.get());
@@ -162,15 +146,44 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void tick() {
-//        TalismanCraftingTableBlock.PEN.contains(this.inventory.get(0).getItem()) &&
-//                TalismanCraftingTableBlock.INK.contains(this.inventory.get(2).getItem()) &&
-
         if (this.inventory.get(1).getItem() == Items.EXPERIENCE_BOTTLE && this.experience <= TBaseValue.MAX_EXP - 5) {
             this.inventory.get(1).shrink(1);
             this.addExperience(5);
         }
         this.craftingInventory.onCraftMatrixChanged();
+
+        if (!this.world.isRemote) {
+            boolean pen = this.world.getBlockState(this.pos).get(TalismanCraftingTableBlock.PEN);
+            boolean ink = this.world.getBlockState(this.pos).get(TalismanCraftingTableBlock.INK);
+            boolean flag = false;
+            if (pen == this.inventory.get(0).isEmpty()) {
+                pen = !pen;
+                flag = true;
+            }
+            if (ink == this.inventory.get(2).isEmpty()) {
+                ink = !ink;
+                flag = true;
+            }
+            if (flag) {
+                BlockState left = this.world.getBlockState(this.pos);
+                BlockPos rightPos = this.pos.offset(TalismanCraftingTableBlock.getRightDirection(left.get(TalismanCraftingTableBlock.HORIZONTAL_FACING)));
+                BlockState right = this.world.getBlockState(rightPos);
+                this.world.setBlockState(this.pos, left.with(TalismanCraftingTableBlock.PEN, pen).with(TalismanCraftingTableBlock.INK, ink), 3);
+                this.world.setBlockState(rightPos, right.with(TalismanCraftingTableBlock.PEN, pen).with(TalismanCraftingTableBlock.INK, ink), 3);
+                this.markDirty();
+            }
+
+        }
+    }
+
+    public int getExperience() {
+        return this.experience;
+    }
+
+    public void setExperience(int value) {
+        this.experience = value;
     }
 
     public void addExperience(int count) {

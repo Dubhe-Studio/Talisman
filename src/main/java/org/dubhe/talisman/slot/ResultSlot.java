@@ -11,6 +11,8 @@ import org.dubhe.talisman.inventory.TalismanCraftingInventory;
 import org.dubhe.talisman.inventory.TalismanResultInventory;
 import org.dubhe.talisman.registry.TRecipes;
 
+import java.util.Random;
+
 /**
  * can't input items
  */
@@ -68,32 +70,44 @@ public class ResultSlot extends Slot {
 
     @Override
     public ItemStack onTake(PlayerEntity player, ItemStack stack) {
-        if (!player.world.isRemote) this.tileEntity.shrinkExperience(((TalismanResultInventory)this.inventory).getExperience());
+        if (!player.world.isRemote) {
+            this.tileEntity.shrinkExperience(((TalismanResultInventory)this.inventory).getExperience());
+        }
+        decrStackSize(this.tileEntity, this.player.getRNG(), 9);
+        decrStackSize(this.tileEntity, this.player.getRNG(), 11);
+
         this.onCrafting(stack);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
-        NonNullList<ItemStack> nonnulllist = player.world.getRecipeManager().getRecipeNonNull(TRecipes.TALISMAN_CRAFTING_TYPE, this.craftMatrix, player.world);
+        NonNullList<ItemStack> list = player.world.getRecipeManager().getRecipeNonNull(TRecipes.TALISMAN_CRAFTING_TYPE, this.craftMatrix, player.world);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);
-        for(int i = 0; i < nonnulllist.size(); ++i) {
-            ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
-            ItemStack itemstack1 = nonnulllist.get(i);
-            if (!itemstack.isEmpty()) {
+        for(int i = 0; i < list.size(); ++i) {
+            ItemStack itemStack = this.craftMatrix.getStackInSlot(i);
+            ItemStack itemStack1 = list.get(i);
+            if (!itemStack.isEmpty()) {
                 this.craftMatrix.decrStackSize(i, 1);
-                itemstack = this.craftMatrix.getStackInSlot(i);
+                itemStack = this.craftMatrix.getStackInSlot(i);
             }
 
-            if (!itemstack1.isEmpty()) {
-                if (itemstack.isEmpty()) {
-                    this.craftMatrix.setInventorySlotContents(i, itemstack1);
-                } else if (ItemStack.areItemsEqual(itemstack, itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1)) {
-                    itemstack1.grow(itemstack.getCount());
-                    this.craftMatrix.setInventorySlotContents(i, itemstack1);
-                } else if (!this.player.inventory.addItemStackToInventory(itemstack1)) {
-                    this.player.dropItem(itemstack1, false);
+            if (!itemStack1.isEmpty()) {
+                if (itemStack.isEmpty()) {
+                    this.craftMatrix.setInventorySlotContents(i, itemStack1);
+                } else if (ItemStack.areItemsEqual(itemStack, itemStack1) && ItemStack.areItemStackTagsEqual(itemStack, itemStack1)) {
+                    itemStack1.grow(itemStack.getCount());
+                    this.craftMatrix.setInventorySlotContents(i, itemStack1);
+                } else if (!this.player.inventory.addItemStackToInventory(itemStack1)) {
+                    this.player.dropItem(itemStack1, false);
                 }
             }
         }
 
         return stack;
+    }
+
+    private static void decrStackSize(TalismanCraftingTableLeftTileEntity tileEntity, Random rand, int index) {
+        ItemStack stack = tileEntity.getStackInSlot(index);
+        if (stack.isDamageable()) {
+            if (stack.attemptDamageItem(1, rand, null)) stack.shrink(1);
+        } else tileEntity.decrStackSize(index, 1);
     }
 
 }

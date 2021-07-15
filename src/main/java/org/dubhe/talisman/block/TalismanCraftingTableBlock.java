@@ -12,6 +12,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -36,6 +37,8 @@ import javax.annotation.Nullable;
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableBlock extends HorizontalBlock {
     public static final EnumProperty<TalismanCraftingTablePart> PART = EnumProperty.create("part", TalismanCraftingTablePart.class);
+    public static final BooleanProperty PEN = BooleanProperty.create("pen");
+    public static final BooleanProperty INK = BooleanProperty.create("ink");
     private final static VoxelShape EAST_SHAPE;
     private final static VoxelShape WEST_SHAPE;
     private final static VoxelShape SOUTH_SHAPE;
@@ -43,7 +46,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
 
     public TalismanCraftingTableBlock() {
         super(Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD).notSolid());
-        this.setDefaultState(this.stateContainer.getBaseState().with(HORIZONTAL_FACING, Direction.NORTH).with(PART, TalismanCraftingTablePart.LEFT));
+        this.setDefaultState(this.stateContainer.getBaseState().with(HORIZONTAL_FACING, Direction.NORTH).with(PART, TalismanCraftingTablePart.LEFT).with(PEN, Boolean.FALSE).with(INK, Boolean.FALSE));
     }
 
     @Override
@@ -99,7 +102,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, PART);
+        builder.add(HORIZONTAL_FACING, PART, PEN, INK);
     }
 
     @Override
