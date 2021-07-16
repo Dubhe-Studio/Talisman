@@ -1,4 +1,4 @@
-package org.dubhe.talisman.screen;
+package org.dubhe.talisman.block.screen;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -10,7 +10,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.dubhe.talisman.ModInitializer;
-import org.dubhe.talisman.container.TalismanCraftingTableContainer;
+import org.dubhe.talisman.block.container.TalismanCraftingTableContainer;
 import org.dubhe.talisman.registry.TBaseValue;
 import org.lwjgl.opengl.GL11;
 

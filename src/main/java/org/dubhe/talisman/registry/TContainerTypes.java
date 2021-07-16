@@ -11,7 +11,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
-import org.dubhe.talisman.container.TalismanCraftingTableContainer;
+import org.dubhe.talisman.block.container.TalismanCraftingTableContainer;
 
 @SuppressWarnings("ConstantConditions")
 public class TContainerTypes {

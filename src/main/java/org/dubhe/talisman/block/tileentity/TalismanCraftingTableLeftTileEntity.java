@@ -20,14 +20,14 @@ import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.recipe.TalismanRecipe;
 import org.dubhe.talisman.registry.TRecipes;
 import org.dubhe.talisman.registry.TTileEntityTypes;
-import org.dubhe.talisman.container.TalismanCraftingTableContainer;
+import org.dubhe.talisman.block.container.TalismanCraftingTableContainer;
 
 import java.util.Optional;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
-    private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private final TalismanCraftingInventory craftingInventory = new TalismanCraftingInventory();
+    private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private int experience = 0;
 
     public TalismanCraftingTableLeftTileEntity() {
