@@ -1,6 +1,7 @@
 package org.dubhe.talisman.block.tileentity;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
@@ -8,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.LockableLootTileEntity;
+import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -25,7 +26,7 @@ import org.dubhe.talisman.block.container.TalismanCraftingTableContainer;
 import java.util.Optional;
 
 @SuppressWarnings("NullableProblems")
-public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
+public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity implements ITickableTileEntity {
     private final TalismanCraftingInventory craftingInventory = new TalismanCraftingInventory();
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private int experience = 0;
@@ -43,30 +44,9 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
     }
 
     @Override
-    protected NonNullList<ItemStack> getItems() {
-        NonNullList<ItemStack> inv = NonNullList.withSize(12, ItemStack.EMPTY);
-
-        for (int i = 0; i < this.craftingInventory.getSizeInventory(); i++) {
-            inv.set(i, this.craftingInventory.getStackInSlot(i));
-        }
-        for (int i = 0; i < this.inventory.size(); i++) {
-            inv.set(i + this.craftingInventory.getSizeInventory(), this.inventory.get(i));
-        }
-        return inv;
-    }
-
-    @Override
     public void clear() {
         this.inventory.clear();
         this.craftingInventory.clear();
-    }
-
-    @Override
-    protected void setItems(NonNullList<ItemStack> items) {
-        for (int i = 0; i < items.size(); i++) {
-            if (i < 9) this.craftingInventory.setInventorySlotContents(i, items.get(i));
-            else this.inventory.set(i - 9, items.get(i));
-        }
     }
 
     @Override
@@ -79,6 +59,16 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
     public void setInventorySlotContents(int index, ItemStack stack) {
         if (index < 9) this.craftingInventory.setInventorySlotContents(index, stack);
         else this.inventory.set(index - 9, stack);
+    }
+
+    @Override
+    @SuppressWarnings("ConstantConditions")
+    public boolean isUsableByPlayer(PlayerEntity player) {
+        if (this.world.getTileEntity(this.pos) != this) {
+            return false;
+        } else {
+            return player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        }
     }
 
     @Override
@@ -116,6 +106,23 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
     }
 
     @Override
+    public boolean isEmpty() {
+        for (int i = 0; i < this.craftingInventory.getSizeInventory(); i++) {
+            if (!this.craftingInventory.getStackInSlot(i).isEmpty()) {
+                return false;
+            }
+        }
+
+        for(ItemStack stack : this.inventory) {
+            if (!stack.isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
     public void read(BlockState state, CompoundNBT nbt) {
         super.read(state, nbt);
         NonNullList<ItemStack> inv = NonNullList.withSize(12, ItemStack.EMPTY);
@@ -130,6 +137,25 @@ public class TalismanCraftingTableLeftTileEntity extends LockableLootTileEntity 
         ItemStackHelper.saveAllItems(compound, this.getItems());
         compound.putInt("experience", this.experience);
         return compound;
+    }
+
+    private NonNullList<ItemStack> getItems() {
+        NonNullList<ItemStack> inv = NonNullList.withSize(12, ItemStack.EMPTY);
+
+        for (int i = 0; i < this.craftingInventory.getSizeInventory(); i++) {
+            inv.set(i, this.craftingInventory.getStackInSlot(i));
+        }
+        for (int i = 0; i < this.inventory.size(); i++) {
+            inv.set(i + this.craftingInventory.getSizeInventory(), this.inventory.get(i));
+        }
+        return inv;
+    }
+
+    private void setItems(NonNullList<ItemStack> items) {
+        for (int i = 0; i < items.size(); i++) {
+            if (i < 9) this.craftingInventory.setInventorySlotContents(i, items.get(i));
+            else this.inventory.set(i - 9, items.get(i));
+        }
     }
 
     @SuppressWarnings("ConstantConditions")

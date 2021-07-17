@@ -88,8 +88,9 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
             if (state.get(PART) == TalismanCraftingTablePart.RIGHT) pos = pos.offset(getLeftDirection(state.get(HORIZONTAL_FACING)));
             TalismanCraftingTableLeftTileEntity tileEntity = (TalismanCraftingTableLeftTileEntity) world.getTileEntity(pos);
             NetworkHooks.openGui((ServerPlayerEntity) player, tileEntity, (PacketBuffer packerBuffer) -> packerBuffer.writeBlockPos(tileEntity.getPos()));
+            return ActionResultType.SUCCESS;
         }
-        return ActionResultType.SUCCESS;
+        return ActionResultType.CONSUME;
     }
 
     @Nullable
