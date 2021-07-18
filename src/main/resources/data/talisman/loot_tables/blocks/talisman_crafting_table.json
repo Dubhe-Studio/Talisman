@@ -6,11 +6,7 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "functions": [
-                        {
-                            "function": "minecraft:copy_name",
-                            "source": "block_entity"
-                        },
+                    "conditions": [
                         {
                             "condition": "minecraft:block_state_property",
                             "block": "talisman:talisman_crafting_table",
@@ -19,21 +15,19 @@
                             }
                         }
                     ],
+                    "functions": [
+                        {
+                            "function": "minecraft:copy_name",
+                            "source": "block_entity"
+                        }
+                    ],
                     "name": "talisman:talisman_crafting_table"
                 }
             ],
             "conditions": [
                 {
                     "condition": "minecraft:survives_explosion"
-                },
-                {
-                    "condition": "minecraft:block_state_property",
-                    "block": "talisman:talisman_crafting_table",
-                    "properties": {
-                        "part": "left"
-                    }
                 }
-
             ]
         }
     ]
