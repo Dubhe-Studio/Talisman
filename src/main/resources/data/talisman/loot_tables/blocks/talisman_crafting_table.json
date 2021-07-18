@@ -10,6 +10,13 @@
                         {
                             "function": "minecraft:copy_name",
                             "source": "block_entity"
+                        },
+                        {
+                            "condition": "minecraft:block_state_property",
+                            "block": "talisman:talisman_crafting_table",
+                            "properties": {
+                                "part": "left"
+                            }
                         }
                     ],
                     "name": "talisman:talisman_crafting_table"
@@ -26,6 +33,7 @@
                         "part": "left"
                     }
                 }
+
             ]
         }
     ]
