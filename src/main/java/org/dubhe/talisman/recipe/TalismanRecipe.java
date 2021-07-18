@@ -149,7 +149,7 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
             }
 
             Ingredient.IItemList list = deserializeItemList(entry.getValue().getAsJsonObject());
-            Ingredient ingredient = list.getStacks().size() == 0 ? Ingredient.EMPTY : new Ingredient(Stream.of(list));
+            Ingredient ingredient = list.getStacks().size() == 0 ? Ingredient.EMPTY : new TIngredient(Stream.of(list));
 
             map.put(entry.getKey(), ingredient);
         }
