@@ -13,6 +13,7 @@ import org.dubhe.talisman.registry.TContainerTypes;
 import org.dubhe.talisman.registry.TEntityTypes;
 import org.dubhe.talisman.registry.TItems;
 import org.dubhe.talisman.registry.TRecipes;
+import org.dubhe.talisman.registry.TSoundEvents;
 import org.dubhe.talisman.registry.TStats;
 import org.dubhe.talisman.registry.TTileEntityTypes;
 import org.dubhe.talisman.talisman.Talismans;
@@ -36,6 +37,7 @@ public class ModInitializer {
 
     public ModInitializer() {
 
+//        TSoundEvents.register(FMLJavaModLoadingContext.get().getModEventBus());
         TBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
         TItems.register(FMLJavaModLoadingContext.get().getModEventBus());
         TTileEntityTypes.register(FMLJavaModLoadingContext.get().getModEventBus());

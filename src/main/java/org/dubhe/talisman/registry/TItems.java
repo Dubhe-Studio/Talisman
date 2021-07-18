@@ -2,6 +2,8 @@ package org.dubhe.talisman.registry;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.MusicDiscItem;
+import net.minecraft.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,6 +22,7 @@ public final class TItems {
     public static final RegistryObject<Item> CINNABAR = ITEM.register("cinnabar", () -> new CinnabarItem(itemProperties()));
     public static final RegistryObject<Item> PEN_PRIMARY = ITEM.register("pen_primary", () -> new PenItem(itemProperties().maxDamage(10)));
     public static final RegistryObject<Item> INK_PRIMARY = ITEM.register("ink_primary", () -> new InkItem(itemProperties().maxDamage(10)));
+//    public static final RegistryObject<Item> MUSIC_DISC_ = ITEM.register("music_disc_", () -> new MusicDiscItem(0, TSoundEvents.MUSIC_DISC_,itemProperties().maxStackSize(1).rarity(Rarity.RARE)));
 
     // block item
     public static RegistryObject<Item> DIVINE_STONE_ORE = ITEM.register("divine_stone_ore", () -> new BlockItem(TBlocks.DIVINE_STONE_ORE.get(), itemProperties()));

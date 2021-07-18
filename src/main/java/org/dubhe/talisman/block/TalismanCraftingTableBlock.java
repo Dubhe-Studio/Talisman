@@ -122,6 +122,22 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         }
     }
 
+    @Override
+    public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        if (!world.isRemote && player.isCreative()) {
+            TalismanCraftingTablePart part = state.get(PART);
+            if (part == TalismanCraftingTablePart.RIGHT) {
+                BlockPos blockpos = pos.offset(getLeftDirection(state.get(HORIZONTAL_FACING)));
+                BlockState blockstate = world.getBlockState(blockpos);
+                if (blockstate.getBlock() == this && blockstate.get(PART) == TalismanCraftingTablePart.LEFT) {
+                    world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 35);
+                    world.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
+                }
+            }
+        }
+        super.onBlockHarvested(world, pos, state, player);
+    }
+
     public static Direction getRightDirection(Direction direction) {
         switch (direction) {
             case EAST:
