@@ -1,5 +1,6 @@
 package org.dubhe.talisman.recipe;
 
+import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,10 +15,13 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.TagCollectionManager;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -28,6 +32,8 @@ import org.dubhe.talisman.registry.TRecipes;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanRecipe implements IRecipe<CraftingInventory> {
@@ -130,6 +136,49 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
         return this.recipeItems;
     }
 
+    public static Map<String, Ingredient> deserializeKey(JsonObject json) throws CommandSyntaxException {
+        Map<String, Ingredient> map = Maps.newHashMap();
+
+        for(Map.Entry<String, JsonElement> entry : json.entrySet()) {
+            if (entry.getKey().length() != 1) {
+                throw new JsonSyntaxException("Invalid key entry: '" + entry.getKey() + "' is an invalid symbol (must be 1 character only).");
+            }
+
+            if (" ".equals(entry.getKey())) {
+                throw new JsonSyntaxException("Invalid key entry: ' ' is a reserved symbol.");
+            }
+
+            Ingredient.IItemList list = deserializeItemList(entry.getValue().getAsJsonObject());
+            Ingredient ingredient = list.getStacks().size() == 0 ? Ingredient.EMPTY : new Ingredient(Stream.of(list));
+
+            map.put(entry.getKey(), ingredient);
+        }
+
+        map.put(" ", Ingredient.EMPTY);
+        return map;
+    }
+
+    public static Ingredient.IItemList deserializeItemList(JsonObject json) throws CommandSyntaxException {
+        if (json.has("item") && json.has("tag")) {
+            throw new JsonParseException("An ingredient entry is either a tag or an item, not both");
+        } else if (json.has("item")) {
+            ResourceLocation resourcelocation = new ResourceLocation(JSONUtils.getString(json, "item"));
+            Item item = Optional.ofNullable(ForgeRegistries.ITEMS.getValue(resourcelocation)).orElseThrow(() -> new JsonSyntaxException("Unknown item '" + resourcelocation + "'"));
+            CompoundNBT nbt = json.has("nbt") ? JsonToNBT.getTagFromJson(JSONUtils.getString(json, "nbt")) : null;
+            return new Ingredient.SingleItemList(new ItemStack(item, 1, nbt));
+        } else if (json.has("tag")) {
+            ResourceLocation resourcelocation = new ResourceLocation(JSONUtils.getString(json, "tag"));
+            ITag<Item> tag = TagCollectionManager.getManager().getItemTags().get(resourcelocation);
+            if (tag == null) {
+                throw new JsonSyntaxException("Unknown item tag '" + resourcelocation + "'");
+            } else {
+                return new Ingredient.TagList(tag);
+            }
+        } else {
+            throw new JsonParseException("An ingredient entry needs either a tag or an item");
+        }
+    }
+
     @SuppressWarnings("ConstantConditions")
     private static OutputAndDemand deserializeItem(JsonObject json) throws CommandSyntaxException {
         String id = JSONUtils.getString(json, "item");
@@ -153,7 +202,7 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
                 listNBT.add(StringNBT.valueOf(jsonElement.getAsString()));
             }
             stack.getOrCreateTag().put("executes", listNBT);
-            if (!display.equals("")) {
+            if (!"".equals(display)) {
                 stack.getOrCreateTag().put("display", JsonToNBT.getTagFromJson(display));
             }
 
@@ -165,18 +214,18 @@ public class TalismanRecipe implements IRecipe<CraftingInventory> {
 
         @Override
         public TalismanRecipe read(ResourceLocation recipeId, JsonObject json) {
-            Map<String, Ingredient> keys = ShapedRecipe.deserializeKey(JSONUtils.getJsonObject(json, "key"));
-            String[] patterns = ShapedRecipe.shrink(ShapedRecipe.patternFromJson(JSONUtils.getJsonArray(json, "pattern")));
-            int width = patterns[0].length();
-            int height = patterns.length;
-            NonNullList<Ingredient> ingredientList = ShapedRecipe.deserializeIngredients(patterns, keys, width, height);
-            OutputAndDemand output;
             try {
+                Map<String, Ingredient> keys = TalismanRecipe.deserializeKey(JSONUtils.getJsonObject(json, "key"));
+                String[] patterns = ShapedRecipe.shrink(ShapedRecipe.patternFromJson(JSONUtils.getJsonArray(json, "pattern")));
+                int width = patterns[0].length();
+                int height = patterns.length;
+                NonNullList<Ingredient> ingredientList = ShapedRecipe.deserializeIngredients(patterns, keys, width, height);
+                OutputAndDemand output;
                 output = TalismanRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+                return new TalismanRecipe(recipeId, width, height, ingredientList, output);
             } catch (CommandSyntaxException e) {
                 throw new RuntimeException(e.getMessage(), e.getCause());
             }
-            return new TalismanRecipe(recipeId, width, height, ingredientList, output);
         }
 
         @Nullable
