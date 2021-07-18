@@ -31,6 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
 import org.dubhe.talisman.block.tileentity.TalismanCraftingTableRightTileEntity;
+import org.dubhe.talisman.registry.TStats;
 
 import javax.annotation.Nullable;
 
@@ -88,6 +89,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
             if (state.get(PART) == TalismanCraftingTablePart.RIGHT) pos = pos.offset(getLeftDirection(state.get(HORIZONTAL_FACING)));
             TalismanCraftingTableLeftTileEntity tileEntity = (TalismanCraftingTableLeftTileEntity) world.getTileEntity(pos);
             NetworkHooks.openGui((ServerPlayerEntity) player, tileEntity, (PacketBuffer packerBuffer) -> packerBuffer.writeBlockPos(tileEntity.getPos()));
+            player.addStat(TStats.INTERACT_WITH_TALISMAN_CRAFTING_TABLE);
             return ActionResultType.SUCCESS;
         }
         return ActionResultType.CONSUME;
@@ -108,7 +110,10 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(world, pos, state, placer, stack);
+        if (stack.hasDisplayName()) {
+            TileEntity tileentity = world.getTileEntity(pos);
+            if (tileentity instanceof TalismanCraftingTableLeftTileEntity) ((TalismanCraftingTableLeftTileEntity)tileentity).setCustomName(stack.getDisplayName());
+        }
         if (!world.isRemote) {
             BlockPos blockpos = pos.offset(getRightDirection(state.get(HORIZONTAL_FACING)));
             world.setBlockState(blockpos, state.with(PART, TalismanCraftingTablePart.RIGHT), 3);

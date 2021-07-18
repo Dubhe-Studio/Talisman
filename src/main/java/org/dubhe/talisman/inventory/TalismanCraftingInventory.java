@@ -22,8 +22,12 @@ public class TalismanCraftingInventory extends CraftingInventory {
         }, 3, 3);
     }
 
-    public void setHandler(Container container) {
+    public void setContainer(Container container) {
         this.container = container;
+    }
+
+    public Container getContainer() {
+        return this.container;
     }
 
     @Override

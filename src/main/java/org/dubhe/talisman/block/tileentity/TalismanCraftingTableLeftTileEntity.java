@@ -36,7 +36,7 @@ public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity impl
     }
 
     public void setContainer(Container container) {
-        this.craftingInventory.setHandler(container);
+        this.craftingInventory.setContainer(container);
     }
 
     public TalismanCraftingInventory getCraftingInventory() {
@@ -62,16 +62,6 @@ public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity impl
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
-    public boolean isUsableByPlayer(PlayerEntity player) {
-        if (this.world.getTileEntity(this.pos) != this) {
-            return false;
-        } else {
-            return player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
-        }
-    }
-
-    @Override
     public ItemStack removeStackFromSlot(int index) {
         if (index < 9) return this.craftingInventory.removeStackFromSlot(index);
         else return this.inventory.set(index - 9, ItemStack.EMPTY);
@@ -81,12 +71,19 @@ public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity impl
     public ItemStack decrStackSize(int index, int count) {
         if (index < 9) return this.craftingInventory.decrStackSize(index, count);
         else {
-            ItemStack itemStack = this.inventory.get(index - 9);
-            int i = Math.min(count, itemStack.getCount());
-            ItemStack stack = itemStack.copy();
-            stack.setCount(i);
-            itemStack.shrink(i);
-            return stack;
+            ItemStack itemstack = ItemStackHelper.getAndSplit(this.inventory, index - 9, count);
+            if (!itemstack.isEmpty()) this.craftingInventory.getContainer().onCraftMatrixChanged(this);
+            return itemstack;
+        }
+    }
+
+    @Override
+    @SuppressWarnings("ConstantConditions")
+    public boolean isUsableByPlayer(PlayerEntity player) {
+        if (this.world.getTileEntity(this.pos) != this) {
+            return false;
+        } else {
+            return player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
         }
     }
 
