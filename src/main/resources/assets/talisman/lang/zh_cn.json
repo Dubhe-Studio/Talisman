@@ -31,8 +31,10 @@
     "item.talisman.water_ball_talisman": "御水符",
     "item.talisman.doom_talisman": "灭字符",
     "item.talisman.huge_explosion_talisman": "天爆符",
-    "item.talisman.change_clothing_talisman": "换装符",
-    "item.talisman._talisman": "符",
+    "item.talisman.raoist_robe_helmet": "道袍",
+    "item.talisman.raoist_robe_chestplate": "道袍",
+    "item.talisman.raoist_robe_leggings": "道袍",
+    "item.talisman.raoist_robe_boots": "道袍",
 
     "itemGroup.talisman_group": "符·道",
 
