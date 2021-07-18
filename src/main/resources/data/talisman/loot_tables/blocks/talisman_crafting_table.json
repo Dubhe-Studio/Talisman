@@ -18,6 +18,13 @@
             "conditions": [
                 {
                     "condition": "minecraft:survives_explosion"
+                },
+                {
+                    "condition": "minecraft:block_state_property",
+                    "block": "talisman:talisman_crafting_table",
+                    "properties": {
+                        "part": "left"
+                    }
                 }
             ]
         }
