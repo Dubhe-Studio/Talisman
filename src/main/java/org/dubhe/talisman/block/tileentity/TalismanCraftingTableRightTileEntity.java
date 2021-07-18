@@ -39,7 +39,6 @@ public class TalismanCraftingTableRightTileEntity extends TileEntity implements 
 
     private CompoundNBT setPos(CompoundNBT compound, BlockPos pos) {
         compound.putInt("x", pos.getX());
-        compound.putInt("y", pos.getY());
         compound.putInt("z", pos.getZ());
         return compound;
     }

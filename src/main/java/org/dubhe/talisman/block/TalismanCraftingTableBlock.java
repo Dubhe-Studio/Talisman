@@ -9,6 +9,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -37,7 +39,7 @@ import javax.annotation.Nullable;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableBlock extends HorizontalBlock {
-    public static final EnumProperty<TalismanCraftingTablePart> PART = EnumProperty.create("part", TalismanCraftingTablePart.class);
+    public static final EnumProperty<Part> PART = EnumProperty.create("part", Part.class);
     public static final BooleanProperty PEN = BooleanProperty.create("pen");
     public static final BooleanProperty INK = BooleanProperty.create("ink");
     private final static VoxelShape EAST_SHAPE;
@@ -47,14 +49,14 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
 
     public TalismanCraftingTableBlock() {
         super(Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD).notSolid());
-        this.setDefaultState(this.stateContainer.getBaseState().with(HORIZONTAL_FACING, Direction.NORTH).with(PART, TalismanCraftingTablePart.LEFT).with(PEN, Boolean.FALSE).with(INK, Boolean.FALSE));
+        this.setDefaultState(this.stateContainer.getBaseState().with(HORIZONTAL_FACING, Direction.NORTH).with(PART, Part.LEFT).with(PEN, Boolean.FALSE).with(INK, Boolean.FALSE));
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
         Direction direction = state.get(HORIZONTAL_FACING);
-        boolean isLeft = state.get(PART) == TalismanCraftingTablePart.LEFT;
+        boolean isLeft = state.get(PART) == Part.LEFT;
         switch (direction) {
             case EAST:
             default:
@@ -78,15 +80,15 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         }
     }
 
-    private static Direction getDirectionToOther(TalismanCraftingTablePart part, Direction direction) {
-        return part == TalismanCraftingTablePart.LEFT ? direction : direction.getOpposite();
+    private static Direction getDirectionToOther(Part part, Direction direction) {
+        return part == Part.LEFT ? direction : direction.getOpposite();
     }
 
     @Override
     @SuppressWarnings({"deprecation", "ConstantConditions"})
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!world.isRemote && hand == Hand.MAIN_HAND) {
-            if (state.get(PART) == TalismanCraftingTablePart.RIGHT) pos = pos.offset(getLeftDirection(state.get(HORIZONTAL_FACING)));
+            if (state.get(PART) == Part.RIGHT) pos = getOtherPartPos(pos, state.get(HORIZONTAL_FACING), Part.RIGHT);
             TalismanCraftingTableLeftTileEntity tileEntity = (TalismanCraftingTableLeftTileEntity) world.getTileEntity(pos);
             NetworkHooks.openGui((ServerPlayerEntity) player, tileEntity, (PacketBuffer packerBuffer) -> packerBuffer.writeBlockPos(tileEntity.getPos()));
             player.addStat(TStats.INTERACT_WITH_TALISMAN_CRAFTING_TABLE);
@@ -115,27 +117,36 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
             if (tileentity instanceof TalismanCraftingTableLeftTileEntity) ((TalismanCraftingTableLeftTileEntity)tileentity).setCustomName(stack.getDisplayName());
         }
         if (!world.isRemote) {
-            BlockPos blockpos = pos.offset(getRightDirection(state.get(HORIZONTAL_FACING)));
-            world.setBlockState(blockpos, state.with(PART, TalismanCraftingTablePart.RIGHT), 3);
+            BlockPos blockpos = getOtherPartPos(pos, state.get(HORIZONTAL_FACING), Part.LEFT);
+            world.setBlockState(blockpos, state.with(PART, Part.RIGHT), 3);
             world.updateBlock(pos, Blocks.AIR);
             state.updateNeighbours(world, pos, 3);
         }
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (!world.isRemote && player.isCreative()) {
-            TalismanCraftingTablePart part = state.get(PART);
-            if (part == TalismanCraftingTablePart.RIGHT) {
-                BlockPos blockpos = pos.offset(getLeftDirection(state.get(HORIZONTAL_FACING)));
+        if (!world.isRemote) {
+            Part part = state.get(PART);
+            if (player.isCreative() && part == Part.RIGHT) {
+                BlockPos blockpos = getOtherPartPos(pos, state.get(HORIZONTAL_FACING), Part.RIGHT);
                 BlockState blockstate = world.getBlockState(blockpos);
-                if (blockstate.getBlock() == this && blockstate.get(PART) == TalismanCraftingTablePart.LEFT) {
+                if (blockstate.getBlock() == this && blockstate.get(PART) == Part.LEFT) {
                     world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 35);
                     world.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
                 }
             }
+            if (!player.isCreative()) {
+                BlockPos blockPos = part == Part.LEFT ? pos : getOtherPartPos(pos, state.get(HORIZONTAL_FACING), Part.RIGHT);
+                InventoryHelper.dropInventoryItems(world, pos, (IInventory) world.getTileEntity(blockPos));
+            }
         }
         super.onBlockHarvested(world, pos, state, player);
+    }
+
+    public static BlockPos getOtherPartPos(BlockPos pos, Direction direction, Part part) {
+        return pos.offset(part == Part.LEFT ? getRightDirection(direction) : getLeftDirection(direction));
     }
 
     public static Direction getRightDirection(Direction direction) {
@@ -174,7 +185,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        if (state.get(PART) == TalismanCraftingTablePart.LEFT) return new TalismanCraftingTableLeftTileEntity();
+        if (state.get(PART) == Part.LEFT) return new TalismanCraftingTableLeftTileEntity();
         else return new TalismanCraftingTableRightTileEntity();
     }
 
@@ -233,7 +244,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         NORTH_SHAPE = VoxelShapes.or(leg1, leg2, point1, point2, point3, point4, foothold1, foothold2, foothold3, foothold4, edge, face);
     }
 
-    enum TalismanCraftingTablePart implements IStringSerializable {
+    enum Part implements IStringSerializable {
         LEFT,
         RIGHT;
 
