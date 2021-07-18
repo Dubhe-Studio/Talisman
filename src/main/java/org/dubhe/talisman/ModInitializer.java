@@ -13,6 +13,7 @@ import org.dubhe.talisman.registry.TContainerTypes;
 import org.dubhe.talisman.registry.TEntityTypes;
 import org.dubhe.talisman.registry.TItems;
 import org.dubhe.talisman.registry.TRecipes;
+import org.dubhe.talisman.registry.TStats;
 import org.dubhe.talisman.registry.TTileEntityTypes;
 import org.dubhe.talisman.talisman.Talismans;
 
@@ -41,6 +42,7 @@ public class ModInitializer {
         TContainerTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
         TEntityTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
         TRecipes.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TStats.register();
         Talismans.init();
 
         MinecraftForge.EVENT_BUS.register(this);
