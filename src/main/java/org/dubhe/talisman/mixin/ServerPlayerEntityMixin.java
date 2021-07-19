@@ -19,12 +19,12 @@ import java.util.List;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
+    public ServerPlayerEntityMixin(World ignore1, BlockPos ignore2, float ignore3, GameProfile ignore4) {
+        super(ignore1, ignore2, ignore3, ignore4);
+    }
+
     private static final List<Item> RAOIST_ROBE = Lists.newArrayList(TItems.RAOIST_ROBE_BOOTS.get(), TItems.RAOIST_ROBE_LEGGINGS.get(), TItems.RAOIST_ROBE_CHESTPLATE.get(), TItems.RAOIST_ROBE_HELMET.get());
     private int time = 0;
-
-    public ServerPlayerEntityMixin(World p_i241920_1_, BlockPos p_i241920_2_, float p_i241920_3_, GameProfile p_i241920_4_) {
-        super(p_i241920_1_, p_i241920_2_, p_i241920_3_, p_i241920_4_);
-    }
 
     @Inject(at = @At("HEAD"), method = "playerTick")
     private void tick(CallbackInfo info) {

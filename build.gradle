@@ -126,7 +126,7 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
 
-    compile 'com.github.XeKr:xkdeco:0.1.0'
+//    compile 'com.github.XeKr:xkdeco:0.1.0'
 
     // compile Only
     // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'

@@ -2,6 +2,7 @@ package org.dubhe.talisman.recipe;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraftforge.common.crafting.IIngredientSerializer;
 
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
@@ -31,4 +32,35 @@ public class TIngredient extends Ingredient {
             }
         }
     }
+
+    @Override
+    public IIngredientSerializer<? extends Ingredient> getSerializer() {
+        return net.minecraftforge.common.crafting.VanillaIngredientSerializer.INSTANCE;
+    }
+//
+//    public static class Serializer implements IIngredientSerializer<TIngredient>
+//    {
+//        public static final Serializer INSTANCE = new Serializer();
+//
+//        @Override
+//        public TIngredient parse(PacketBuffer buffer)
+//        {
+//            return new TIngredient(Stream.generate(() -> Ingredient.read(buffer)).limit(buffer.readVarInt()).collect(Collectors.toList()));
+//        }
+//
+//        @Override
+//        public TIngredient parse(JsonObject json)
+//        {
+//            throw new JsonSyntaxException("CompoundIngredient should not be directly referenced in json, just use an array of ingredients.");
+//        }
+//
+//        @Override
+//        public void write(PacketBuffer buffer, TIngredient ingredient)
+//        {
+//            buffer.writeVarInt(ingredient.children.size());
+//            ingredient.children.forEach(c -> c.write(buffer));
+//        }
+//
+//    }
+
 }
