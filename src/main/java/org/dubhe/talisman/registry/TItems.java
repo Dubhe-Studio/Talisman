@@ -16,12 +16,12 @@ public final class TItems {
     private static final DeferredRegister<Item> ITEM = DeferredRegister.create(ForgeRegistries.ITEMS, ModInitializer.MODID);
 
     public static final RegistryObject<Item> TALISMAN = ITEM.register("talisman", () -> new TalismanItem(properties().maxStackSize(16)));
-    public static final RegistryObject<Item> TALISMAN_PAPER = ITEM.register("talisman_paper", () -> new TalismanPaperItem(properties()));
+    public static final RegistryObject<Item> TALISMAN_PAPER = ITEM.register("talisman_paper", () -> new Item(properties()));
     public static final RegistryObject<Item> GUIDE_DEVIL_BOTTLE = ITEM.register("guide_devil_bottle", () -> new GuideDevilBottleItem(properties().maxStackSize(16)));
-    public static final RegistryObject<Item> DIVINE_STONE = ITEM.register("divine_stone", () -> new DivineStoneItem(properties()));
-    public static final RegistryObject<Item> CINNABAR = ITEM.register("cinnabar", () -> new CinnabarItem(properties()));
-    public static final RegistryObject<Item> PEN_PRIMARY = ITEM.register("pen_primary", () -> new PenItem(properties().maxDamage(10)));
-    public static final RegistryObject<Item> INK_PRIMARY = ITEM.register("ink_primary", () -> new InkItem(properties().maxDamage(10)));
+    public static final RegistryObject<Item> DIVINE_STONE = ITEM.register("divine_stone", () -> new Item(properties()));
+    public static final RegistryObject<Item> CINNABAR = ITEM.register("cinnabar", () -> new Item(properties()));
+    public static final RegistryObject<Item> PEN_PRIMARY = ITEM.register("pen_primary", () -> new Item(properties().maxDamage(10)));
+    public static final RegistryObject<Item> INK_PRIMARY = ITEM.register("ink_primary", () -> new Item(properties().maxDamage(10)));
     public static final RegistryObject<Item> RAOIST_ROBE_HELMET = ITEM.register("raoist_robe_helmet", () -> new ArmorItem(TArmorMaterial.RAOIST_ROBE, EquipmentSlotType.HEAD, properties()));
     public static final RegistryObject<Item> RAOIST_ROBE_CHESTPLATE = ITEM.register("raoist_robe_chestplate", () -> new ArmorItem(TArmorMaterial.RAOIST_ROBE, EquipmentSlotType.CHEST, properties()));
     public static final RegistryObject<Item> RAOIST_ROBE_LEGGINGS = ITEM.register("raoist_robe_leggings", () -> new ArmorItem(TArmorMaterial.RAOIST_ROBE, EquipmentSlotType.LEGS, properties()));

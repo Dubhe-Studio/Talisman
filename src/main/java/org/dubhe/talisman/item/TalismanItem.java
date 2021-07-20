@@ -100,8 +100,7 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
                 CommandSource source = server.getFunctionManager().getCommandSource().withPos(position).withRotation(entity, EntityAnchorArgument.Type.EYES).withEntity(entity);
                 for (INBT execute : executes) {
                     String str = execute.getString();
-                    if (str.startsWith("function:"))
-                        server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
+                    if (str.startsWith("function:")) server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
                     else Talismans.get(str).execute(entity, position, target);
                 }
             } catch (CommandSyntaxException e) {
