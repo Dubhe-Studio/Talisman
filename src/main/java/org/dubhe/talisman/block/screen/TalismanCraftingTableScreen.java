@@ -21,8 +21,7 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
     private static final ResourceLocation TEXTURE = ModInitializer.getIdentifier("textures/gui/container/talisman_crafting_table.png");
     int texWidth = 176;
     int texHeight = 166;
-    private float alpha = 1.0F;
-    private boolean positive = true;
+    private double alpha = 0;
 
     public TalismanCraftingTableScreen(TalismanCraftingTableContainer container, PlayerInventory inv, ITextComponent title) {
         super(container, inv, title);
@@ -41,10 +40,12 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
     @Override
     public void tick() {
         super.tick();
-        if (this.alpha >= 1.0F) this.positive = false;
-        if (this.alpha <= 0.0F) this.positive = true;
-        if (positive) this.alpha += 0.1F;
-        else this.alpha -= 0.1F;
+        if (this.container.getNeedExp() > -1) {
+            this.alpha += Math.PI / 15; // flash (10/value) times/s
+            this.alpha %= Math.PI * 2;
+        }else {
+            this.alpha = 0.0F;
+        }
     }
 
     @Override
@@ -62,7 +63,7 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
             int last = (int) ((double) (xp - needExp) / TBaseValue.MAX_EXP * 40);
             this.blit(matrix, i + 116, j + 66, 0, 166, last, 5);
             RenderSystem.enableBlend();
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, (float) (Math.cos(this.alpha) / 2 + 0.5D));
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             this.blit(matrix, i + last + 116, j + 66, last, 166, width - last, 5);
             RenderSystem.disableBlend();
