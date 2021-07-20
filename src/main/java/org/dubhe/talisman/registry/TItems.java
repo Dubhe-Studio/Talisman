@@ -31,6 +31,7 @@ public final class TItems {
     // block item
     public static RegistryObject<Item> DIVINE_STONE_ORE = ITEM.register("divine_stone_ore", () -> new BlockItem(TBlocks.DIVINE_STONE_ORE.get(), properties()));
     public static RegistryObject<Item> CINNABAR_ORE = ITEM.register("cinnabar_ore", () -> new BlockItem(TBlocks.CINNABAR_ORE.get(), properties()));
+    public static RegistryObject<Item> DIVINE_STONE_BLOCK = ITEM.register("divine_stone_block", () -> new BlockItem(TBlocks.DIVINE_STONE_BLOCK.get(), properties()));
     public static RegistryObject<Item> TALISMAN_CRAFTING_TABLE = ITEM.register("talisman_crafting_table", () -> new BlockItem(TBlocks.TALISMAN_CRAFTING_TABLE.get(), properties().maxStackSize(1)));
 
     private static Item.Properties properties() {

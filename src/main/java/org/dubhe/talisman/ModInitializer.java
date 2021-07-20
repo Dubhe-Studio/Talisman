@@ -10,9 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dubhe.talisman.registry.TBlocks;
 import org.dubhe.talisman.registry.TContainerTypes;
+import org.dubhe.talisman.registry.TEffects;
 import org.dubhe.talisman.registry.TEntityTypes;
 import org.dubhe.talisman.registry.TItems;
 import org.dubhe.talisman.registry.TOreGenerates;
+import org.dubhe.talisman.registry.TPotions;
 import org.dubhe.talisman.registry.TRecipes;
 import org.dubhe.talisman.registry.TStats;
 import org.dubhe.talisman.registry.TTileEntityTypes;
@@ -44,6 +46,8 @@ public class ModInitializer {
         TContainerTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
         TEntityTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
         TRecipes.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TEffects.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TPotions.register(FMLJavaModLoadingContext.get().getModEventBus());
         TStats.register();
         Talismans.init();
 

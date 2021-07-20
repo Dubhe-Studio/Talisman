@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "talisman:block/divine_stone_block"
+    }
+  }
+}

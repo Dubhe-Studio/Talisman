@@ -1,5 +1,6 @@
 {
     "block.talisman.divine_stone_ore": "灵石矿石",
+    "block.talisman.divine_stone_block": "灵石块",
     "block.talisman.cinnabar_ore": "朱砂矿石",
     "block.talisman.talisman_crafting_table": "制符台",
 
@@ -9,10 +10,20 @@
 
     "entity.talisman.talisman": "符",
 
+    "item.minecraft.potion.effect.burning": "灼烧药水",
+    "item.minecraft.potion.effect.long_burning": "灼烧药水",
+    "item.minecraft.potion.effect.strong_burning": "灼烧药水",
+    "item.minecraft.potion.effect.antidote": "抗药药水",
+    "item.minecraft.potion.effect.long_antidote": "抗药药水",
+
+    "effect.talisman.burning": "灼烧",
+    "effect.talisman.antidote": "抗药",
+
     "item.talisman.pen_primary": "初级符笔",
     "item.talisman.ink_primary": "初级符墨",
     "item.talisman.divine_stone": "灵石",
     "item.talisman.divine_stone_ore": "灵石矿石",
+    "item.talisman.divine_stone_block": "灵石块",
     "item.talisman.guide_devil_bottle": "导魔瓶",
     "item.talisman.talisman": "符",
     "item.talisman.talisman_paper": "符纸",
