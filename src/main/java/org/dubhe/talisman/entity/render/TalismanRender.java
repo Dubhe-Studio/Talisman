@@ -22,7 +22,7 @@ public class TalismanRender extends EntityRenderer<TalismanEntity> {
 
     @Override
     public ResourceLocation getEntityTexture(TalismanEntity entity) {
-        return new ResourceLocation(ModInitializer.MODID, "textures/entity/talisman.png");
+        return ModInitializer.getIdentifier("textures/entity/talisman.png");
     }
 
     @Override

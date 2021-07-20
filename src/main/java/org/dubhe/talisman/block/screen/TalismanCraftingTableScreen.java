@@ -18,7 +18,7 @@ import java.util.List;
 
 @SuppressWarnings("NullableProblems")
 public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftingTableContainer> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(ModInitializer.MODID, "textures/gui/container/talisman_crafting_table.png");
+    private static final ResourceLocation TEXTURE = ModInitializer.getIdentifier("textures/gui/container/talisman_crafting_table.png");
     int texWidth = 176;
     int texHeight = 166;
     private float alpha = 1.0F;
