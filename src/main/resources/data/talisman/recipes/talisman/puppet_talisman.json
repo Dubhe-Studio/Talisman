@@ -1,0 +1,27 @@
+{
+    "type": "talisman:talisman_crafting",
+    "pattern": [
+        " * ",
+        "A#A",
+        " A "
+    ],
+    "key": {
+        "#": {
+            "item": "talisman:talisman_paper"
+        },
+        "*": {
+            "item": "minecraft:zombie_head"
+        },
+        "A": {
+            "item": "minecraft:rotten_flesh"
+        }
+    },
+    "result": {
+        "item": "talisman:talisman",
+        "count": 1,
+        "experience": 6,
+        "executes": [
+            "puppet"
+        ]
+    }
+}

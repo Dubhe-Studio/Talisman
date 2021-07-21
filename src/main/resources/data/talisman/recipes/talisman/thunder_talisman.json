@@ -1,0 +1,24 @@
+{
+    "type": "talisman:talisman_crafting",
+    "pattern": [
+        "*",
+        "#",
+        "*"
+    ],
+    "key": {
+        "#": {
+            "item": "talisman:talisman_paper"
+        },
+        "*": {
+            "item": "minecraft:iron_ingot"
+        }
+    },
+    "result": {
+        "item": "talisman:talisman",
+        "count": 1,
+        "experience": 6,
+        "executes": [
+            "thunder"
+        ]
+    }
+}

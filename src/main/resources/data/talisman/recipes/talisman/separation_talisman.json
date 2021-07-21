@@ -1,0 +1,30 @@
+{
+    "type": "talisman:talisman_crafting",
+    "pattern": [
+        " * ",
+        "A#A",
+        " B "
+    ],
+    "key": {
+        "#": {
+            "item": "talisman:talisman_paper"
+        },
+        "*": {
+            "item": "minecraft:player_head"
+        },
+        "A": {
+            "item": "minecraft:paper"
+        },
+        "B": {
+            "item": "minecraft:coal"
+        }
+    },
+    "result": {
+        "item": "talisman:talisman",
+        "count": 1,
+        "experience": 6,
+        "executes": [
+            "separation"
+        ]
+    }
+}
