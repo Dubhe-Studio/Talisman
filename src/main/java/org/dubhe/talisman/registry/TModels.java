@@ -2,6 +2,7 @@ package org.dubhe.talisman.registry;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.dubhe.talisman.ModInitializer;
 
 @OnlyIn(Dist.CLIENT)
 public enum TModels {
@@ -27,6 +28,6 @@ public enum TModels {
     }
 
     public String getNamespace() {
-        return "talisman:" + namespace;
+        return ModInitializer.getIdentifier(this.namespace).toString();
     }
 }

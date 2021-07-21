@@ -4,6 +4,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -38,21 +39,23 @@ public class ModInitializer {
     };
 
     public ModInitializer() {
+        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 //        TSoundEvents.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TBlocks.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TItems.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TTileEntityTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TContainerTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TEntityTypes.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TRecipes.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TEffects.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TPotions.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TBlocks.register(eventBus);
+        TItems.register(eventBus);
+        TTileEntityTypes.register(eventBus);
+        TContainerTypes.register(eventBus);
+        TEntityTypes.register(eventBus);
+        TRecipes.register(eventBus);
+        TEffects.register(eventBus);
+        TPotions.register(eventBus);
         TStats.register();
         Talismans.init();
 
         MinecraftForge.EVENT_BUS.addListener(TOreGenerates::register);
         MinecraftForge.EVENT_BUS.register(this);
+
     }
 
     public static ResourceLocation getIdentifier(String id) {
