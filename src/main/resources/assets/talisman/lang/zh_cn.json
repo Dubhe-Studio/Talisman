@@ -54,6 +54,8 @@
     "tooltip.talisman.execute": "触发:",
     "tooltip.talisman.execute.no": " - 无",
     "tooltip.talisman.execute.value": " - %s",
+    "tooltip.talisman.nopen": "没有符笔",
+    "tooltip.talisman.noink": "没有符墨",
 
     "text.all": "%s",
     "text.talisman.function": "函数%s",

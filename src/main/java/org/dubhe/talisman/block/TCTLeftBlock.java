@@ -15,13 +15,11 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -31,65 +29,54 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
-import org.dubhe.talisman.block.tileentity.TalismanCraftingTableRightTileEntity;
+import org.dubhe.talisman.block.tileentity.TCTLeftTileEntity;
+import org.dubhe.talisman.registry.TBlocks;
 import org.dubhe.talisman.registry.TStats;
 
 import javax.annotation.Nullable;
 
-@SuppressWarnings("NullableProblems")
-public class TalismanCraftingTableBlock extends HorizontalBlock {
-    public static final EnumProperty<Part> PART = EnumProperty.create("part", Part.class);
+@SuppressWarnings({"NullableProblems", "deprecation"})
+public class TCTLeftBlock extends HorizontalBlock {
     public static final BooleanProperty PEN = BooleanProperty.create("pen");
     public static final BooleanProperty INK = BooleanProperty.create("ink");
-    private final static VoxelShape EAST_SHAPE;
-    private final static VoxelShape WEST_SHAPE;
-    private final static VoxelShape SOUTH_SHAPE;
-    private final static VoxelShape NORTH_SHAPE;
+    protected final static VoxelShape EAST_SHAPE;
+    protected final static VoxelShape WEST_SHAPE;
+    protected final static VoxelShape SOUTH_SHAPE;
+    protected final static VoxelShape NORTH_SHAPE;
 
-    public TalismanCraftingTableBlock() {
+    public TCTLeftBlock() {
         super(Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD).notSolid());
-        this.setDefaultState(this.stateContainer.getBaseState().with(HORIZONTAL_FACING, Direction.NORTH).with(PART, Part.LEFT).with(PEN, Boolean.FALSE).with(INK, Boolean.FALSE));
+        this.setDefaultState(this.stateContainer.getBaseState().with(HORIZONTAL_FACING, Direction.NORTH).with(PEN, Boolean.FALSE).with(INK, Boolean.FALSE));
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
-        Direction direction = state.get(HORIZONTAL_FACING);
-        boolean isLeft = state.get(PART) == Part.LEFT;
-        switch (direction) {
-            case EAST:
+        switch (state.get(HORIZONTAL_FACING)) {
             default:
-                return isLeft ? NORTH_SHAPE : SOUTH_SHAPE;
-            case SOUTH:
-                return isLeft ? EAST_SHAPE : WEST_SHAPE;
-            case WEST:
-                return isLeft ? SOUTH_SHAPE : NORTH_SHAPE;
-            case NORTH:
-                return isLeft ? WEST_SHAPE : EAST_SHAPE;
+            case EAST: return NORTH_SHAPE;
+            case SOUTH: return EAST_SHAPE;
+            case WEST: return SOUTH_SHAPE;
+            case NORTH: return WEST_SHAPE;
         }
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
-        if (facing == getDirectionToOther(state.get(PART), getRightDirection(state.get(HORIZONTAL_FACING)))) {
-            return facingState.matchesBlock(this) && facingState.get(PART) != state.get(PART) ? state : Blocks.AIR.getDefaultState();
-        } else {
-            return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
-        }
+        return facing == getRightDirection(state.get(HORIZONTAL_FACING)) ?
+                facingState.matchesBlock(TBlocks.TALISMAN_CRAFTING_TABLE_RIGHT.get()) ? state : Blocks.AIR.getDefaultState() :
+                super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
     }
 
-    private static Direction getDirectionToOther(Part part, Direction direction) {
-        return part == Part.LEFT ? direction : direction.getOpposite();
+    protected BlockState superUpdatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
+        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
-    @SuppressWarnings({"deprecation", "ConstantConditions"})
+    @SuppressWarnings("ConstantConditions")
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!world.isRemote && hand == Hand.MAIN_HAND) {
-            if (state.get(PART) == Part.RIGHT) pos = getOtherPartPos(pos, state.get(HORIZONTAL_FACING), Part.RIGHT);
-            TalismanCraftingTableLeftTileEntity tileEntity = (TalismanCraftingTableLeftTileEntity) world.getTileEntity(pos);
+            world.getTileEntity(getOtherPartPos(pos, state.get(HORIZONTAL_FACING), true));
+            TCTLeftTileEntity tileEntity = (TCTLeftTileEntity) world.getTileEntity(pos);
             NetworkHooks.openGui((ServerPlayerEntity) player, tileEntity, (PacketBuffer packerBuffer) -> packerBuffer.writeBlockPos(tileEntity.getPos()));
             player.addStat(TStats.INTERACT_WITH_TALISMAN_CRAFTING_TABLE);
             return ActionResultType.SUCCESS;
@@ -107,18 +94,18 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, PART, PEN, INK);
+        builder.add(HORIZONTAL_FACING, PEN, INK);
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         if (stack.hasDisplayName()) {
             TileEntity tileentity = world.getTileEntity(pos);
-            if (tileentity instanceof TalismanCraftingTableLeftTileEntity) ((TalismanCraftingTableLeftTileEntity)tileentity).setCustomName(stack.getDisplayName());
+            if (tileentity instanceof TCTLeftTileEntity) ((TCTLeftTileEntity)tileentity).setCustomName(stack.getDisplayName());
         }
         if (!world.isRemote) {
-            BlockPos blockpos = getOtherPartPos(pos, state.get(HORIZONTAL_FACING), Part.LEFT);
-            world.setBlockState(blockpos, state.with(PART, Part.RIGHT), 3);
+            BlockPos blockpos = getOtherPartPos(pos, state.get(HORIZONTAL_FACING), true);
+            world.setBlockState(blockpos, TBlocks.TALISMAN_CRAFTING_TABLE_RIGHT.get().getDefaultState().with(HORIZONTAL_FACING, state.get(HORIZONTAL_FACING)), 3);
             world.updateBlock(pos, Blocks.AIR);
             state.updateNeighbours(world, pos, 3);
         }
@@ -128,25 +115,19 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
     @SuppressWarnings("ConstantConditions")
     public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (!world.isRemote) {
-            Part part = state.get(PART);
-            if (player.isCreative() && part == Part.RIGHT) {
-                BlockPos blockpos = getOtherPartPos(pos, state.get(HORIZONTAL_FACING), Part.RIGHT);
-                BlockState blockstate = world.getBlockState(blockpos);
-                if (blockstate.getBlock() == this && blockstate.get(PART) == Part.LEFT) {
-                    world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 35);
-                    world.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
-                }
-            }
             if (!player.isCreative()) {
-                BlockPos blockPos = part == Part.LEFT ? pos : getOtherPartPos(pos, state.get(HORIZONTAL_FACING), Part.RIGHT);
-                InventoryHelper.dropInventoryItems(world, pos, (IInventory) world.getTileEntity(blockPos));
+                InventoryHelper.dropInventoryItems(world, pos, (IInventory) world.getTileEntity(pos));
             }
         }
         super.onBlockHarvested(world, pos, state, player);
     }
 
-    public static BlockPos getOtherPartPos(BlockPos pos, Direction direction, Part part) {
-        return pos.offset(part == Part.LEFT ? getRightDirection(direction) : getLeftDirection(direction));
+    protected void superOnBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        super.onBlockHarvested(world, pos, state, player);
+    }
+
+    public static BlockPos getOtherPartPos(BlockPos pos, Direction direction, boolean left) {
+        return pos.offset(left ? getRightDirection(direction) : getLeftDirection(direction));
     }
 
     public static Direction getRightDirection(Direction direction) {
@@ -185,8 +166,7 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        if (state.get(PART) == Part.LEFT) return new TalismanCraftingTableLeftTileEntity();
-        else return new TalismanCraftingTableRightTileEntity();
+        return new TCTLeftTileEntity();
     }
 
     static {
@@ -242,22 +222,6 @@ public class TalismanCraftingTableBlock extends HorizontalBlock {
         edge = Block.makeCuboidShape(0, 11, 0, 16, 12, 1);
         face = Block.makeCuboidShape(0, 10, 1, 16, 11, 16);
         NORTH_SHAPE = VoxelShapes.or(leg1, leg2, point1, point2, point3, point4, foothold1, foothold2, foothold3, foothold4, edge, face);
-    }
-
-    enum Part implements IStringSerializable {
-        LEFT,
-        RIGHT;
-
-        @Override
-        public String toString() {
-            return this.getString();
-        }
-
-        @Override
-        public String getString() {
-            return this == LEFT ? "left" : "right";
-        }
-
     }
 
 }

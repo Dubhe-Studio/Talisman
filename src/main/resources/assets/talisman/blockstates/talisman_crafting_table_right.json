@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=south,pen=false,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right"
+    },
+    "facing=south,pen=true,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right_pen"
+    },
+    "facing=south,pen=false,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_ink"
+    },
+    "facing=south,pen=true,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_all"
+    },
+    "facing=west,pen=false,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right",
+      "y": 90
+    },
+    "facing=west,pen=true,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right_pen",
+      "y": 90
+    },
+    "facing=west,pen=false,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_ink",
+      "y": 90
+    },
+    "facing=west,pen=true,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_all",
+      "y": 90
+    },
+    "facing=north,pen=false,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right",
+      "y": 180
+    },
+    "facing=north,pen=true,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right_pen",
+      "y": 180
+    },
+    "facing=north,pen=false,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_ink",
+      "y": 180
+    },
+    "facing=north,pen=true,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_all",
+      "y": 180
+    },
+    "facing=east,pen=false,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right",
+      "y": 270
+    },
+    "facing=east,pen=true,ink=false": {
+      "model": "talisman:block/talisman_crafting_table_right_pen",
+      "y": 270
+    },
+    "facing=east,pen=false,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_ink",
+      "y": 270
+    },
+    "facing=east,pen=true,ink=true": {
+      "model": "talisman:block/talisman_crafting_table_right_all",
+      "y": 270
+    }
+  }
+}

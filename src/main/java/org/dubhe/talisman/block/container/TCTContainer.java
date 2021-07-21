@@ -13,8 +13,8 @@ import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.IIntArray;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.dubhe.talisman.block.tileentity.TCTLeftTileEntity;
 import org.dubhe.talisman.registry.TBaseValue;
-import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
 import org.dubhe.talisman.inventory.TalismanResultInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.registry.TItems;
@@ -24,19 +24,26 @@ import org.dubhe.talisman.slot.SpecifySlot;
 
 
 @SuppressWarnings("NullableProblems")
-public class TalismanCraftingTableContainer extends Container {
-    private final TalismanCraftingTableLeftTileEntity tileEntity;
+public class TCTContainer extends Container {
+    private final TCTLeftTileEntity tileEntity;
     private final TalismanResultInventory craftResult = new TalismanResultInventory();
     private final PlayerEntity player;
-    private int needExp = 0;
+    private int needXp = 0;
     private final IIntArray data = new IIntArray() {
         @Override
         public int get(int index) {
             switch (index) {
                 case 0:
-                    return TalismanCraftingTableContainer.this.tileEntity.getExperience();
+                    return tileEntity.getExperience();
                 case 1:
-                    return craftResult.getStackInSlot(0).isEmpty() ? -1 : TalismanCraftingTableContainer.this.needExp;
+                    return craftResult.getStackInSlot(0).isEmpty() ? -1 : needXp;
+                case 2:
+                    ItemStack pen = tileEntity.getStackInSlot(9);
+                    ItemStack ink = tileEntity.getStackInSlot(11);
+                    if (pen.isEmpty() && ink.isEmpty()) return 1;      // nothing
+                    else if (!pen.isEmpty() && ink.isEmpty()) return 2; // only pen
+                    else if (pen.isEmpty() && !ink.isEmpty()) return 3;  // only ink
+                    else return 0;
                 default:
                     return -1;
             }
@@ -46,22 +53,22 @@ public class TalismanCraftingTableContainer extends Container {
         public void set(int index, int value) {
             switch (index) {
                 case 0:
-                    TalismanCraftingTableContainer.this.tileEntity.setExperience(value);
+                    tileEntity.setExperience(value);
                     break;
                 case 1:
-                    TalismanCraftingTableContainer.this.needExp = value;
+                    needXp = value;
                     break;
             }
         }
 
         @Override
         public int size() {
-            return 2;
+            return 3;
         }
     };
 
 
-    public TalismanCraftingTableContainer(int id, PlayerInventory playerInventory, TalismanCraftingTableLeftTileEntity tileEntity) {
+    public TCTContainer(int id, PlayerInventory playerInventory, TCTLeftTileEntity tileEntity) {
         super(TContainerTypes.TALISMAN_CRAFTING_TABLE.get(), id);
         this.tileEntity = tileEntity;
         this.player = playerInventory.player;
@@ -166,18 +173,16 @@ public class TalismanCraftingTableContainer extends Container {
 
     private void updateResult() {
         if (this.player instanceof ServerPlayerEntity) {
-            if (TBaseValue.PEN.contains(this.tileEntity.getStackInSlot(9).getItem()) && TBaseValue.INK.contains(this.tileEntity.getStackInSlot(11).getItem())) {
-                OutputAndDemand result = tileEntity.getResult();
-                this.setResult(result.getItemStack(), result.getExperience());
-            } else this.setResult(ItemStack.EMPTY, 0);
-            ((ServerPlayerEntity) player).connection.sendPacket(new SSetSlotPacket(windowId, 9, craftResult.getStackInSlot(0)));
+            OutputAndDemand result = tileEntity.getResult();
+            this.setResult(result.getItemStack(), result.getExperience());
+            ((ServerPlayerEntity) this.player).connection.sendPacket(new SSetSlotPacket(this.windowId, 9, this.craftResult.getStackInSlot(0)));
         }
     }
 
     private void setResult(ItemStack stack, int xp) {
         this.craftResult.setInventorySlotContents(0, stack);
         this.craftResult.setExperience(xp);
-        this.needExp = xp;
+        this.needXp = xp;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -186,8 +191,13 @@ public class TalismanCraftingTableContainer extends Container {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public int getNeedExp() {
+    public int getNeedXp() {
         return this.data.get(1);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getLack() {
+        return this.data.get(2);
     }
 
 }

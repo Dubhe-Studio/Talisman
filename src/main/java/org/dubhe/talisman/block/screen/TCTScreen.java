@@ -10,20 +10,22 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.dubhe.talisman.ModInitializer;
-import org.dubhe.talisman.block.container.TalismanCraftingTableContainer;
+import org.dubhe.talisman.block.container.TCTContainer;
 import org.dubhe.talisman.registry.TBaseValue;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
 @SuppressWarnings("NullableProblems")
-public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftingTableContainer> {
+public class TCTScreen extends ContainerScreen<TCTContainer> {
     private static final ResourceLocation TEXTURE = ModInitializer.getIdentifier("textures/gui/container/talisman_crafting_table.png");
+    private static final ITextComponent NO_PEN = new TranslationTextComponent("tooltip.talisman.nopen").mergeStyle(TextFormatting.RED);
+    private static final ITextComponent NO_INK = new TranslationTextComponent("tooltip.talisman.noink").mergeStyle(TextFormatting.RED);
     int texWidth = 176;
     int texHeight = 166;
     private double alpha = 0;
 
-    public TalismanCraftingTableScreen(TalismanCraftingTableContainer container, PlayerInventory inv, ITextComponent title) {
+    public TCTScreen(TCTContainer container, PlayerInventory inv, ITextComponent title) {
         super(container, inv, title);
         this.passEvents = false;
         this.xSize = this.texWidth;
@@ -40,7 +42,7 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
     @Override
     public void tick() {
         super.tick();
-        if (this.container.getNeedExp() > -1) {
+        if (this.container.getNeedXp() > -1) {
             this.alpha += Math.PI / 15; // flash (10/value) times/s
             this.alpha %= Math.PI * 2;
         }else {
@@ -56,11 +58,11 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
         int xp = this.container.getExperience();
-        int needExp = this.container.getNeedExp();
+        int needXp = this.container.getNeedXp();
         int width = (int) ((double) xp / TBaseValue.MAX_EXP * 40);
         this.blit(matrix, i, j, 0, 0, this.xSize, this.ySize);
-        if (needExp > -1) {
-            int last = (int) ((double) (xp - needExp) / TBaseValue.MAX_EXP * 40);
+        if (needXp > -1) {
+            int last = (int) ((double) (xp - needXp) / TBaseValue.MAX_EXP * 40);
             this.blit(matrix, i + 116, j + 66, 0, 166, last, 5);
             RenderSystem.enableBlend();
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, (float) (Math.cos(this.alpha) / 2 + 0.5D));
@@ -74,7 +76,16 @@ public class TalismanCraftingTableScreen extends ContainerScreen<TalismanCraftin
         if (x > i + 116 && x < i + 116 + 40 && y > j + 66 && y < j + 66 + 5) {
             List<ITextComponent> texts = Lists.newArrayList();
             texts.add(new TranslationTextComponent("container.talisman.xp", xp, TBaseValue.MAX_EXP));
-            if (needExp > -1) texts.add(new TranslationTextComponent("container.talisman.xp.requirement", new TranslationTextComponent("text.all", needExp).mergeStyle(TextFormatting.GREEN)));
+            if (needXp > -1) {
+                texts.add(new TranslationTextComponent("container.talisman.xp.requirement",
+                        new TranslationTextComponent("text.all", needXp)
+                                .mergeStyle(xp >= needXp ? TextFormatting.GREEN : TextFormatting.RED)));
+                switch (this.container.getLack()) {
+                    case 1: texts.add(NO_PEN);
+                    case 2: texts.add(NO_INK);break;
+                    case 3: texts.add(NO_PEN);
+                }
+            }
             this.func_243308_b(matrix, texts, x, y);
         }
     }

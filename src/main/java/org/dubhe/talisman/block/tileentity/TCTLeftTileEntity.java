@@ -11,27 +11,26 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import org.dubhe.talisman.block.TalismanCraftingTableBlock;
+import org.dubhe.talisman.block.TCTLeftBlock;
 import org.dubhe.talisman.registry.TBaseValue;
 import org.dubhe.talisman.inventory.TalismanCraftingInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.recipe.TalismanRecipe;
 import org.dubhe.talisman.registry.TRecipes;
 import org.dubhe.talisman.registry.TTileEntityTypes;
-import org.dubhe.talisman.block.container.TalismanCraftingTableContainer;
+import org.dubhe.talisman.block.container.TCTContainer;
 
 import java.util.Optional;
 
-@SuppressWarnings("NullableProblems")
-public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity implements ITickableTileEntity {
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
+public class TCTLeftTileEntity extends LockableTileEntity implements ITickableTileEntity {
     private final TalismanCraftingInventory craftingInventory = new TalismanCraftingInventory();
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private int experience = 0;
 
-    public TalismanCraftingTableLeftTileEntity() {
+    public TCTLeftTileEntity() {
         super(TTileEntityTypes.TALISMAN_CRAFTING_TABLE.get());
     }
 
@@ -78,7 +77,6 @@ public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity impl
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public boolean isUsableByPlayer(PlayerEntity player) {
         if (this.world.getTileEntity(this.pos) != this) {
             return false;
@@ -94,7 +92,7 @@ public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity impl
 
     @Override
     protected Container createMenu(int id, PlayerInventory inventory) {
-        return new TalismanCraftingTableContainer(id, inventory, this);
+        return new TCTContainer(id, inventory, this);
     }
 
     @Override
@@ -155,21 +153,15 @@ public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity impl
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
     public OutputAndDemand getResult() {
         if (!this.world.isRemote) {
-            Optional<TalismanRecipe> optional = getWorld().getServer().getRecipeManager().getRecipe(TRecipes.TALISMAN_CRAFTING_TYPE, this.craftingInventory, this.world);
-            if (optional.isPresent()) {
-                OutputAndDemand output = optional.get().getOutput();
-                if (output.getExperience() <= this.experience && !this.inventory.get(0).isEmpty() && !this.inventory.get(2).isEmpty())
-                    return output;
-            }
+            Optional<TalismanRecipe> optional = this.world.getServer().getRecipeManager().getRecipe(TRecipes.TALISMAN_CRAFTING_TYPE, this.craftingInventory, this.world);
+            if (optional.isPresent()) return optional.get().getOutput();
         }
         return OutputAndDemand.EMPTY;
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public void tick() {
         if (this.inventory.get(1).getItem() == Items.EXPERIENCE_BOTTLE && this.experience <= TBaseValue.MAX_EXP - 5) {
             this.inventory.get(1).shrink(1);
@@ -178,8 +170,8 @@ public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity impl
         this.craftingInventory.onCraftMatrixChanged();
 
         if (!this.world.isRemote) {
-            boolean pen = this.world.getBlockState(this.pos).get(TalismanCraftingTableBlock.PEN);
-            boolean ink = this.world.getBlockState(this.pos).get(TalismanCraftingTableBlock.INK);
+            boolean pen = this.world.getBlockState(this.pos).get(TCTLeftBlock.PEN);
+            boolean ink = this.world.getBlockState(this.pos).get(TCTLeftBlock.INK);
             boolean flag = false;
             if (pen == this.inventory.get(0).isEmpty()) {
                 pen = !pen;
@@ -191,10 +183,7 @@ public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity impl
             }
             if (flag) {
                 BlockState left = this.world.getBlockState(this.pos);
-                BlockPos rightPos = this.pos.offset(TalismanCraftingTableBlock.getRightDirection(left.get(TalismanCraftingTableBlock.HORIZONTAL_FACING)));
-                BlockState right = this.world.getBlockState(rightPos);
-                this.world.setBlockState(this.pos, left.with(TalismanCraftingTableBlock.PEN, pen).with(TalismanCraftingTableBlock.INK, ink), 3);
-                this.world.setBlockState(rightPos, right.with(TalismanCraftingTableBlock.PEN, pen).with(TalismanCraftingTableBlock.INK, ink), 3);
+                this.world.setBlockState(this.pos, left.with(TCTLeftBlock.PEN, pen).with(TCTLeftBlock.INK, ink), 3);
                 this.markDirty();
             }
 
@@ -215,6 +204,10 @@ public class TalismanCraftingTableLeftTileEntity extends LockableTileEntity impl
 
     public void shrinkExperience(int count) {
         this.addExperience(-count);
+    }
+
+    public boolean canTakeResultStack(int needXp) {
+        return !inventory.get(0).isEmpty() && !inventory.get(2).isEmpty() && this.experience >= needXp;
     }
 
 }

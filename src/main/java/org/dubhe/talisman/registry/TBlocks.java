@@ -18,7 +18,8 @@ public class TBlocks {
     public static RegistryObject<Block> DIVINE_STONE_ORE = BLOCK.register("divine_stone_ore", TOreBlock::new);
     public static RegistryObject<Block> CINNABAR_ORE = BLOCK.register("cinnabar_ore", TOreBlock::new);
     public static RegistryObject<Block> DIVINE_STONE_BLOCK = BLOCK.register("divine_stone_block", () -> new Block(AbstractBlock.Properties.create(Material.IRON, MaterialColor.DIAMOND).setRequiresTool().hardnessAndResistance(3.0F, 6.0F).sound(SoundType.METAL)));
-    public static RegistryObject<Block> TALISMAN_CRAFTING_TABLE = BLOCK.register("talisman_crafting_table", TalismanCraftingTableBlock::new);
+    public static RegistryObject<Block> TALISMAN_CRAFTING_TABLE = BLOCK.register("talisman_crafting_table", TCTLeftBlock::new);
+    public static RegistryObject<Block> TALISMAN_CRAFTING_TABLE_RIGHT = BLOCK.register("talisman_crafting_table_right", TCTRightBlock::new);
 
     public static void register(IEventBus event) {
         BLOCK.register(event);

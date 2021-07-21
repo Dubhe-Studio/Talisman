@@ -6,7 +6,7 @@ import net.minecraft.inventory.IRecipeHolder;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import org.dubhe.talisman.block.tileentity.TalismanCraftingTableLeftTileEntity;
+import org.dubhe.talisman.block.tileentity.TCTLeftTileEntity;
 import org.dubhe.talisman.inventory.TalismanCraftingInventory;
 import org.dubhe.talisman.inventory.TalismanResultInventory;
 import org.dubhe.talisman.registry.TRecipes;
@@ -18,12 +18,12 @@ import java.util.Random;
  */
 @SuppressWarnings("NullableProblems")
 public class ResultSlot extends Slot {
-    private final TalismanCraftingTableLeftTileEntity tileEntity;
+    private final TCTLeftTileEntity tileEntity;
     private final PlayerEntity player;
     private final TalismanCraftingInventory craftMatrix;
     private int amountCrafted;
 
-    public ResultSlot(PlayerEntity player, TalismanCraftingTableLeftTileEntity tileEntity, IInventory inventory, int index, int xPosition, int yPosition) {
+    public ResultSlot(PlayerEntity player, TCTLeftTileEntity tileEntity, IInventory inventory, int index, int xPosition, int yPosition) {
         super(inventory, index, xPosition, yPosition);
         this.player = player;
         this.craftMatrix = tileEntity.getCraftingInventory();
@@ -33,6 +33,11 @@ public class ResultSlot extends Slot {
     @Override
     public boolean isItemValid(ItemStack stack) {
         return false;
+    }
+
+    @Override
+    public boolean canTakeStack(PlayerEntity playerIn) {
+        return !this.inventory.isEmpty() && this.tileEntity.canTakeResultStack(((TalismanResultInventory) this.inventory).getExperience());
     }
 
     @Override
@@ -103,7 +108,7 @@ public class ResultSlot extends Slot {
         return stack;
     }
 
-    private static void decrStackSize(TalismanCraftingTableLeftTileEntity tileEntity, Random rand, int index) {
+    private static void decrStackSize(TCTLeftTileEntity tileEntity, Random rand, int index) {
         ItemStack stack = tileEntity.getStackInSlot(index);
         if (stack.isDamageable()) {
             if (stack.attemptDamageItem(1, rand, null)) stack.shrink(1);
