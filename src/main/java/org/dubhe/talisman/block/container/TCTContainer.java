@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.dubhe.talisman.block.tileentity.TCTLeftTileEntity;
 import org.dubhe.talisman.registry.TBaseValue;
-import org.dubhe.talisman.inventory.TalismanResultInventory;
+import org.dubhe.talisman.inventory.TResultInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.registry.TItems;
 import org.dubhe.talisman.slot.ResultSlot;
@@ -26,7 +26,7 @@ import org.dubhe.talisman.slot.SpecifySlot;
 @SuppressWarnings("NullableProblems")
 public class TCTContainer extends Container {
     private final TCTLeftTileEntity tileEntity;
-    private final TalismanResultInventory craftResult = new TalismanResultInventory();
+    private final TResultInventory craftResult = new TResultInventory();
     private final PlayerEntity player;
     private int needXp = 0;
     private final IIntArray data = new IIntArray() {

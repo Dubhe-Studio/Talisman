@@ -3,7 +3,7 @@ package org.dubhe.talisman.inventory;
 import net.minecraft.inventory.CraftResultInventory;
 import net.minecraft.item.ItemStack;
 
-public class TalismanResultInventory extends CraftResultInventory {
+public class TResultInventory extends CraftResultInventory {
 
     private int experience = 0;
 

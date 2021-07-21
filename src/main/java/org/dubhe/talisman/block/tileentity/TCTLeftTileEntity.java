@@ -15,7 +15,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.dubhe.talisman.block.TCTLeftBlock;
 import org.dubhe.talisman.registry.TBaseValue;
-import org.dubhe.talisman.inventory.TalismanCraftingInventory;
+import org.dubhe.talisman.inventory.TCraftingInventory;
 import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.recipe.TalismanRecipe;
 import org.dubhe.talisman.registry.TRecipes;
@@ -26,7 +26,7 @@ import java.util.Optional;
 
 @SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class TCTLeftTileEntity extends LockableTileEntity implements ITickableTileEntity {
-    private final TalismanCraftingInventory craftingInventory = new TalismanCraftingInventory();
+    private final TCraftingInventory craftingInventory = new TCraftingInventory();
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private int experience = 0;
 
@@ -38,7 +38,7 @@ public class TCTLeftTileEntity extends LockableTileEntity implements ITickableTi
         this.craftingInventory.setContainer(container);
     }
 
-    public TalismanCraftingInventory getCraftingInventory() {
+    public TCraftingInventory getCraftingInventory() {
         return this.craftingInventory;
     }
 
