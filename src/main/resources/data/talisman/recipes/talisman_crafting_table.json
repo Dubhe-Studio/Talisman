@@ -1,0 +1,18 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "XXX",
+        "A A"
+    ],
+    "key": {
+        "X":{
+            "tag": "minecraft:wooden_slabs"
+        },
+        "A":{
+            "tag": "minecraft:planks"
+        }
+    },
+    "result": {
+        "item": "talisman:talisman_crafting_table"
+    }
+}

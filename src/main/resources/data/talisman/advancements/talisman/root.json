@@ -19,7 +19,7 @@
     "talisman": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": "talisman:talisman_crafting_table"
+        "items": [{"item": "talisman:talisman_crafting_table"}]
       }
     }
   },

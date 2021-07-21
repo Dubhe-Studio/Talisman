@@ -1,0 +1,22 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "A",
+        "X",
+        "B"
+    ],
+    "key": {
+        "X": {
+            "item": "talisman:divine_stone"
+        },
+        "A": {
+            "item": "minecraft:bamboo"
+        },
+        "B": {
+            "item": "minecraft:feather"
+        }
+    },
+    "result": {
+        "item": "talisman:pen_primary"
+    }
+}

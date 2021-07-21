@@ -1,0 +1,15 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "X X",
+        " X "
+    ],
+    "key": {
+        "X": {
+            "item": "talisman:divine_stone"
+        }
+    },
+    "result": {
+        "item": "talisman:guide_devil_bottle"
+    }
+}

@@ -1,12 +1,24 @@
 {
     "block.talisman.divine_stone_ore": "Divine ore block",
+    "block.talisman.divine_stone_block": "Divine stone block",
     "block.talisman.cinnabar_ore": "Cinnabar ore block",
     "block.talisman.talisman_crafting_table": "Talisman crafting table",
 
     "container.talisman_crafting_table": "Talisman crafting table",
+    "container.talisman.xp.requirement": "Requirement XP: %s",
+    "container.talisman.xp": "Have XP: %s/%s",
 
     "entity.talisman.talisman": "Talisman",
 
+    "item.minecraft.potion.effect.burning": "Burning potion",
+    "item.minecraft.potion.effect.long_burning": "Burning potion",
+    "item.minecraft.potion.effect.strong_burning": "Burning potion",
+    "item.minecraft.potion.effect.antidote": "Antidote potion",
+    "item.minecraft.potion.effect.long_antidote": "Antidote potion",
+
+    "effect.talisman.burning": "Burning",
+    "effect.talisman.antidote": "Antidote",
+    
     "item.talisman.pen_primary": "Primary pen",
     "item.talisman.ink_primary": "Primary ink",
     "item.talisman.divine_stone": "Divine stone",
@@ -30,6 +42,10 @@
     "item.talisman.doom_talisman": "Doom talisman",
     "item.talisman.huge_explosion_talisman": "Huge explosion talisman",
     "item.talisman.change_clothing_talisman": "Change clothing talisman",
+    "item.talisman.raoist_robe_helmet": "Raoist robe hat",
+    "item.talisman.raoist_robe_chestplate": "Raoist robe",
+    "item.talisman.raoist_robe_leggings": "Raoist robe",
+    "item.talisman.raoist_robe_boots": "Raoist robe shoes",
 
     "itemGroup.talisman_group": "Talisman",
 
@@ -38,6 +54,8 @@
     "tooltip.talisman.execute": "Execute",
     "tooltip.talisman.execute.no": " - Not",
     "tooltip.talisman.execute.value": " - %s",
+    "tooltip.talisman.nopen": "Don't have pen !",
+    "tooltip.talisman.noink": "Don't have ink !",
 
     "text.all": "%s",
     "text.talisman.function": "Function%s",
@@ -57,6 +75,6 @@
     "text.talisman.change_clothing": "Change clothing",
 
     "advancements.talisman.root.title": "Talisman",
-    "advancements.talisman.root.description": "Welcome to use Talisman！！！"
+    "advancements.talisman.root.description": "Welcome to use Talisman !!!"
 
 }

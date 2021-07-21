@@ -1,0 +1,17 @@
+{
+    "type": "crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "talisman:cinnabar"
+        },
+        {
+            "item": "minecraft:ink_sac"
+        },
+        {
+            "item": "talisman:divine_stone"
+        }
+    ],
+    "result": {
+        "item": "talisman:ink_primary"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "type": "crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:paper"
+        },
+        {
+            "item": "minecraft:paper"
+        },
+        {
+            "item": "talisman:divine_stone"
+        }
+    ],
+    "result": {
+        "item": "talisman:talisman_paper"
+    }
+}

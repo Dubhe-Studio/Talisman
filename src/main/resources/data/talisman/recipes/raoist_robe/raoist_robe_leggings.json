@@ -1,0 +1,22 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "XAX",
+        "X X",
+        "B B"
+    ],
+    "key": {
+        "X":{
+            "item": "minecraft:blue_wool"
+        },
+        "A":{
+            "item": "talisman:divine_stone"
+        },
+        "B":{
+            "item": "minecraft:white_wool"
+        }
+    },
+    "result": {
+        "item": "talisman:raoist_robe_leggings"
+    }
+}

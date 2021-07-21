@@ -1,12 +1,26 @@
 {
     "block.talisman.divine_stone_ore": "靈石礦石",
+    "block.talisman.divine_stone_block": "靈石塊",
     "block.talisman.cinnabar_ore": "硃砂礦石",
     "block.talisman.talisman_crafting_table": "制符臺",
 
     "container.talisman_crafting_table": "制符臺",
+    "container.talisman.xp.requirement": "經驗需求: %s",
+    "container.talisman.xp": "存儲經驗: %s/%s",
 
     "entity.talisman.talisman": "符",
 
+    "item.minecraft.potion.effect.burning": "灼燒藥水",
+    "item.minecraft.potion.effect.long_burning": "灼燒藥水",
+    "item.minecraft.potion.effect.strong_burning": "灼燒藥水",
+    "item.minecraft.potion.effect.antidote": "抗藥藥水",
+    "item.minecraft.potion.effect.long_antidote": "抗藥藥水",
+
+    "effect.talisman.burning": "灼燒",
+    "effect.talisman.antidote": "抗藥",
+
+    "item.talisman.pen_primary": "初級符筆",
+    "item.talisman.ink_primary": "初級符墨",
     "item.talisman.divine_stone": "靈石",
     "item.talisman.divine_stone_ore": "靈石礦石",
     "item.talisman.guide_devil_bottle": "導魔瓶",
@@ -28,6 +42,10 @@
     "item.talisman.doom_talisman": "滅字符",
     "item.talisman.huge_explosion_talisman": "天爆符",
     "item.talisman.change_clothing_talisman": "換裝符",
+    "item.talisman.raoist_robe_helmet": "道袍帽子",
+    "item.talisman.raoist_robe_chestplate": "道袍",
+    "item.talisman.raoist_robe_leggings": "道袍",
+    "item.talisman.raoist_robe_boots": "道袍鞋子",
 
     "itemGroup.talisman_group": "符·道",
 
@@ -36,6 +54,8 @@
     "tooltip.talisman.execute": "觸發:",
     "tooltip.talisman.execute.no": " - 無",
     "tooltip.talisman.execute.value": " - %s",
+    "tooltip.talisman.nopen": "沒有符筆",
+    "tooltip.talisman.noink": "沒有符墨",
 
     "text.all": "%s",
     "text.talisman.function": "函數%s",
