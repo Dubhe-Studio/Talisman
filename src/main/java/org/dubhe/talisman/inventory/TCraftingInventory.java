@@ -5,7 +5,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 
-public class TalismanCraftingInventory extends CraftingInventory {
+public class TCraftingInventory extends CraftingInventory {
     private Container container = new Container(null, -1) {
         @Override
         public boolean canInteractWith(PlayerEntity playerIn) {
@@ -13,7 +13,7 @@ public class TalismanCraftingInventory extends CraftingInventory {
         }
     };
 
-    public TalismanCraftingInventory() {
+    public TCraftingInventory() {
         super(new Container(null, -1) {
             @Override
             public boolean canInteractWith(PlayerEntity playerIn) {

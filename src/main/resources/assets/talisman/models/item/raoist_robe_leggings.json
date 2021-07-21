@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "talisman:item/raoist_robe_helmet"
+        "layer0": "talisman:item/raoist_robe_leggings"
     }
 }

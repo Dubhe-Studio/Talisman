@@ -7,8 +7,8 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import org.dubhe.talisman.block.tileentity.TCTLeftTileEntity;
-import org.dubhe.talisman.inventory.TalismanCraftingInventory;
-import org.dubhe.talisman.inventory.TalismanResultInventory;
+import org.dubhe.talisman.inventory.TCraftingInventory;
+import org.dubhe.talisman.inventory.TResultInventory;
 import org.dubhe.talisman.registry.TRecipes;
 
 import java.util.Random;
@@ -20,7 +20,7 @@ import java.util.Random;
 public class ResultSlot extends Slot {
     private final TCTLeftTileEntity tileEntity;
     private final PlayerEntity player;
-    private final TalismanCraftingInventory craftMatrix;
+    private final TCraftingInventory craftMatrix;
     private int amountCrafted;
 
     public ResultSlot(PlayerEntity player, TCTLeftTileEntity tileEntity, IInventory inventory, int index, int xPosition, int yPosition) {
@@ -37,7 +37,7 @@ public class ResultSlot extends Slot {
 
     @Override
     public boolean canTakeStack(PlayerEntity playerIn) {
-        return !this.inventory.isEmpty() && this.tileEntity.canTakeResultStack(((TalismanResultInventory) this.inventory).getExperience());
+        return !this.inventory.isEmpty() && this.tileEntity.canTakeResultStack(((TResultInventory) this.inventory).getExperience());
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ResultSlot extends Slot {
     @Override
     public ItemStack onTake(PlayerEntity player, ItemStack stack) {
         if (!player.world.isRemote) {
-            this.tileEntity.shrinkExperience(((TalismanResultInventory)this.inventory).getExperience());
+            this.tileEntity.shrinkExperience(((TResultInventory)this.inventory).getExperience());
         }
         decrStackSize(this.tileEntity, this.player.getRNG(), 9);
         decrStackSize(this.tileEntity, this.player.getRNG(), 11);
