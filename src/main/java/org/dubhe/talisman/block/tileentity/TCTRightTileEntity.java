@@ -23,9 +23,7 @@ public class TCTRightTileEntity extends TileEntity implements ITickableTileEntit
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        CompoundNBT nbt = this.setNBT(this.getLeftTileEntity().write(compound), this.pos);
-        System.out.println(nbt);
-        return nbt;
+        return this.setNBT(this.getLeftTileEntity().write(compound), this.pos);
     }
 
     private BlockPos getLeftBlockPos() {

@@ -1,6 +1,5 @@
 package org.dubhe.talisman.item;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelManager;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
@@ -8,6 +7,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -27,6 +27,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import org.dubhe.talisman.entity.TalismanEntity;
+import org.dubhe.talisman.registry.event.TServerTickEvent;
 import org.dubhe.talisman.talisman.AbstractTalisman;
 import org.dubhe.talisman.talisman.Talismans;
 
@@ -80,7 +81,7 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
             TalismanEntity talisman = this.createEntity(world, player, item);
             world.addEntity(talisman);
         }else {
-            execute(world, player, item.getOrCreateTag().getList("executes", 8), null);
+            TServerTickEvent.addExecute(world, player, item.getOrCreateTag().getList("executes", 8), null);
         }
         if (!player.isCreative()) item.shrink(1);
         player.addStat(Stats.ITEM_USED.get(this));
@@ -92,7 +93,7 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static void execute(World world, @Nullable Entity entity, ListNBT executes, @Nullable Entity target) {
+    public static void execute(World world, @Nullable Entity entity, ListNBT executes, @Nullable LivingEntity target) {
         if (!world.isRemote && executes.size() != 0) {
             Vector3d position = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
             MinecraftServer server = world.getServer();
@@ -103,7 +104,7 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
                     if (str.startsWith("function:")) server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
                     else Talismans.get(str).execute(entity, position, target);
                 }
-            } catch (CommandSyntaxException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

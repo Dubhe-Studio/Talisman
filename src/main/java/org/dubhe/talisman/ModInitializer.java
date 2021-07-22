@@ -15,10 +15,10 @@ import org.dubhe.talisman.registry.TEffects;
 import org.dubhe.talisman.registry.TEntityTypes;
 import org.dubhe.talisman.registry.TItems;
 import org.dubhe.talisman.registry.TOreGenerates;
-import org.dubhe.talisman.registry.TPotions;
 import org.dubhe.talisman.registry.TRecipes;
 import org.dubhe.talisman.registry.TStats;
 import org.dubhe.talisman.registry.TTileEntityTypes;
+import org.dubhe.talisman.registry.event.TServerTickEvent;
 import org.dubhe.talisman.talisman.Talismans;
 
 import static org.dubhe.talisman.ModInitializer.MODID;
@@ -49,12 +49,12 @@ public class ModInitializer {
         TEntityTypes.register(eventBus);
         TRecipes.register(eventBus);
         TEffects.register(eventBus);
-        TPotions.register(eventBus);
         TStats.register();
         Talismans.init();
 
         MinecraftForge.EVENT_BUS.addListener(TOreGenerates::register);
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(new TServerTickEvent());
 
     }
 

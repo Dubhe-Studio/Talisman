@@ -1,17 +1,27 @@
 package org.dubhe.talisman.talisman;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.vector.Vector3d;
+import org.dubhe.talisman.entity.TalismanEntity;
 
 import javax.annotation.Nullable;
 
 public class TransferTalisman extends AbstractTalisman {
-    protected TransferTalisman(String name) {
-        super(name);
+    protected TransferTalisman() {
+        super("transfer");
     }
 
     @Override
-    public void execute(Entity entity, Vector3d pos, @Nullable Entity target) {
-
+    @SuppressWarnings("ConstantConditions")
+    public void execute(Entity entity, Vector3d pos, @Nullable LivingEntity target) throws Exception {
+        if (entity instanceof TalismanEntity) entity = ((TalismanEntity)entity).getOwner();
+        if (target == null) {
+            entity.setPositionAndUpdate(pos.x, pos.y, pos.z);
+        }else {
+            Vector3d before = target.getPositionVec();
+            target.setPositionAndUpdate(entity.getPosX(), entity.getPosY(), entity.getPosZ());
+            entity.setPositionAndUpdate(before.x, before.y, before.z);
+        }
     }
 }

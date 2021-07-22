@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -15,10 +16,12 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
-import org.dubhe.talisman.item.TalismanItem;
 import org.dubhe.talisman.registry.TEntityTypes;
+import org.dubhe.talisman.registry.event.TServerTickEvent;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +30,7 @@ public class TalismanEntity extends Entity {
     private static final DataParameter<Integer> MANA = EntityDataManager.createKey(TalismanEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> STOP = EntityDataManager.createKey(TalismanEntity.class, DataSerializers.BOOLEAN);
     private UUID owner;
-    private Entity entity = null;
+    private LivingEntity entity = null;
     private ListNBT executes = new ListNBT();
 
     public TalismanEntity(EntityType<? extends TalismanEntity> type, World world) {
@@ -44,6 +47,15 @@ public class TalismanEntity extends Entity {
         this.setLocationAndAngles(x, y, z, owner.rotationYaw, owner.rotationPitch);
         this.owner = owner.getUniqueID();
         this.executes.addAll(execute);
+    }
+
+    @Nullable
+    public LivingEntity getOwner() {
+        if (!this.world.isRemote) {
+            Entity entity = ((ServerWorld)this.world).getEntityByUuid(this.owner);
+            if (entity instanceof LivingEntity) return (LivingEntity) entity;
+        }
+        return null;
     }
 
     @Override
@@ -83,7 +95,7 @@ public class TalismanEntity extends Entity {
         super.tick();
 
         if (this.dataManager.get(STOP)) {
-            TalismanItem.execute(this.world, this, this.executes, this.entity);
+            TServerTickEvent.addExecute(this.world, this, this.executes, this.entity);
             this.setDead();
             return;
         }
@@ -103,7 +115,7 @@ public class TalismanEntity extends Entity {
         pos = pos.add(0, 0.3, 0);
         if (this.owner != null) {
             AxisAlignedBB box = new AxisAlignedBB(pos.x - 0.3, pos.y - 0.3, pos.z - 0.3, pos.x + 0.3, pos.y + 0.3, pos.z + 0.3);
-            List<Entity> entities = this.world.getEntitiesWithinAABB(Entity.class, box, (entity) -> entity != null && entity.isAlive() && !entity.equals(this) && !entity.equals(this.world.getPlayerByUuid(this.owner)));
+            List<LivingEntity> entities = this.world.getEntitiesWithinAABB(LivingEntity.class, box, (entity) -> entity != null && entity.isAlive() && !entity.equals(this.world.getPlayerByUuid(this.owner)));
             if (!entities.isEmpty()) {
                 this.dataManager.set(STOP, true);
                 this.entity = entities.get(0);
