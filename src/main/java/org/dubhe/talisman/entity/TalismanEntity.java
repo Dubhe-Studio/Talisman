@@ -95,8 +95,8 @@ public class TalismanEntity extends Entity {
         super.tick();
 
         if (this.dataManager.get(STOP)) {
-            TServerTickEvent.addExecute(this.world, this, this.executes, this.entity);
-            this.setDead();
+            if (this.dataManager.get(MANA) == 0) TServerTickEvent.addExecute(this.world, this, this.executes, this.entity);
+            this.decreaseMana(1);
             return;
         }
 
@@ -118,18 +118,21 @@ public class TalismanEntity extends Entity {
             List<LivingEntity> entities = this.world.getEntitiesWithinAABB(LivingEntity.class, box, (entity) -> entity != null && entity.isAlive() && !entity.equals(this.world.getPlayerByUuid(this.owner)));
             if (!entities.isEmpty()) {
                 this.dataManager.set(STOP, true);
+                this.dataManager.set(MANA, 0);
                 this.entity = entities.get(0);
+                return;
             }
         }
 
-        outer: for (double detectX = -0.3; detectX != 0.3; detectX +=0.3) {
+        for (double detectX = -0.3; detectX != 0.3; detectX +=0.3) {
             for (double detectY = -0.3; detectY != 0.3; detectY +=0.3) {
                 for (double detectZ = -0.3; detectZ != 0.3; detectZ +=0.3) {
                     BlockPos blockPos = new BlockPos(pos.add(detectX, detectY, detectZ));
                     BlockState state = this.world.getBlockState(blockPos);
                     if (state.getBlock() != Blocks.AIR) {
                         this.dataManager.set(STOP, true);
-                        break outer;
+                        this.dataManager.set(MANA, 0);
+                        return;
                     }
                 }
             }
@@ -140,8 +143,8 @@ public class TalismanEntity extends Entity {
     }
 
     public void decreaseMana(int value) {
-        if (this.dataManager.get(MANA) > 0) this.dataManager.set(MANA, this.dataManager.get(MANA) - value);
-        else this.dataManager.set(STOP, true);
+        this.dataManager.set(MANA, this.dataManager.get(MANA) - value);
+        if (this.dataManager.get(MANA) <= 0) this.dataManager.set(STOP, true);
     }
 
     @Override

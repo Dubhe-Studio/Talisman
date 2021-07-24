@@ -12,6 +12,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.dubhe.talisman.entity.TalismanEntity;
 import org.dubhe.talisman.talisman.Talismans;
 
 import javax.annotation.Nullable;
@@ -30,22 +31,22 @@ public class TServerTickEvent {
     public void onClientSetUpEvent(TickEvent.ServerTickEvent event) {
         if (!EXECUTES.isEmpty()) {
             ExecuteInstance instance = EXECUTES.remove(0);
-            if (!instance.getExecutes().isEmpty()) {
-                Entity entity = instance.getEntity();
+            Entity entity = instance.entity;
+            if (!instance.executes.isEmpty()) {
                 Vector3d position = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
-                MinecraftServer server = instance.getWorld().getServer();
+                MinecraftServer server = instance.world.getServer();
                 try {
                     CommandSource source = server.getFunctionManager().getCommandSource().withPos(position).withRotation(entity, EntityAnchorArgument.Type.EYES).withEntity(entity);
-                    for (INBT execute : instance.getExecutes()) {
+                    for (INBT execute : instance.executes) {
                         String str = execute.getString();
                         if (str.startsWith("function:")) server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
-                        else Talismans.get(str).execute(entity, position, instance.getTarget());
+                        else Talismans.get(str).execute(entity, position, instance.target);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
+            if (entity instanceof TalismanEntity) entity.remove();
         }
     }
 
@@ -61,23 +62,6 @@ public class TServerTickEvent {
             this.entity = entity;
             this.executes = executes;
             this.target = target;
-        }
-
-        public World getWorld() {
-            return world;
-        }
-
-        public Entity getEntity() {
-            return entity;
-        }
-
-        public ListNBT getExecutes() {
-            return executes;
-        }
-
-        @Nullable
-        public LivingEntity getTarget() {
-            return target;
         }
     }
 

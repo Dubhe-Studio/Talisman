@@ -23,13 +23,29 @@ public class TIngredient extends Ingredient {
                 return stack.isEmpty();
             } else {
                 for(ItemStack itemstack : matchingStacks) {
-                    if (ItemStack.areItemStackTagsEqual(itemstack, stack)) {
+                    if (stacksEqual(itemstack, stack)) {
                         return true;
                     }
                 }
 
                 return false;
             }
+        }
+    }
+
+    private static boolean stacksEqual(ItemStack stack1, ItemStack stack2) {
+        if (stack1.isEmpty() && stack2.isEmpty()) {
+            return true;
+        } else if (!stack1.isEmpty() && !stack2.isEmpty()) {
+            if (stack1.getItem() != stack2.getItem()) {
+                return false;
+            } else if (stack1.getTag() == null && stack2.getTag() != null) {
+                return false;
+            } else {
+                return (stack1.getTag() == null || stack1.getTag().equals(stack2.getTag())) && stack1.areCapsCompatible(stack2);
+            }
+        } else {
+            return false;
         }
     }
 

@@ -26,6 +26,6 @@ public class OutputAndDemand {
 
     @Override
     public String toString() {
-        return "OutputAndDemand: " + this.itemStack + " and " + this.experience + " experiences";
+        return "OutputAndDemand: " + this.itemStack + (this.itemStack.hasTag() ? this.itemStack.getTag() : "") + " and " + this.experience + " experiences";
     }
 }
