@@ -1,59 +1,52 @@
 package org.dubhe.talisman.item;
 
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ModelManager;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.arguments.EntityAnchorArgument;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import org.dubhe.talisman.entity.TalismanEntity;
 import org.dubhe.talisman.registry.event.TServerTickEvent;
 import org.dubhe.talisman.talisman.AbstractTalisman;
-import org.dubhe.talisman.talisman.Talismans;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 @SuppressWarnings("NullableProblems")
-public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomModel {
+public class TalismanItem extends Item implements IWithDefaultNbt {
+    private final boolean throwable;
+    @Nullable
+    private final AbstractTalisman execute;
 
     public TalismanItem(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON));
+        this.throwable = true;
+        this.execute = null;
+    }
+
+    public TalismanItem(boolean throwable, @Nullable AbstractTalisman execute, Properties properties) {
+        super(properties.rarity(Rarity.UNCOMMON));
+        this.throwable = throwable;
+        this.execute = execute;
     }
 
     @Override
     public CompoundNBT defaultNbt(CompoundNBT nbt) {
-        nbt.putBoolean("throwable", true);
-        nbt.put("executes", new ListNBT());
+        nbt.putBoolean("throwable", this.throwable);
+        ListNBT listNBT = new ListNBT();
+        if (this.execute != null) listNBT.add(StringNBT.valueOf(this.execute.getName()));
+        nbt.put("executes", listNBT);
         return nbt;
-    }
-
-    @Override
-    public String getTranslationKey(ItemStack stack) {
-        ListNBT list = stack.getOrCreateTag().getList("executes", 8);
-        if (list.size() == 1 && !list.getString(0).startsWith("function:"))
-            return String.format("item.talisman.%s_talisman", list.getString(0));
-        return super.getTranslationKey(stack);
     }
 
     @Override
@@ -90,64 +83,5 @@ public class TalismanItem extends Item implements IWithDefaultNbt, IWithCustomMo
 
     public TalismanEntity createEntity(World world, PlayerEntity player, ItemStack stack) {
         return new TalismanEntity(world, player.getEyePosition(1.0F).add(0, -0.525D, 0), player, stack.getOrCreateTag().getList("executes", 8));
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    public static void execute(World world, @Nullable Entity entity, ListNBT executes, @Nullable LivingEntity target) {
-        if (!world.isRemote && executes.size() != 0) {
-            Vector3d position = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
-            MinecraftServer server = world.getServer();
-            try {
-                CommandSource source = server.getFunctionManager().getCommandSource().withPos(position).withRotation(entity, EntityAnchorArgument.Type.EYES).withEntity(entity);
-                for (INBT execute : executes) {
-                    String str = execute.getString();
-                    if (str.startsWith("function:")) server.getCommandManager().handleCommand(source, String.format("function %s", str.split(":", 2)[1]));
-                    else Talismans.get(str).execute(entity, position, target);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (this.isInGroup(group)) {
-            items.add(new ItemStack(this));
-            items.add(groupItem(this, true, Talismans.EXPLODE));
-            items.add(groupItem(this, true, Talismans.TRANSFER));
-            items.add(groupItem(this, true, Talismans.FIREBALL));
-            items.add(groupItem(this, true, Talismans.IMMOBILITY));
-            items.add(groupItem(this, true, Talismans.TREATMENT));
-            items.add(groupItem(this, true, Talismans.PUPPET));
-            items.add(groupItem(this, true, Talismans.SEPARATION));
-            items.add(groupItem(this, true, Talismans.THUNDER));
-            items.add(groupItem(this, true, Talismans.MUTE));
-            items.add(groupItem(this, true, Talismans.CARRY));
-            items.add(groupItem(this, true, Talismans.WATER_BALL));
-            items.add(groupItem(this, true, Talismans.DOOM));
-            items.add(groupItem(this, true, Talismans.HUGE_EXPLOSION));
-            items.add(groupItem(this, false, Talismans.CHANGE_CLOTHING));
-        }
-    }
-
-    private static ItemStack groupItem(Item item, boolean throwable, AbstractTalisman execute) {
-        ItemStack stack = new ItemStack(item);
-        stack.getOrCreateTag().putBoolean("throwable", throwable);
-        ListNBT list = new ListNBT();
-        list.add(StringNBT.valueOf(execute.getName()));
-        stack.getOrCreateTag().put("executes", list);
-        return stack;
-    }
-
-    @Override
-    public IBakedModel getModel(ItemStack stack, ModelManager manager) {
-        ListNBT executes = stack.getOrCreateTag().getList("executes", 8);
-        if (executes.size() > 0 && !executes.getString(0).startsWith("function:")) {
-            String type = executes.getString(0);
-            return manager.getModel(new ModelResourceLocation("talisman:talisman/" + type, "inventory"));
-        }
-        return null;
     }
 }

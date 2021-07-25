@@ -23,12 +23,11 @@ public class TServerTickEvent {
 
     public static void addExecute(World world, Entity entity, ListNBT executes, @Nullable LivingEntity target) {
         EXECUTES.add(new ExecuteInstance(world, entity, executes, target));
-
     }
 
     @SubscribeEvent
     @SuppressWarnings("ConstantConditions")
-    public void onClientSetUpEvent(TickEvent.ServerTickEvent event) {
+    public void onServerTickEvent(TickEvent.ServerTickEvent event) {
         if (!EXECUTES.isEmpty()) {
             ExecuteInstance instance = EXECUTES.remove(0);
             Entity entity = instance.entity;

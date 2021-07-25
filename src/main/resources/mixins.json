@@ -10,8 +10,6 @@
         "ServerPlayerEntityMixin"
     ],
     "client": [
-        "ItemModelMesherMixin",
-        "ModelBakeryMixin"
     ],
     "injectors": {
         "defaultRequire": 1
