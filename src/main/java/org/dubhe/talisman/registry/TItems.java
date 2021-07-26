@@ -20,15 +20,15 @@ public final class TItems {
     public static final RegistryObject<Item> EXPLODE_TALISMAN = ITEM.register("explode_talisman", () -> new TalismanItem(true, Talismans.EXPLODE, properties().maxStackSize(16)));
     public static final RegistryObject<Item> TRANSFER_TALISMAN = ITEM.register("transfer_talisman", () -> new TalismanItem(true, Talismans.TRANSFER, properties().maxStackSize(16)));
     public static final RegistryObject<Item> FIREBALL_TALISMAN = ITEM.register("fireball_talisman", () -> new TalismanItem(true, Talismans.FIREBALL, properties().maxStackSize(16)));
-    public static final RegistryObject<Item> IMMOBILITY_TALISMAN = ITEM.register("immobility_talisman", () -> new TalismanItem(true, Talismans.IMMOBILITY, properties().maxStackSize(16)));
+//    public static final RegistryObject<Item> IMMOBILITY_TALISMAN = ITEM.register("immobility_talisman", () -> new TalismanItem(true, Talismans.IMMOBILITY, properties().maxStackSize(16)));
     public static final RegistryObject<Item> TREATMENT_TALISMAN = ITEM.register("treatment_talisman", () -> new TalismanItem(true, Talismans.TREATMENT, properties().maxStackSize(16)));
-    public static final RegistryObject<Item> PUPPET_TALISMAN = ITEM.register("puppet_talisman", () -> new TalismanItem(true, Talismans.PUPPET, properties().maxStackSize(16)));
-    public static final RegistryObject<Item> SEPARATION_TALISMAN = ITEM.register("separation_talisman", () -> new TalismanItem(true, Talismans.SEPARATION, properties().maxStackSize(16)));
+//    public static final RegistryObject<Item> PUPPET_TALISMAN = ITEM.register("puppet_talisman", () -> new TalismanItem(true, Talismans.PUPPET, properties().maxStackSize(16)));
+//    public static final RegistryObject<Item> SEPARATION_TALISMAN = ITEM.register("separation_talisman", () -> new TalismanItem(true, Talismans.SEPARATION, properties().maxStackSize(16)));
     public static final RegistryObject<Item> THUNDER_TALISMAN = ITEM.register("thunder_talisman", () -> new TalismanItem(true, Talismans.THUNDER, properties().maxStackSize(16)));
-    public static final RegistryObject<Item> MUTE_TALISMAN = ITEM.register("mute_talisman", () -> new TalismanItem(true, Talismans.MUTE, properties().maxStackSize(16)));
+//    public static final RegistryObject<Item> MUTE_TALISMAN = ITEM.register("mute_talisman", () -> new TalismanItem(true, Talismans.MUTE, properties().maxStackSize(16)));
     public static final RegistryObject<Item> CARRY_TALISMAN = ITEM.register("carry_talisman", () -> new TalismanItem(true, Talismans.CARRY, properties().maxStackSize(16)));
-    public static final RegistryObject<Item> WATER_BALL_TALISMAN = ITEM.register("water_ball_talisman", () -> new TalismanItem(true, Talismans.WATER_BALL, properties().maxStackSize(16)));
-public static final RegistryObject<Item> DOOM_TALISMAN = ITEM.register("doom_talisman", () -> new TalismanItem(true, Talismans.DOOM, properties().maxStackSize(16)));
+//    public static final RegistryObject<Item> WATER_BALL_TALISMAN = ITEM.register("water_ball_talisman", () -> new TalismanItem(true, Talismans.WATER_BALL, properties().maxStackSize(16)));
+    public static final RegistryObject<Item> DOOM_TALISMAN = ITEM.register("doom_talisman", () -> new TalismanItem(true, Talismans.DOOM, properties().maxStackSize(16)));
     public static final RegistryObject<Item> HUGE_EXPLOSION_TALISMAN = ITEM.register("huge_explosion_talisman", () -> new TalismanItem(true, Talismans.HUGE_EXPLOSION, properties().maxStackSize(16)));
     public static final RegistryObject<Item> CHANGE_CLOTHING_TALISMAN = ITEM.register("change_clothing_talisman", () -> new TalismanItem(false, Talismans.CHANGE_CLOTHING, properties().maxStackSize(16).maxDamage(5)));
 

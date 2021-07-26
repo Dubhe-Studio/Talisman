@@ -10,6 +10,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dubhe.talisman.registry.TBlocks;
+import org.dubhe.talisman.registry.TCommands;
 import org.dubhe.talisman.registry.TContainerTypes;
 import org.dubhe.talisman.registry.TEffects;
 import org.dubhe.talisman.registry.TEntityTypes;
@@ -55,6 +56,7 @@ public class ModInitializer {
         MinecraftForge.EVENT_BUS.addListener(TOreGenerates::register);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new TServerTickEvent());
+        MinecraftForge.EVENT_BUS.register(new TCommands());
 
     }
 
