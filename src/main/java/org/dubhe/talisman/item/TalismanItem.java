@@ -67,7 +67,7 @@ public class TalismanItem extends Item implements IWithDefaultNbt {
                     IFormattableTextComponent value = new TranslationTextComponent("text.talisman." + name);
                     AbstractTalisman talisman = Talismans.get(name);
                     if (talisman != null) value.mergeStyle(talisman.isBeneficial() ? TextFormatting.GREEN : TextFormatting.RED);
-                    tooltip.add(new TranslationTextComponent("tooltip.talisman.execute.value", talisman));
+                    tooltip.add(new TranslationTextComponent("tooltip.talisman.execute.value", value));
                 }
             }
         }else tooltip.add(new TranslationTextComponent("tooltip.talisman.execute.no"));
