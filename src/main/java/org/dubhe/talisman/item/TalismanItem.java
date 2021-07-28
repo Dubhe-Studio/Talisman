@@ -12,12 +12,15 @@ import net.minecraft.nbt.StringNBT;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import org.dubhe.talisman.entity.TalismanEntity;
 import org.dubhe.talisman.registry.event.TServerTickEvent;
 import org.dubhe.talisman.talisman.AbstractTalisman;
+import org.dubhe.talisman.talisman.Talismans;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -60,8 +63,12 @@ public class TalismanItem extends Item implements IWithDefaultNbt {
                 String name = execute.getString();
                 if (name.startsWith("function:"))
                     tooltip.add(new TranslationTextComponent("tooltip.talisman.execute.value", new TranslationTextComponent("text.talisman.function", name.split(":", 2)[1])));
-                else
-                    tooltip.add(new TranslationTextComponent("tooltip.talisman.execute.value", new TranslationTextComponent("text.talisman." + name)));
+                else {
+                    IFormattableTextComponent value = new TranslationTextComponent("text.talisman." + name);
+                    AbstractTalisman talisman = Talismans.get(name);
+                    if (talisman != null) value.mergeStyle(talisman.isBeneficial() ? TextFormatting.GREEN : TextFormatting.RED);
+                    tooltip.add(new TranslationTextComponent("tooltip.talisman.execute.value", talisman));
+                }
             }
         }else tooltip.add(new TranslationTextComponent("tooltip.talisman.execute.no"));
     }

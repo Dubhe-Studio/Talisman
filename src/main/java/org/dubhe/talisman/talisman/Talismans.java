@@ -1,5 +1,6 @@
 package org.dubhe.talisman.talisman;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,11 +26,12 @@ public class Talismans {
 
     public static void init() {}
 
-    private static <T extends AbstractTalisman> T register(T talisman) {
+    public static <T extends AbstractTalisman> T register(T talisman) {
         TALISMANS.put(talisman.getName(), talisman);
         return talisman;
     }
 
+    @Nullable
     @SuppressWarnings("unchecked")
     public static <T extends AbstractTalisman> T get(String name) {
         return (T) TALISMANS.get(name);
