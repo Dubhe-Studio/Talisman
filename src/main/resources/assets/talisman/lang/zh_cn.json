@@ -1,4 +1,6 @@
 {
+    "mod.talisman.name": "符·道",
+
     "block.talisman.divine_stone_ore": "灵石矿石",
     "block.talisman.divine_stone_block": "灵石块",
     "block.talisman.cinnabar_ore": "朱砂矿石",
@@ -57,8 +59,15 @@
     "item.talisman.raoist_robe_chestplate": "道袍",
     "item.talisman.raoist_robe_leggings": "道袍",
     "item.talisman.raoist_robe_boots": "道袍鞋子",
-
-    "itemGroup.talisman_group": "符·道",
+    "item.talisman.music_disc": "音乐唱片",
+    "item.talisman.music_disc.desc": "司鼓君 - %s",
+    "item.talisman.music_disc_alioth": "玉衡",
+    "item.talisman.music_disc_alkid": "摇光",
+    "item.talisman.music_disc_dubhe": "天枢",
+    "item.talisman.music_disc_megrez": "天权",
+    "item.talisman.music_disc_merak": "天璇",
+    "item.talisman.music_disc_mizar": "开阳",
+    "item.talisman.music_disc_phecda": "天玑",
 
     "tooltip.talisman.throwable": "可抛出",
     "tooltip.talisman.throwable.no": "不可抛出",
@@ -70,22 +79,21 @@
 
     "text.all": "%s",
     "text.talisman.function": "函数%s",
-    "text.talisman.explode": "§c敕",
-    "text.talisman.transfer": "§a传送",
-    "text.talisman.fireball": "§a火",
-    "text.talisman.immobility": "§a锁",
-    "text.talisman.treatment": "§a回春",
-    "text.talisman.puppet": "§a尸",
-    "text.talisman.separation": "§a替身",
-    "text.talisman.thunder": "§c雷霄",
-    "text.talisman.mute": "§a静音",
-    "text.talisman.carry": "§a搬山",
-    "text.talisman.water_ball": "§a御水",
-    "text.talisman.doom": "§c灭",
-    "text.talisman.huge_explosion": "§c天爆",
-    "text.talisman.change_clothing": "§a换装",
+    "text.talisman.explode": "敕",
+    "text.talisman.transfer": "传送",
+    "text.talisman.fireball": "火",
+    "text.talisman.immobility": "锁",
+    "text.talisman.treatment": "回春",
+    "text.talisman.puppet": "尸",
+    "text.talisman.separation": "替身",
+    "text.talisman.thunder": "雷霄",
+    "text.talisman.mute": "静音",
+    "text.talisman.carry": "搬山",
+    "text.talisman.water_ball": "御水",
+    "text.talisman.doom": "灭",
+    "text.talisman.huge_explosion": "天爆",
+    "text.talisman.change_clothing": "换装",
 
-    "advancements.talisman.root.title": "符·道",
     "advancements.talisman.root.description": "灵符的奥秘"
 
 }

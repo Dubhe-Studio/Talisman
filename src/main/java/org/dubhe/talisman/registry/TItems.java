@@ -4,6 +4,8 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.MusicDiscItem;
+import net.minecraft.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -42,7 +44,13 @@ public final class TItems {
     public static final RegistryObject<Item> RAOIST_ROBE_CHESTPLATE = ITEM.register("raoist_robe_chestplate", () -> new ArmorItem(TArmorMaterial.RAOIST_ROBE, EquipmentSlotType.CHEST, properties()));
     public static final RegistryObject<Item> RAOIST_ROBE_LEGGINGS = ITEM.register("raoist_robe_leggings", () -> new ArmorItem(TArmorMaterial.RAOIST_ROBE, EquipmentSlotType.LEGS, properties()));
     public static final RegistryObject<Item> RAOIST_ROBE_BOOTS = ITEM.register("raoist_robe_boots", () -> new ArmorItem(TArmorMaterial.RAOIST_ROBE, EquipmentSlotType.FEET, properties()));
-    //    public static final RegistryObject<Item> MUSIC_DISC_ = ITEM.register("music_disc_", () -> new MusicDiscItem(0, TSoundEvents.MUSIC_DISC_,itemProperties().maxStackSize(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_ALIOTH = ITEM.register("music_disc_alioth", () -> new TMusicDiscItem(0, TSoundEvents.ALIOTH, properties().maxStackSize(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_ALKID = ITEM.register("music_disc_alkid", () -> new TMusicDiscItem(0, TSoundEvents.ALKID, properties().maxStackSize(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_DUBHE = ITEM.register("music_disc_dubhe", () -> new TMusicDiscItem(0, TSoundEvents.DUBHE, properties().maxStackSize(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_MEGREZ = ITEM.register("music_disc_megrez", () -> new TMusicDiscItem(0, TSoundEvents.MEGREZ, properties().maxStackSize(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_MERAK = ITEM.register("music_disc_merak", () -> new TMusicDiscItem(0, TSoundEvents.MERAK, properties().maxStackSize(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_MIZAR = ITEM.register("music_disc_mizar", () -> new TMusicDiscItem(0, TSoundEvents.MIZAR, properties().maxStackSize(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MUSIC_DISC_PHECDA = ITEM.register("music_disc_phecda", () -> new TMusicDiscItem(0, TSoundEvents.PHECDA, properties().maxStackSize(1).rarity(Rarity.RARE)));
 
     // block item
     public static RegistryObject<Item> DIVINE_STONE_ORE = ITEM.register("divine_stone_ore", () -> new BlockItem(TBlocks.DIVINE_STONE_ORE.get(), properties()));

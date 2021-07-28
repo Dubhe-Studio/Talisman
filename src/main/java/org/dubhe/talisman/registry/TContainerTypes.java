@@ -11,7 +11,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.block.tileentity.TCTLeftTileEntity;
-import org.dubhe.talisman.block.container.TCTContainer;
+import org.dubhe.talisman.container.TCTContainer;
 
 @SuppressWarnings("ConstantConditions")
 public class TContainerTypes {

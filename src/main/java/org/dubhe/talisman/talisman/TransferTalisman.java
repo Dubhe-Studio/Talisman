@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 public class TransferTalisman extends AbstractTalisman {
     protected TransferTalisman() {
-        super("transfer");
+        super("transfer", true);
     }
 
     @Override

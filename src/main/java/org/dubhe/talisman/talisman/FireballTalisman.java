@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
 
 public class FireballTalisman extends AbstractTalisman {
     protected FireballTalisman() {
-        super("fireball");
+        super("fireball", false);
     }
 
     @Override

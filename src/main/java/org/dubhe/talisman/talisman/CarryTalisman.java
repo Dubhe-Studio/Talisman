@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class CarryTalisman extends AbstractTalisman {
     protected CarryTalisman() {
-        super("carry");
+        super("carry", true);
     }
 
     @Override

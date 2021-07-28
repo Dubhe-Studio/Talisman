@@ -4,7 +4,7 @@
       "item": "talisman:talisman"
     },
     "title": {
-      "translate": "advancements.talisman.root.title"
+      "translate": "mod.talisman.name"
     },
     "description": {
       "translate": "advancements.talisman.root.description"

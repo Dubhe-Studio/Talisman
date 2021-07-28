@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class PuppetTalisman extends AbstractTalisman {
     protected PuppetTalisman() {
-        super("puppet");
+        super("puppet", true);
     }
 
     @Override

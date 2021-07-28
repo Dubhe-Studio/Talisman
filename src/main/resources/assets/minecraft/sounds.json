@@ -1,0 +1,11 @@
+{
+    "music.game": {
+        "replace": false,
+        "sounds": [
+            {
+                "name": "talisman:the_big_dipper",
+                "stream": true
+            }
+        ]
+    }
+}

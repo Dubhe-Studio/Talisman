@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class MuteTalisman extends AbstractTalisman {
     protected MuteTalisman() {
-        super("mute");
+        super("mute", true);
     }
 
     @Override

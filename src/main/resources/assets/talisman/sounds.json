@@ -1,0 +1,66 @@
+{
+    "music_disc.alioth": {
+        "sounds": [
+            {
+                "name": "talisman:alioth",
+                "stream": true
+            }
+        ]
+    },
+    "music_disc.alkid": {
+        "sounds": [
+            {
+                "name": "talisman:alkid",
+                "stream": true
+            }
+        ]
+    },
+    "music_disc.dubhe": {
+        "sounds": [
+            {
+                "name": "talisman:dubhe",
+                "stream": true
+            }
+        ]
+    },
+    "music_disc.megrez": {
+        "sounds": [
+            {
+                "name": "talisman:megrez",
+                "stream": true
+            }
+        ]
+    },
+    "music_disc.merak": {
+        "sounds": [
+            {
+                "name": "talisman:merak",
+                "stream": true
+            }
+        ]
+    },
+    "music_disc.mizar": {
+        "sounds": [
+            {
+                "name": "talisman:mizar",
+                "stream": true
+            }
+        ]
+    },
+    "music_disc.phecda": {
+        "sounds": [
+            {
+                "name": "talisman:phecda",
+                "stream": true
+            }
+        ]
+    },
+    "music.the_big_dipper": {
+        "sounds": [
+            {
+                "name": "talisman:the_big_dipper",
+                "stream": true
+            }
+        ]
+    }
+}

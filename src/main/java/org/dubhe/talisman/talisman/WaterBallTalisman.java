@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class WaterBallTalisman extends AbstractTalisman {
     protected WaterBallTalisman() {
-        super("water_ball");
+        super("water_ball", true);
     }
 
     @Override

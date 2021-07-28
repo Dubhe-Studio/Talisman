@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class ChangeClothingTalisman extends AbstractTalisman {
     protected ChangeClothingTalisman() {
-        super("change_clothing");
+        super("change_clothing", true);
     }
 
     @Override

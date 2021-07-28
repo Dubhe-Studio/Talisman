@@ -20,7 +20,7 @@ import org.dubhe.talisman.recipe.OutputAndDemand;
 import org.dubhe.talisman.recipe.TalismanRecipe;
 import org.dubhe.talisman.registry.TRecipes;
 import org.dubhe.talisman.registry.TTileEntityTypes;
-import org.dubhe.talisman.block.container.TCTContainer;
+import org.dubhe.talisman.container.TCTContainer;
 
 import java.util.Optional;
 

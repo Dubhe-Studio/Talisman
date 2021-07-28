@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class SeparationTalisman extends AbstractTalisman {
     protected SeparationTalisman() {
-        super("separation");
+        super("separation", true);
     }
 
     @Override

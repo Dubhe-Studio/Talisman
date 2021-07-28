@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 public class ExplodeTalisman extends AbstractTalisman {
     protected ExplodeTalisman() {
-        super("explode");
+        super("explode", false);
     }
 
     @Override

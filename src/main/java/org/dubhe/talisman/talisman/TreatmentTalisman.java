@@ -11,9 +11,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TreatmentTalisman extends AbstractTalisman {
-
     protected TreatmentTalisman() {
-        super("treatment");
+        super("treatment", true);
     }
 
     @Override

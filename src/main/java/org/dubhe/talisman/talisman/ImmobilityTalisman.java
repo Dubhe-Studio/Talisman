@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class ImmobilityTalisman extends AbstractTalisman {
     protected ImmobilityTalisman() {
-        super("immobility");
+        super("immobility", true);
     }
 
     @Override

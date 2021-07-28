@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 
 public class ThunderTalisman extends AbstractTalisman {
     protected ThunderTalisman() {
-        super("thunder");
+        super("thunder", false);
     }
 
     @Override
