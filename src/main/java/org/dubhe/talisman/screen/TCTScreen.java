@@ -9,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.dubhe.talisman.ModInitializer;
 import org.dubhe.talisman.container.TCTContainer;
 import org.dubhe.talisman.registry.TBaseValue;
@@ -16,20 +18,17 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
+@OnlyIn(Dist.CLIENT)
 @SuppressWarnings("NullableProblems")
 public class TCTScreen extends ContainerScreen<TCTContainer> {
     private static final ResourceLocation TEXTURE = ModInitializer.getIdentifier("textures/gui/container/talisman_crafting_table.png");
     private static final ITextComponent NO_PEN = new TranslationTextComponent("tooltip.talisman.nopen").mergeStyle(TextFormatting.RED);
     private static final ITextComponent NO_INK = new TranslationTextComponent("tooltip.talisman.noink").mergeStyle(TextFormatting.RED);
-    int texWidth = 176;
-    int texHeight = 166;
     private double alpha = 0;
 
     public TCTScreen(TCTContainer container, PlayerInventory inv, ITextComponent title) {
         super(container, inv, title);
         this.passEvents = false;
-        this.xSize = this.texWidth;
-        this.ySize = this.texHeight;
     }
 
     @Override
