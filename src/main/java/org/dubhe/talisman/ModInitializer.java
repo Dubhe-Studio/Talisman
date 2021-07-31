@@ -36,8 +36,6 @@ public class ModInitializer {
 
     public static final ITextComponent MOD_TEXT = new TranslationTextComponent("mod.talisman.name");
 
-    public static final Logger LOGGER = LogManager.getLogger();
-
     public static final ItemGroup TalismanItemGroup = new ItemGroup("talisman_group") {
         @Override
         @SuppressWarnings("NullableProblems")
@@ -55,7 +53,7 @@ public class ModInitializer {
     public ModInitializer() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        TSoundEvents.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TSoundEvents.register(eventBus);
         TBlocks.register(eventBus);
         TItems.register(eventBus);
         TTileEntityTypes.register(eventBus);

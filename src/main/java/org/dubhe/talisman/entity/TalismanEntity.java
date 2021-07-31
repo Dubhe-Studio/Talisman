@@ -95,7 +95,7 @@ public class TalismanEntity extends Entity {
         super.tick();
 
         if (this.dataManager.get(STOP)) {
-            if (this.dataManager.get(MANA) == 0) TServerTickEvent.addExecute(this.world, this, this.executes, this.entity);
+            if (this.dataManager.get(MANA) == 0) TServerTickEvent.addExecute(this.world, this, this.executes, null, this.entity);
             this.decreaseMana(1);
             return;
         }

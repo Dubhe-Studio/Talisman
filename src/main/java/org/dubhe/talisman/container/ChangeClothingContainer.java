@@ -2,53 +2,55 @@ package org.dubhe.talisman.container;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.IIntArray;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.dubhe.talisman.item.ChangeClothingTalismanItem;
+import org.dubhe.talisman.registry.TContainerTypes;
+import org.dubhe.talisman.registry.TItems;
 
 public class ChangeClothingContainer extends Container {
     public static final NullPointerException ERROR_TALISMAN_DATA = new NullPointerException("This talisman is not have change clothing tag");
+    private static final EquipmentSlotType[] VALID_EQUIPMENT_SLOTS = new EquipmentSlotType[]{EquipmentSlotType.HEAD, EquipmentSlotType.CHEST, EquipmentSlotType.LEGS, EquipmentSlotType.FEET};
     private final ItemInventory inventory;
-    private final IIntArray data = new IIntArray() {
-        @Override
-        public int get(int index) {
-            int value = 0;
-            for (ItemStack armor : inventory.armors) {
-                value = value << 1;
-                if (!armor.isEmpty()) value++;
-            }
-            return value;
-        }
+    private final Hand hand;
 
-        @Override
-        public void set(int index, int value) {
-        }
 
-        @Override
-        public int size() {
-            return 1;
-        }
-    };
+    public ChangeClothingContainer(int id, PlayerInventory playerInventory, boolean hand) {
+        this(id, playerInventory, hand ? Hand.MAIN_HAND : Hand.OFF_HAND);
+    }
 
     @SuppressWarnings("ConstantConditions")
-    public ChangeClothingContainer(int id, PlayerInventory playerInventory, ItemStack item) throws NullPointerException {
-        super(null, id);
+    public ChangeClothingContainer(int id, PlayerInventory playerInventory, Hand hand) throws NullPointerException {
+        super(TContainerTypes.CHANGE_CLOTHING.get(), id);
+        this.hand = hand;
+        ItemStack item = playerInventory.player.getHeldItem(hand);
         this.inventory = new ItemInventory(item);
+        this.inventory.openInventory(playerInventory.player);
 
         if (!item.hasTag() || !item.getTag().contains("Armors")) throw ERROR_TALISMAN_DATA;
+        for (int column = 0; column < VALID_EQUIPMENT_SLOTS.length; column++) {
+            EquipmentSlotType type = VALID_EQUIPMENT_SLOTS[column];
+            this.addSlot(new Slot(this.inventory, column, 53 + column * 18, 20) {
+                @Override
+                public int getSlotStackLimit() {
+                    return 1;
+                }
 
-        this.addSlot(new Slot(inventory, 0, 53, 20));
-        this.addSlot(new Slot(inventory, 1, 71, 20));
-        this.addSlot(new Slot(inventory, 2, 89, 20));
-        this.addSlot(new Slot(inventory, 3, 107, 20));
+                @Override
+                public boolean isItemValid(ItemStack stack) {
+                    return stack.canEquip(type, playerInventory.player) && ChangeClothingTalismanItem.canUse(stack);
+                }
+            });
+        }
 
         for(int row = 0; row < 3; ++row) {
             for(int column = 0; column < 9; ++column) {
@@ -59,13 +61,11 @@ public class ChangeClothingContainer extends Container {
         for(int column = 0; column < 9; ++column) {
             this.addSlot(new Slot(playerInventory, column, 8 + column * 18, 109));
         }
-
-        this.trackIntArray(this.data);
     }
 
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
-        return false;
+        return true;
     }
 
     @Override
@@ -92,13 +92,24 @@ public class ChangeClothingContainer extends Container {
     }
 
     public void onContainerClosed(PlayerEntity player) {
+        if (!ChangeClothingTalismanItem.canUse(this.inventory.item) && this.inventory.isEmpty()) {
+            this.inventory.item.shrink(1);
+            player.addStat(Stats.ITEM_BROKEN.get(TItems.CHANGE_CLOTHING_TALISMAN.get()));
+            player.sendBreakAnimation(this.hand);
+        }
         super.onContainerClosed(player);
         this.inventory.closeInventory(player);
     }
 
     @OnlyIn(Dist.CLIENT)
     public int getArmorIndex() {
-        return this.data.get(0);
+        int value = 0;
+        for (ItemStack armor : this.inventory.armors) {
+            value = value << 1;
+            if (!armor.isEmpty()) value++;
+        }
+        return value;
+
     }
 
 
@@ -111,30 +122,12 @@ public class ChangeClothingContainer extends Container {
             this.read();
         }
 
-        @SuppressWarnings("ConstantConditions")
         private void read() {
-            ListNBT listnbt = this.item.getTag().getCompound("Armors").getList("Items", 10);
-
-            for(int i = 0; i < listnbt.size(); ++i) {
-                CompoundNBT compoundnbt = listnbt.getCompound(i);
-                int j = compoundnbt.getByte("Slot") & 255;
-                if (j >= 0 && j < this.armors.size()) this.armors.set(j, ItemStack.read(compoundnbt));
-            }
+            ChangeClothingTalismanItem.read(this.armors, this.item);
         }
 
-        @SuppressWarnings("ConstantConditions")
         private void write() {
-            ListNBT listnbt = new ListNBT();
-            for(int i = 0; i < this.armors.size(); ++i) {
-                ItemStack itemstack = this.armors.get(i);
-                if (!itemstack.isEmpty()) {
-                    CompoundNBT nbt = new CompoundNBT();
-                    nbt.putByte("Slot", (byte)i);
-                    itemstack.write(nbt);
-                    listnbt.add(nbt);
-                }
-            }
-            this.item.getTag().put("Armors", listnbt);
+            ChangeClothingTalismanItem.write(this.armors, this.item);
         }
 
         @Override
@@ -145,10 +138,7 @@ public class ChangeClothingContainer extends Container {
         @Override
         public boolean isEmpty() {
             this.read();
-            for (ItemStack armor : this.armors) {
-                if (!armor.isEmpty()) return false;
-            }
-            return true;
+            return ChangeClothingTalismanItem.isEmpty(this.armors);
         }
 
         @Override

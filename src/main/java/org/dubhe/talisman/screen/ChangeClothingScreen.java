@@ -3,6 +3,7 @@ package org.dubhe.talisman.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.util.ResourceLocation;
@@ -21,6 +22,7 @@ public class ChangeClothingScreen extends ContainerScreen<ChangeClothingContaine
         super(container, inv, title);
         this.passEvents = true;
         this.ySize = 133;
+        this.playerInventoryTitleY = this.ySize - 94;
     }
 
     @Override
@@ -35,14 +37,13 @@ public class ChangeClothingScreen extends ContainerScreen<ChangeClothingContaine
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrix, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(TEXTURE);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
         int value = this.container.getArmorIndex();
-        this.blit(matrix, i, j, 0, 0, this.xSize, this.ySize);
+        this.blit(matrix, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         for (int index = 0; index < 4; index++) {
-            if ((value & 1) == 1) {
-                this.minecraft.getTextureManager().bindTexture(ARMOR_SLOT_TEXTURES[index]);
-                this.blit(matrix, i + index * 18 + 53, j + 20, 0, 0, 16, 16);
+            if ((value & 1) == 0) {
+                TextureAtlasSprite textureatlassprite = this.minecraft.getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE).apply(ARMOR_SLOT_TEXTURES[index]);
+                this.minecraft.getTextureManager().bindTexture(textureatlassprite.getAtlasTexture().getTextureLocation());
+                blit(matrix, this.guiLeft - index * 18 + 107, this.guiTop + 20, this.getBlitOffset(), 16, 16, textureatlassprite);
             }
             value = value >> 1;
         }

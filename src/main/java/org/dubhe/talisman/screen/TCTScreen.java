@@ -54,31 +54,29 @@ public class TCTScreen extends ContainerScreen<TCTContainer> {
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrix, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(TEXTURE);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
         int xp = this.container.getExperience();
         int needXp = this.container.getNeedXp();
         int lack = this.container.getLack();
         int width = (int) ((double) xp / TBaseValue.MAX_EXP * 40);
-        this.blit(matrix, i, j, 0, 0, this.xSize, this.ySize);
+        this.blit(matrix, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         switch (lack) {
-            case 1: this.blit(matrix, i + 15, j + 18, 176, 0, 16, 16);
-            case 2: this.blit(matrix, i + 15, j + 54, 176, 16, 16, 16);break;
-            case 3: this.blit(matrix, i + 15, j + 18, 176, 0, 16, 16);
+            case 1: this.blit(matrix, this.guiLeft + 15, this.guiTop + 18, 176, 0, 16, 16);
+            case 2: this.blit(matrix, this.guiLeft + 15, this.guiTop + 54, 176, 16, 16, 16);break;
+            case 3: this.blit(matrix, this.guiLeft + 15, this.guiTop + 18, 176, 0, 16, 16);
         }
         if (needXp > -1) {
             int last = (int) ((double) (xp - needXp) / TBaseValue.MAX_EXP * 40);
-            this.blit(matrix, i + 116, j + 66, 176, 32, last, 5);
+            this.blit(matrix, this.guiLeft + 116, this.guiTop + 66, 176, 32, last, 5);
             RenderSystem.enableBlend();
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, (float) (Math.cos(this.alpha) / 2 + 0.5D));
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            this.blit(matrix, i + last + 116, j + 66, last + 176, 32, width - last, 5);
+            this.blit(matrix, this.guiLeft + last + 116, this.guiTop + 66, last + 176, 32, width - last, 5);
             RenderSystem.disableBlend();
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         }else {
-            this.blit(matrix, i + 116, j + 66, 176, 32, width, 5);
+            this.blit(matrix, this.guiLeft + 116, this.guiTop + 66, 176, 32, width, 5);
         }
-        if (x > i + 116 && x < i + 116 + 40 && y > j + 66 && y < j + 66 + 5) {
+        if (x > this.guiLeft + 116 && x < this.guiLeft + 116 + 40 && y > this.guiTop + 66 && y < this.guiTop + 66 + 5) {
             List<ITextComponent> texts = Lists.newArrayList();
             texts.add(new TranslationTextComponent("container.talisman.xp", xp, TBaseValue.MAX_EXP));
             if (needXp > -1) {

@@ -10,6 +10,8 @@
     "container.talisman.xp.requirement": "经验需求: %s",
     "container.talisman.xp": "储存经验: %s/%s",
 
+    "chat.talisman.talisman.cloth.empty": "空的玩家装备栏和换装符装备栏",
+
     "entity.talisman.talisman": "符",
 
     "item.minecraft.potion.effect.burning": "灼烧药水",

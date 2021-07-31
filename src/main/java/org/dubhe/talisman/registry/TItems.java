@@ -32,7 +32,7 @@ public final class TItems {
 //    public static final RegistryObject<Item> WATER_BALL_TALISMAN = ITEM.register("water_ball_talisman", () -> new TalismanItem(true, Talismans.WATER_BALL, properties().maxStackSize(16)));
     public static final RegistryObject<Item> DOOM_TALISMAN = ITEM.register("doom_talisman", () -> new TalismanItem(true, Talismans.DOOM, properties().maxStackSize(16)));
     public static final RegistryObject<Item> HUGE_EXPLOSION_TALISMAN = ITEM.register("huge_explosion_talisman", () -> new TalismanItem(true, Talismans.HUGE_EXPLOSION, properties().maxStackSize(16)));
-    public static final RegistryObject<Item> CHANGE_CLOTHING_TALISMAN = ITEM.register("change_clothing_talisman", () -> new TalismanItem(false, Talismans.CHANGE_CLOTHING, properties().maxStackSize(16).maxDamage(5)));
+    public static final RegistryObject<Item> CHANGE_CLOTHING_TALISMAN = ITEM.register("change_clothing_talisman", () -> new ChangeClothingTalismanItem(Talismans.CHANGE_CLOTHING, properties().maxStackSize(16).maxDamage(5)));
 
     public static final RegistryObject<Item> TALISMAN_PAPER = ITEM.register("talisman_paper", () -> new Item(properties()));
     public static final RegistryObject<Item> GUIDE_DEVIL_BOTTLE = ITEM.register("guide_devil_bottle", () -> new GuideDevilBottleItem(properties().maxStackSize(16)));

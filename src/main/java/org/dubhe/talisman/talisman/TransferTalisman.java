@@ -2,6 +2,8 @@ package org.dubhe.talisman.talisman;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.vector.Vector3d;
 import org.dubhe.talisman.entity.TalismanEntity;
 
@@ -14,7 +16,7 @@ public class TransferTalisman extends AbstractTalisman {
 
     @Override
     @SuppressWarnings("ConstantConditions")
-    public void execute(Entity entity, Vector3d pos, @Nullable LivingEntity target) throws Exception {
+    public void execute(Entity entity, Vector3d pos, @Nullable Hand hand, @Nullable LivingEntity target) {
         if (entity instanceof TalismanEntity) entity = ((TalismanEntity)entity).getOwner();
         if (target == null) {
             entity.setPositionAndUpdate(pos.x, pos.y, pos.z);

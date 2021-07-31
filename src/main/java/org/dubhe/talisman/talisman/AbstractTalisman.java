@@ -2,8 +2,9 @@ package org.dubhe.talisman.talisman;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.TextFormatting;
 
 import javax.annotation.Nullable;
 
@@ -21,7 +22,7 @@ public abstract class AbstractTalisman {
         return beneficial;
     }
 
-    public abstract void execute(Entity entity, Vector3d pos, @Nullable LivingEntity target) throws Exception;
+    public abstract void execute(Entity entity, Vector3d pos, @Nullable Hand hand, @Nullable LivingEntity target) throws Exception;
 
     public String getName() {
         return this.name;

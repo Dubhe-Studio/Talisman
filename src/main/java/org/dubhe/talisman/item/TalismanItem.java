@@ -76,16 +76,23 @@ public class TalismanItem extends Item implements IWithDefaultNbt {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack item = player.getHeldItem(hand);
-        boolean throwable = item.getOrCreateTag().getBoolean("throwable");
-        if (throwable) {
-            TalismanEntity talisman = this.createEntity(world, player, item);
-            world.addEntity(talisman);
-        }else {
-            TServerTickEvent.addExecute(world, player, item.getOrCreateTag().getList("executes", 8), null);
+        if (!world.isRemote) {
+            boolean throwable = item.getOrCreateTag().getBoolean("throwable");
+            if (throwable) {
+                TalismanEntity talisman = this.createEntity(world, player, item);
+                world.addEntity(talisman);
+            }else {
+                TServerTickEvent.addExecute(world, player, item.getOrCreateTag().getList("executes", 8), hand, null);
+            }
+            if (!player.isCreative()) this.onTalismanUsed(world, player, item);
+            player.addStat(Stats.ITEM_USED.get(this));
+            return ActionResult.resultSuccess(item);
         }
-        if (!player.isCreative()) item.shrink(1);
-        player.addStat(Stats.ITEM_USED.get(this));
-        return ActionResult.resultSuccess(item);
+        return ActionResult.resultPass(item);
+    }
+
+    protected void onTalismanUsed(World world, PlayerEntity player, ItemStack item) {
+        item.shrink(1);
     }
 
     public TalismanEntity createEntity(World world, PlayerEntity player, ItemStack stack) {
