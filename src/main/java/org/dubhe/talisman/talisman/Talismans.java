@@ -16,7 +16,7 @@ public class Talismans {
 //    public static final AbstractTalisman SEPARATION = register(new SeparationTalisman());
     public static final AbstractTalisman THUNDER = register(new ThunderTalisman());
 //    public static final AbstractTalisman MUTE = register(new MuteTalisman());
-    public static final AbstractTalisman CARRY = register(new CarryTalisman());
+//    public static final AbstractTalisman CARRY = register(new CarryTalisman());
 //    public static final AbstractTalisman WATER_BALL = register(new WaterBallTalisman());
     public static final AbstractTalisman DOOM = register(new DoomTalisman());
     public static final AbstractTalisman HUGE_EXPLOSION = register(new HugeExplosionTalisman());

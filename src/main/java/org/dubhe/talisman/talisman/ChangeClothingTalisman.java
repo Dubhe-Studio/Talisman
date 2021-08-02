@@ -54,7 +54,6 @@ public class ChangeClothingTalisman extends AbstractTalisman {
                 if (ChangeClothingTalismanItem.isEmpty(armors) && ChangeClothingTalismanItem.isEmpty(player.inventory.armorInventory)) {
                     LOGGER.warn("Empty armor inventory and change_clothing_talisman inventory");
                     player.sendMessage(new TranslationTextComponent("chat.talisman.talisman.cloth.empty").mergeStyle(TextFormatting.YELLOW), Util.DUMMY_UUID);
-//                    player.connection.sendPacket(new SChatPacket(new TranslationTextComponent("chat.talisman.talisman.cloth.empty").mergeStyle(TextFormatting.YELLOW), ChatType.CHAT, Util.DUMMY_UUID));
                     return;
                 }
                 ChangeClothingTalismanItem.write(player.inventory.armorInventory, item, true);

@@ -4,7 +4,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.MusicDiscItem;
 import net.minecraft.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -28,7 +27,7 @@ public final class TItems {
 //    public static final RegistryObject<Item> SEPARATION_TALISMAN = ITEM.register("separation_talisman", () -> new TalismanItem(true, Talismans.SEPARATION, properties().maxStackSize(16)));
     public static final RegistryObject<Item> THUNDER_TALISMAN = ITEM.register("thunder_talisman", () -> new TalismanItem(true, Talismans.THUNDER, properties().maxStackSize(16)));
 //    public static final RegistryObject<Item> MUTE_TALISMAN = ITEM.register("mute_talisman", () -> new TalismanItem(true, Talismans.MUTE, properties().maxStackSize(16)));
-    public static final RegistryObject<Item> CARRY_TALISMAN = ITEM.register("carry_talisman", () -> new TalismanItem(true, Talismans.CARRY, properties().maxStackSize(16)));
+//    public static final RegistryObject<Item> CARRY_TALISMAN = ITEM.register("carry_talisman", () -> new TalismanItem(true, Talismans.CARRY, properties().maxStackSize(16)));
 //    public static final RegistryObject<Item> WATER_BALL_TALISMAN = ITEM.register("water_ball_talisman", () -> new TalismanItem(true, Talismans.WATER_BALL, properties().maxStackSize(16)));
     public static final RegistryObject<Item> DOOM_TALISMAN = ITEM.register("doom_talisman", () -> new TalismanItem(true, Talismans.DOOM, properties().maxStackSize(16)));
     public static final RegistryObject<Item> HUGE_EXPLOSION_TALISMAN = ITEM.register("huge_explosion_talisman", () -> new TalismanItem(true, Talismans.HUGE_EXPLOSION, properties().maxStackSize(16)));
