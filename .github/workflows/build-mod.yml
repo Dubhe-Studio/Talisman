@@ -9,7 +9,6 @@ on:
       - "build.gradle"
       - "gradle.properties"
       - "src/**"
-      - ".github/workflows/**"
 
 jobs:
   build:
